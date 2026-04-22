@@ -1,0 +1,159 @@
+language: "ko-KR"
+early_access: false
+tone_instructions: "친절하지만 신중하고 핵심만 명확하게 설명해주세요. 코드 개선 및 제안은 구체적인 예시 코드를 포함해주세요."
+
+reviews:
+  high_level_summary: true
+  review_status: true
+  poem: false
+  collapse_walkthrough: true
+  sequence_diagrams: true
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/.turbo/**"
+    - "!**/routeTree.gen.ts"
+    - "!**/pnpm-lock.yaml"
+    - "!**/*.woff"
+    - "!**/*.woff2"
+    - "!**/*.svg"
+    - "!**/*.png"
+    - "!**/*.jpg"
+    - "!**/@types/resources.d.ts"
+
+  # path 별 리뷰 지시사항
+  path_instructions:
+    - path: "**/*.{ts,tsx}"
+      instructions: |
+        "React/TypeScript 코드에 대해 다음 기준에 따라 리뷰해주세요!
+
+        📌 코드 품질:
+        - 타입 안정성이 확보되었나요? any 타입 사용을 피하고 있나요?
+        - 로직 오류나 예외 상황 처리가 적절한가요?
+        - 성능을 개선할 수 있는 여지가 있을까요? (불필요한 리렌더링, 메모이제이션 등)
+        - 보안적으로 민감한 로직(인증, API 키 등)이 안전하게 작성되었나요?
+
+        🔧 유지보수성:
+        - 컴포넌트가 단일 책임 원칙을 지키고 있나요?
+        - 커스텀 훅으로 로직을 분리할 수 있는 부분이 있나요?
+        - Props drilling을 피하고 Context나 상태 관리를 적절히 사용하고 있나요?
+
+        🎨 React/TypeScript 베스트 프랙티스:
+        - JSX에서 조건부 렌더링이 명확한가요?
+        - useEffect 의존성 배열이 올바른가요?
+        - 이벤트 핸들러에서 메모리 누수가 없나요?
+        - TypeScript 인터페이스와 타입을 적절히 활용하고 있나요?"
+
+    - path: "apps/web/src/components/**/*.{ts,tsx}"
+      instructions: |
+        "UI 컴포넌트에 대해 다음 사항을 확인해주세요!
+        - 재사용성이 높게 설계되었나요?
+        - Props 인터페이스가 명확하고 확장 가능한가요?
+        - 접근성(a11y) 고려사항이 포함되었나요?
+        - Emotion 스타일링이 일관되게 적용되었나요?
+        - forwardRef가 필요한 경우 적절히 사용되었나요?
+        - 컴포넌트 크기가 적절한가요? 너무 복잡하지 않나요?"
+
+    - path: "apps/web/src/routes/**/*.{ts,tsx}"
+      instructions: |
+        "라우트 컴포넌트에 대해 다음 사항을 확인해주세요!
+        - TanStack Router의 파일 기반 라우팅 규칙을 잘 따르고 있나요?
+        - 라우트 가드(인증 확인 등)가 적절히 구현되었나요?
+        - 페이지 로딩 상태와 에러 상태가 처리되었나요?
+        - SEO 관련 메타 태그나 타이틀이 적절히 설정되었나요?
+        - 라우트 파라미터 검증이 올바르게 이뤄지고 있나요?"
+
+    - path: "apps/web/src/editor/**/*.{ts,tsx}"
+      instructions: |
+        "BlockNote 에디터 관련 코드에 대해 다음 사항을 확인해주세요!
+        - 커스텀 블록이 BlockNote 스키마를 올바르게 확장하고 있나요?
+        - 에디터 상태 관리가 적절한가요?
+        - 블록 렌더링 성능이 최적화되어 있나요?
+        - 사용자 입력 검증과 sanitization이 적절한가요?
+        - 에디터 플러그인이나 확장 기능이 안전하게 구현되었나요?"
+
+    - path: "apps/web/src/hooks/**/*.{ts,tsx}"
+      instructions: |
+        "커스텀 훅에 대해 다음 사항을 확인해주세요!
+        - 단일 관심사를 잘 분리했나요?
+        - 의존성 배열이 올바르게 설정되었나요?
+        - 메모리 누수나 무한 루프 위험이 없나요?
+        - 에러 상태와 로딩 상태가 적절히 처리되었나요?
+        - 훅의 재사용성과 테스트 가능성이 확보되었나요?"
+
+    - path: "apps/web/src/api/**/*.ts"
+      instructions: |
+        "API 관련 코드에 대해 다음 사항을 확인해주세요!
+        - HTTP 클라이언트(ky) 설정이 적절한가요?
+        - 에러 핸들링이 일관되게 처리되고 있나요?
+        - 요청/응답 타입이 명확하게 정의되었나요?
+        - 인증 토큰 관리가 안전한가요?
+        - API 호출 최적화(캐싱, 중복 요청 방지 등)가 되어 있나요?
+        - TanStack Query와의 연동이 적절한가요?"
+
+    - path: "apps/web/src/schema/**/*.ts"
+      instructions: |
+        "스키마 정의에 대해 다음 사항을 확인해주세요!
+        - Zod 스키마가 적절하게 정의되었나요?
+        - 입력 검증이 충분히 엄격한가요?
+        - 타입 추론이 올바르게 동작하나요?
+        - 에러 메시지가 사용자 친화적인가요?
+        - 스키마 재사용성이 고려되었나요?"
+
+    - path: "apps/ai-proxy/src/**/*.ts"
+      instructions: |
+        "AI 프록시 서비스에 대해 다음 사항을 확인해주세요!
+        - Hono 프레임워크를 적절히 활용하고 있나요?
+        - API 엔드포인트 설계가 RESTful한가요?
+        - 에러 처리와 로깅이 적절한가요?
+        - 보안 취약점(CORS, 인증 등)이 없나요?
+        - 환경 변수 관리가 안전한가요?"
+
+    - path: "**/*.style.ts"
+      instructions: |
+        "Emotion 스타일 파일에 대해 다음 사항을 확인해주세요!
+        - 테마 시스템을 일관되게 활용하고 있나요?
+        - 반응형 디자인이 적절히 구현되었나요?
+        - 스타일 재사용성이 고려되었나요?
+        - 성능에 영향을 주는 복잡한 계산이 없나요?
+        - 접근성을 위한 색상 대비나 포커스 스타일이 포함되었나요?"
+
+    - path: "**/package.json"
+      instructions: |
+        "패키지 설정에 대해 다음 사항을 확인해주세요!
+        - 의존성 버전이 적절하고 보안 취약점이 없나요?
+        - 스크립트 명령어가 명확하고 일관된가요?
+        - 불필요한 의존성이 포함되어 있지 않나요?
+        - devDependencies와 dependencies가 올바르게 분류되었나요?"
+
+    - path: "**/{turbo.json,vite.config.ts,tsconfig.json,eslint.config.js}"
+      instructions: |
+        "빌드 설정 파일에 대해 다음 사항을 확인해주세요!
+        - 빌드 최적화가 적절히 설정되었나요?
+        - 타입스크립트 설정이 엄격하고 안전한가요?
+        - 개발 환경과 프로덕션 환경이 적절히 분리되었나요?
+        - 성능과 보안을 고려한 설정이 포함되었나요?
+        - Turbo 캐시 및 파이프라인 설정이 효율적인가요?
+        - ESLint 규칙이 프로젝트에 적합한가요?"
+
+    - path: "apps/web/src/locales/**/*.json"
+      instructions: |
+        "i18n 번역 파일에 대해 다음 사항을 확인해주세요!
+        - 번역 키가 일관되고 명확한가요?
+        - 중복되는 번역 키는 없나요?
+        - 플러럴 폼이나 변수 처리가 적절한가요?
+        - 컨텍스트를 고려한 번역이 되었나요?"
+
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "WIP"
+      - "Draft"
+      - "draft"
+    drafts: false
+    base_branches:
+      - "main"
+      - "dev"
+
+chat:
+  auto_reply: true

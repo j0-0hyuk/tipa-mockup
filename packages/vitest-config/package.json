@@ -1,0 +1,17 @@
+{
+    "name": "@docs-front/vitest-config",
+    "version": "0.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch"
+    },
+    "dependencies": {
+        "vitest": "catalog:"
+    },
+    "devDependencies": {
+        "@docs-front/typescript-config": "workspace:*"
+    }
+}

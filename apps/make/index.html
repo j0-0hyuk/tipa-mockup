@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-MD3DRWFF');
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Channel Talk -->
+    <script>
+      (function () {
+        var w = window;
+        if (w.ChannelIO) {
+          return w.console.error('ChannelIO script included twice.');
+        }
+        var ch = function () {
+          ch.c(arguments);
+        };
+        ch.q = [];
+        ch.c = function (args) {
+          ch.q.push(args);
+        };
+        w.ChannelIO = ch;
+        function l() {
+          if (w.ChannelIOInitialized) {
+            return;
+          }
+          w.ChannelIOInitialized = true;
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+          var x = document.getElementsByTagName('script')[0];
+          if (x.parentNode) {
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+        if (document.readyState === 'complete') {
+          l();
+        } else {
+          w.addEventListener('DOMContentLoaded', l);
+          w.addEventListener('load', l);
+        }
+      })();
+
+      ChannelIO('boot', {
+        pluginKey: 'f9dd96a4-0407-42d1-a7ae-a457bdb5ba3b'
+      });
+    </script>
+    <!-- End Channel Talk -->
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/docshunt-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docshunt</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://make.docshunt.ai/" />
+    <meta property="og:title" content="한글/워드 모든 문서 만들어주는 AI" />
+    <meta property="og:description" content="hwpx, docx 지원" />
+    <meta
+      property="og:image"
+      content="https://make.docshunt.ai/docshunt-og-image.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://make.docshunt.ai/" />
+    <meta
+      property="twitter:title"
+      content="한글/워드 모든 문서 만들어주는 AI"
+    />
+    <meta property="twitter:description" content="hwpx, docx 지원" />
+    <meta
+      property="twitter:image"
+      content="https://make.docshunt.ai//docshunt-og-image.png"
+    />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MD3DRWFF"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

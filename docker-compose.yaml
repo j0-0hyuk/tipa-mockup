@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: docs-front-web-container
+    image: ${ACR_NAME}.azurecr.io/docs-front-web:${TAG:-latest}
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - ENV=${ENV:-dev}
+      - API_SERVER=${API_SERVER}
+      - API_AI_SERVER=${API_AI_SERVER}
+      - PROXY_SERVER=${PROXY_SERVER:-proxy:3000}
+      - APP_DOMAIN=${APP_DOMAIN}
+      - MAKE_DOMAIN=${MAKE_DOMAIN}
+      - ADMIN_DOMAIN=${ADMIN_DOMAIN:-}
+    volumes:
+      - cert_data:/etc/letsencrypt
+      - acme_challenge_webroot:/var/www/certbot
+
+  proxy:
+    container_name: docs-front-proxy-container
+    image: ${ACR_NAME}.azurecr.io/docs-front-proxy:${TAG:-latest}
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - AI_API_KEY=${AI_API_KEY}
+      - NOTION_TOKEN=${NOTION_TOKEN}
+      - NOTION_DATA_SOURCE_ID=${NOTION_DATA_SOURCE_ID}
+      - PORT=3000
+      - NODE_ENV=production
+
+  certbot:
+    image: certbot/certbot
+    container_name: docs-front-certbot-container
+    volumes:
+      - cert_data:/etc/letsencrypt
+      - acme_challenge_webroot:/var/www/certbot
+
+volumes:
+  cert_data:
+  acme_challenge_webroot:

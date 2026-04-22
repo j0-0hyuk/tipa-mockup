@@ -1,0 +1,146 @@
+{
+  "title": "플랜",
+  "tabs": {
+    "creditPlan": "플랜",
+    "creditPolicy": "크레딧 사용 안내"
+  },
+  "backToMain": "독스헌트로 돌아가기",
+  "loading": "로딩 중...",
+  "myCredit": "내 크레딧",
+  "currentCredit": "추가 크레딧(영구)",
+  "buyCreditButton": "크레딧 추가 구매",
+  "planCredit": "플랜 크레딧 (월 갱신)",
+  "additionalCredit": "추가 크레딧 (영구)",
+  "totalCredit": "총 크레딧",
+  "myPlan": "내 플랜",
+  "upgradeButton": "플랜 변경",
+  "planNames": {
+    "starter": "DocsHunt Free",
+    "seasonPass": "DocsHunt Master Plan",
+    "proMonthly": "DocsHunt Pro(월간)",
+    "proYearly": "DocsHunt Pro(연간)"
+  },
+  "shortPlanNames": {
+    "starter": "Free",
+    "proMonthly": "월간 Pro",
+    "proYearly": "연간 Pro"
+  },
+  "nextBilling": "다음 결제일",
+  "planExpiryDate": "플랜 만료일",
+  "planChangeDate": "{{date}}에 {{plan}} 플랜으로 전환됩니다",
+  "cancelSubscription": "플랜 구독 취소",
+  "cancelConfirm": "정말로 구독을 취소하시겠습니까?",
+  "cancelSuccess": "구독이 취소되었습니다. 플랜 만료일까지 멤버십이 유지됩니다.",
+  "renewSubscription": "Pro 플랜 계속 사용하기",
+  "renewConfirm": "구독을 다시 시작하시겠습니까?",
+  "renewSuccess": "구독을 다시 시작합니다.",
+  "paymentHistory": "결제 내역",
+  "paymentTable": {
+    "date": "날짜",
+    "paymentContent": "결제 내용",
+    "receipt": "영수증",
+    "totalAmount": "총 결제액",
+    "receiptButton": "영수증 보기",
+    "vatIncluded": "(VAT 포함)",
+    "noHistory": "결제 내역이 없습니다."
+  },
+  "paymentItems": {
+    "SUBSCRIPTION_M": "DocsHunt Pro(월간)",
+    "SUBSCRIPTION_Y": "DocsHunt Pro(연간)",
+    "SEASON_PASS": "DocsHunt Master Plan",
+    "MONTHLY_PASS": "Pro 1개월 이용권"
+  },
+  "creditPurchaseModal": {
+    "title": "추가 크레딧 구매",
+    "recommendedBadge": "추천",
+    "credits": "/10,000 크레딧",
+    "purchaseButton": "구매하기",
+    "features": [
+      "10,000 크레딧 제공",
+      "유효 기간 없음 (영구 크레딧)",
+      "최고급 AI 모델 사용"
+    ],
+    "footer": "크레딧이 어디에 얼마나 사용되는지 궁금하다면?",
+    "policyLink": "크레딧 정책"
+  },
+  "errors": {
+    "receiptError": "영수증을 불러올 수 없습니다.",
+    "paymentHistoryError": "결제 내역을 불러올 수 없습니다."
+  },
+  "creditPolicy": {
+    "title": "독스헌트 크레딧 안내",
+    "whatIsCredit": {
+      "question": "1. 크레딧이란?",
+      "answers": [
+        "크레딧은 독스헌트의 사업계획서 생성/수정/양식별 변환 등 다양한 AI 기능을 사용할 때 소모되는 단위입니다.",
+        "Pro 요금제 구독 시 10,000 크레딧이 충전되며 크레딧을 모두 소진할 시 추가 구매도 가능합니다."
+      ]
+    },
+    "creditSystem": {
+      "question": "2. 요금제별 크레딧 제공량"
+    },
+    "additionalPurchase": {
+      "question": "3. 크레딧 추가 구매가 가능한가요?",
+      "answers": [
+        "Pro 요금제 이상에서만 추가 크레딧 구매가 가능합니다.",
+        "[플랜] 페이지에서 최소 10,000 크레딧부터 구매할 수 있습니다."
+      ]
+    },
+    "carryOver": {
+      "question": "4. 크레딧은 만료되나요?",
+      "answers": [
+        "Pro 요금제에 포함된 크레딧은 매월 초기화되며 이월되지 않습니다.",
+        "추가 구매한 크레딧은 만료되지 않고 영구적으로 유지됩니다."
+      ]
+    },
+    "table": {
+      "headers": [
+        "요금제",
+        "월 제공 크레딧",
+        "추가 구매",
+        "이월 여부"
+      ],
+      "rows": [
+        [
+          "Pro",
+          "10,000",
+          "가능",
+          "매월 초기화"
+        ]
+      ]
+    }
+  },
+  "changeConfirm": {
+    "title": "이 플랜으로 변경할까요?",
+    "description": "다음 결제일부터 해당 플랜이 적용됩니다.",
+    "nextBillingDate": "다음 결제일",
+    "billingAmount": "결제 금액",
+    "cancel": "취소",
+    "confirm": "변경하기"
+  },
+  "changeScheduled": {
+    "title": "플랜 변경이 예약되었습니다",
+    "description": "{{date}}부터 {{plan}} 플랜이 적용됩니다.",
+    "confirm": "확인"
+  },
+  "errorModal": {
+    "title": "요청을 처리할 수 없습니다",
+    "description": "잠시 후 다시 시도해 주세요.<br/>문제가 반복되면 <a>문의하기</a>를 이용해 주세요.",
+    "inquiryButton": "문의하기",
+    "confirmButton": "확인"
+  },
+  "insufficient": {
+    "title": "크레딧이 부족합니다.",
+    "productCreationDescription": "새 원본을 생성하려면 {{credit}} 크레딧이 필요합니다.",
+    "productExportDescription": "원본을 내보내려면 {{credit}} 크레딧이 필요합니다.",
+    "remaining": "현재 {{remaining}} 크레딧이 남아있습니다.",
+    "needed": "필요한 크레딧: {{needed}}",
+    "fillCredit": "크레딧 충전하기",
+    "close": "닫기"
+  },
+  "blurContent": {
+    "title": "내 사업의 핵심 전략이 궁금하다면?",
+    "description": "플랜을 업그레이드하고, 전체 사업계획서 내용을 확인해보세요.",
+    "upgradeButton": "내 사업계획서 전체보기"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "Sorry, we can't seem to find the page you're looking for.",
+    "subMessage": "The link may be broken, or the page may have been moved.",
+    "retry": "Go Back",
+    "goBack": "Back to Dashboard",
+    "contact": "For support, contact: maeee@maeee.co.kr"
+  },
+  "unexpected": {
+    "title": "Oops! Something went wrong.",
+    "message": "An unexpected error occurred.",
+    "subMessage": "Please try again in a moment or return to the dashboard",
+    "retry": "Try Again",
+    "goHome": "Back to Dashboard",
+    "contact": "For support, contact: maeee@maeee.co.kr"
+  },
+  "documentGenerationFailed": {
+    "title": "An error occurred while\ngenerating your document.",
+    "message": "Please click \"Regenerate\" to try again.",
+    "subMessage": "(*You have not been charged any credits for this error.)",
+    "regenerateButton": "Regenerate Document"
+  },
+  "unknownError": {
+    "title": "An unknown problem occurred",
+    "message": "Please click the retry button to try again.",
+    "subMessage": "(*You have not been charged any credits for this error.)",
+    "retryButton": "Retry"
+  }
+}

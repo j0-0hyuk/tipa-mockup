@@ -1,0 +1,30 @@
+{
+  "notFound": {
+    "title": "페이지를 찾을 수 없습니다.",
+    "message": "주소가 잘못되었거나 페이지가 이동 또는 삭제되었을 수 있습니다.",
+    "subMessage": "메인 화면으로 돌아가거나 문의해 주세요.",
+    "retry": "새로고침",
+    "goBack": "홈으로 이동",
+    "contact": "문의: maeee@maeee.co.kr"
+  },
+  "unexpected": {
+    "title": "앗 무언가 잘못되었어요.",
+    "message": "예상치 못한 오류가 발생했습니다.",
+    "subMessage": "잠시 후 다시 시도하거나, 홈으로 돌아가주세요.",
+    "retry": "다시 시도",
+    "goHome": "홈으로 이동",
+    "contact": "문의: maeee@maeee.co.kr"
+  },
+  "documentGenerationFailed": {
+    "title": "문서 생성 중 문제가 발생했습니다.",
+    "message": "‘문서 재생성’ 버튼을 눌러 다시 시도해 주세요.",
+    "subMessage": "(*해당 오류로 인해 크레딧이 차감되지 않습니다.)",
+    "regenerateButton": "문서 재생성"
+  },
+  "unknownError": {
+    "title": "알 수 없는 문제가 발생했습니다",
+    "message": "다시 시도 버튼을 눌러주세요.",
+    "subMessage": "(*해당 오류로 인해 크레딧이 차감되지 않습니다.)",
+    "retryButton": "다시 시도"
+  }
+}

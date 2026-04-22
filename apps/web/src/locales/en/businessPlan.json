@@ -1,0 +1,185 @@
+{
+  "sections": {
+    "titleAndIntro": {
+      "title": "Business Plan Title",
+      "itemName": "Item Name",
+      "oneLineIntro": "One-line Introduction"
+    },
+    "summary": {
+      "title": "0. Summary",
+      "problemSummary": "0-1. Problem Recognition Summary",
+      "solutionSummary": "0-2. Feasibility Summary",
+      "scaleUpSummary": "0-3. Growth Strategy Summary",
+      "teamSummary": "0-4. Team Summary"
+    },
+    "problem": {
+      "title": "1. Problem Recognition",
+      "businessBackground": "1-1. Business Background",
+      "problemDefinition": "1-2. Problem Definition",
+      "customerPainPoints": "1-3. Customer Feedback",
+      "tamSamSom": "1-4. Market Analysis",
+      "marketGrowthAndTrends": "Market Growth/Trends"
+    },
+    "tamSamSom": {
+      "units": {
+        "trillion": "trillion",
+        "hundredBillion": "hundred billion",
+        "million": "million"
+      }
+    },
+    "marketGrowthTrend": {
+      "marketSize": "Market Size",
+      "growthFactors": "Growth Factors",
+      "growthDriversOriginal": "Market and Policy Growth Drivers",
+      "factorTypes": {
+        "market": "Market/Policy Factors",
+        "environmental": "Technology/Environmental Factors",
+        "customer": "Customer/Demand Factors"
+      }
+    },
+    "solution": {
+      "title": "2. Feasibility (Solution)",
+      "solutionOverview": "2-1. Solution Overview",
+      "valueDeliveryProcess": "Value Delivery Process",
+      "coreFeatures": "2-2. Core Features",
+      "expectedBenefits": "2-3. Expected Benefits",
+      "progressAndPlan": "2-4. Progress and Implementation Plan",
+      "progressAndPlanTable": {
+        "itemName": "Item Name",
+        "itemDescription": "Description",
+        "period": "Period"
+      },
+      "competitiveAnalysis": "2-5. Competitive Advantage Analysis",
+      "competitiveAnalysisTable": {
+        "title": "Competitive Environment Analysis",
+        "myService": "Our Service",
+        "competitors": "Competitors",
+        "service": "Service"
+      },
+      "keyDifferentiations": "Differentiated Competitiveness",
+      "positioningMap": "Positioning Map",
+      "positioningMapTitle": "Positioning Map"
+    },
+    "scaleUp": {
+      "title": "3. Growth Strategy (Scale-up)",
+      "revenueModel": "3-1. Business Model",
+      "pricingStrategy": "Pricing Strategy",
+      "pricingStrategyTable": {
+        "revenueModel": "Revenue Model",
+        "billingCriteria": "Billing Criteria",
+        "billingStructure": "Billing Structure"
+      },
+      "marketing": "3-2. Commercialization Strategy",
+      "marketingDetails": {
+        "northStarMetric": "North Star Metric",
+        "targetCustomer": "Target Customer",
+        "positioningStrategy": "Positioning Strategy",
+        "marketingFunnel": "Marketing Funnel",
+        "funnelTable": {
+          "stage": "Stage",
+          "channel": "Channel",
+          "kpiTarget": "KPI Target",
+          "strategy": "Strategy"
+        }
+      },
+      "globalStrategy": "Global Expansion Strategy",
+      "globalStrategyDetails": {
+        "targetCountriesTable": {
+          "country": "Country",
+          "selectionCriteria": "Selection Criteria",
+          "description": "Description"
+        },
+        "entryStrategyTitle": "Entry Strategy Structure",
+        "entryStrategyTable": {
+          "strategy": "Strategy",
+          "executionPlan": "Execution Plan"
+        }
+      },
+      "milestones": "3-3. Milestones and Roadmap",
+      "milestonesTable": {
+        "period": "Period",
+        "content": "Content",
+        "detailsSummary": "Details Summary"
+      },
+      "roadmap": "1-Year Detailed Roadmap",
+      "assumptions": "3-4. Financial Goals and Estimates",
+      "assumptionsDetails": {
+        "revenueAssumptions": "Revenue Assumptions",
+        "costAssumptions": "Cost Assumptions",
+        "unitEconomics": "Unit Economics",
+        "table": {
+          "item": "Item",
+          "details": "Details"
+        }
+      },
+      "metricVisualizations": "Key Financial Metrics Outlook",
+      "projectedStatements": "3-6. Projected Financial Statements",
+      "projectedStatementsDetails": {
+        "category": "Category",
+        "strategicInsight": "Strategic Insight"
+      },
+      "fundraising": "3-7. Fundraising and Usage Plan",
+      "fundraisingDetails": {
+        "targetAmount": "Target Amount",
+        "fundraisingMethod": "Fundraising Method",
+        "investmentPurpose": "Investment Purpose"
+      },
+      "exitStrategy": "3-8. EXIT Strategy",
+      "exitStrategyDetails": {
+        "objectiveAndPath": "Objective and Path",
+        "finalGoal": "Final Goal",
+        "primaryPath": "Primary Path",
+        "targetTiming": "Target Timing",
+        "potentialAcquirers": "Potential Acquirers",
+        "valueAndMaximization": "Value and Maximization",
+        "targetEnterpriseValue": "Target Enterprise Value",
+        "valuationRationale": "Valuation Rationale",
+        "calculation": "Calculation Method",
+        "justification": "Justification",
+        "maximizationPlan": "Maximization Plan"
+      }
+    },
+    "team": {
+      "title": "4. Team",
+      "visionAndMission": "4-1. Vision/Mission",
+      "visionAndMissionDetails": {
+        "vision": "Vision",
+        "mission": "Mission"
+      },
+      "coreTeamMembers": "4-2. Representative/Team Member Profiles",
+      "coreTeamMembersTable": {
+        "name": "Name",
+        "position": "Position",
+        "responsibilities": "Responsibilities",
+        "skills": "Skills",
+        "contribution": "Contribution"
+      },
+      "teamCapabilities": "4-3. Team Core Competencies and Synergy"
+    }
+  },
+  "teamOverview": {
+    "companyName": "Company (Team) Name",
+    "companyContact": "Company Contact",
+    "companyAddress": "Company Address",
+    "establishmentDate": "Establishment Date",
+    "businessNumber": "Business Number",
+    "corporateNumber": "Corporate Registration Number",
+    "businessType": "Business Type",
+    "businessItem": "Business Item"
+  },
+  "representativeProfile": {
+    "name": "Representative Name",
+    "contact": "Representative Contact",
+    "email": "Representative Email",
+    "introduction": "Representative Introduction (Career, etc.)"
+  },
+  "coreTeamMembers": {
+    "name": "Name",
+    "position": "Position",
+    "contact": "Contact",
+    "email": "Email"
+  },
+  "announcements": {
+    "teamInfoGuide": "Please enter your company / team information manually."
+  }
+}

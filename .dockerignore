@@ -1,0 +1,72 @@
+# Dependencies (모두 제외)
+node_modules
+**/node_modules
+.pnpm-store
+**/.pnpm-store
+
+# Build cache
+.turbo
+**/.turbo
+**/dist/.vite
+
+# Development files
+.git
+.gitignore
+.env
+.env.*
+*.local
+*.pem
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*.sublime-*
+
+# Documentation
+README.md
+**/*.md
+docs
+**/docs
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+**/__tests__
+**/__mocks__
+
+# CI/CD
+.github
+.git
+
+# Source files (CI에서 빌드된 dist만 필요)
+apps/*/src
+apps/*/public
+packages/*/src
+packages/*/tsconfig.json
+packages/*/package.json
+apps/*/tsconfig.json
+apps/*/vite.config.ts
+apps/*/eslint.config.js
+apps/*/index.html
+apps/*/package.json
+# proxy 빌드를 위해 필요한 파일들은 예외 처리
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!apps/proxy/package.json
+!apps/proxy/tsconfig.json
+!apps/proxy/src
+!apps/proxy/src/**
+
+# Build config (proxy 빌드를 위해 일부는 예외 처리)
+turbo.json
+tsconfig.json
+jsconfig.json
+
+# Only include what's needed for Docker build:
+# - apps/*/dist (빌드 결과물만)
+# - apps/web/nginx (nginx 설정 파일)

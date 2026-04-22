@@ -1,0 +1,62 @@
+{
+  "docshunt": "독스헌트",
+  "history": {
+    "emptyState": "아직 생성한 문서가 없습니다"
+  },
+  "format": {
+    "docx": "워드(docx)",
+    "hwpx": "한글(hwpx)",
+    "pdf": "PDF"
+  },
+  "alerts": {
+    "hwpConversion": {
+      "title": "hwp 파일은 변환이 필요합니다",
+      "description": {
+        "line1": "형식으로 변환 후 다시 시도해주세요.",
+        "line2": "반드시 다음의 과정을 거쳐서 변환해야 합니다.",
+        "steps": {
+          "step1": "한컴오피스에서 .hwp 파일 열기.",
+          "step2": "상단 메뉴에서 [파일] > [다른 이름으로 저장하기]를 클릭.",
+          "step3": "'파일 형식'을 `한글 표준 문서(.hwpx)`로 선택하고 저장.",
+          "step4": "새롭게 저장된 파일을 업로드."
+        }
+      },
+      "guideToConvert": "한컴오피스가 없다면 아래 링크를 통해 변환해주세요.",
+      "convertLinkText": "hwp를 hwpx로 변환 바로가기 >"
+    },
+    "unsupportedFile": {
+      "title": "지원하지 않는 파일 형식입니다.",
+      "description": {
+        "line1": "선택하신 파일은 업로드할 수 없습니다.",
+        "line2": "한글 표준 문서(hwp, hwpx) 형식만 지원합니다. 올바른 형식의 파일을 선택하여 다시 업로드해주세요."
+      }
+    },
+    "fileSizeExceeded": {
+      "title": "파일 크기 초과",
+      "description": {
+        "line1": "파일 크기는 30MB 이하여야 합니다.",
+        "line2": "업로드 가능한 파일 크기를 초과했습니다.",
+        "line3": "더 작은 크기의 파일을 선택해 주세요."
+      }
+    },
+    "duplicateFile": {
+      "title": "중복된 파일입니다",
+      "description": "이미 동일한 파일이 추가되어 있습니다."
+    },
+    "invalidXml": {
+      "title": "혹시 확장자명을 hwpx로 직접 바꾸셨나요?",
+      "description": {
+        "line1": "아래의 방법으로 변환하여 다시 업로드해주세요.",
+        "line2": "반드시 다음의 과정을 거쳐서 변환해야 합니다.",
+        "steps": {
+          "step1": "한컴오피스에서 hwp 파일 열기.",
+          "step2": "상단 메뉴에서 [파일] > [다른 이름으로 저장하기]를 클릭.",
+          "step3": "'파일 형식'을 '한글 표준 문서(.hwpx)'로 선택하고 저장.",
+          "step4": "새롭게 저장된 파일을 업로드."
+        }
+      },
+      "guideToConvert": "한컴오피스가 없다면 아래 링크를 통해 변환해주세요.",
+      "convertLinkText": "hwp를 hwpx로 변환 바로가기 >"
+    }
+  }
+}

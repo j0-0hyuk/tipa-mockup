@@ -1,0 +1,62 @@
+{
+  "docshunt": "Docshunt",
+  "history": {
+    "emptyState": "No documents generated yet"
+  },
+  "format": {
+    "docx": "docx",
+    "hwpx": "hwpx",
+    "pdf": "PDF"
+  },
+  "alerts": {
+    "hwpConversion": {
+      "title": "HWP files require conversion",
+      "description": {
+        "line1": "format is needed. Please convert to .hwpx and try again.",
+        "line2": "You must follow these steps for conversion:",
+        "steps": {
+          "step1": "Open the .hwp file in Hancom Office.",
+          "step2": "Click [File] > [Save As] from the top menu.",
+          "step3": "Select 'Hangeul Standard Document (.hwpx)' as the file format and save.",
+          "step4": "Upload the newly saved file."
+        }
+      },
+      "guideToConvert": "If you don't have Hancom Office, please use the link below to convert.",
+      "convertLinkText": "Convert HWP to HWPX directly"
+    },
+    "unsupportedFile": {
+      "title": "Unsupported file format.",
+      "description": {
+        "line1": "The selected file cannot be uploaded.",
+        "line2": "Only Hangeul Standard Document (hwp, hwpx) format is supported. Please select the correct format file and try uploading again."
+      }
+    },
+    "fileSizeExceeded": {
+      "title": "File Size Exceeded",
+      "description": {
+        "line1": "File size must be 30MB or less.",
+        "line2": "The uploadable file size has been exceeded.",
+        "line3": "Please select a smaller file."
+      }
+    },
+    "duplicateFile": {
+      "title": "Duplicate file",
+      "description": "The same file has already been added."
+    },
+    "invalidXml": {
+      "title": "Did you rename the file extension to hwpx directly?",
+      "description": {
+        "line1": "Please convert using the method below and upload again.",
+        "line2": "You must follow these steps for conversion:",
+        "steps": {
+          "step1": "Open the hwp file in Hancom Office.",
+          "step2": "Click [File] > [Save As] from the top menu.",
+          "step3": "Select 'Hangeul Standard Document (.hwpx)' as the file format and save.",
+          "step4": "Upload the newly saved file."
+        }
+      },
+      "guideToConvert": "If you don't have Hancom Office, please use the link below to convert.",
+      "convertLinkText": "Convert HWP to HWPX directly >"
+    }
+  }
+}

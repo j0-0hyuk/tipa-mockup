@@ -1,0 +1,74 @@
+{
+  "starter": {
+    "name": "Free",
+    "description": "무료 플랜으로 독스헌트를 시작하세요",
+    "features": [
+      "기본 기능 사용",
+      "한 계정 당 초안 만들기・지원사업 양식 채우기 각 1회 제공"
+    ]
+  },
+  "pro": {
+    "name": "Pro(1개월)",
+    "description": "사업계획서 제출이 급한 달에 쓰기 좋은 플랜",
+    "buttonText": "Pro로 시작하기",
+    "existingProUser": "기존 Pro 고객이신가요?",
+    "features": [
+      "1개월 이용권",
+      "사업계획서 초안 만들기",
+      "지원사업 양식 채우기",
+      "최고급 AI 모델 사용"
+    ]
+  },
+  "seasonPass": {
+    "name": "Master 2026",
+    "description": "2026년 지원사업 마스터 플랜 하나로 전부 해결!",
+    "badge": "얼리버드 🎉 -79% off",
+    "priceUnit": "/~2026",
+    "buttonText": "Master로 시작하기",
+    "existingProUser": "기존 Pro 고객이신가요?",
+    "features": [
+      "한 번 결제로 2026년 내내 사용",
+      "사업계획서 초안 만들기",
+      "지원사업 양식 채우기",
+      "최고급 AI 모델 사용"
+    ]
+  },
+  "existingProModal": {
+    "title": "기존 Pro 고객이신가요?",
+    "point1Bold": "기존 Pro 고객은 월 39,000원 그대로 유지되며,",
+    "point1Rest": " 해지 이전까지 모든 기능을 자유롭게 사용할 수 있습니다.",
+    "point2Bold": "기존 Pro 고객이 Master 플랜을 결제할 경우,",
+    "point2Rest": " Pro 구독의 잔여 이용 기간을 기준으로 금액이 자동 환불되며, 결제 즉시 Master 플랜이 적용됩니다.",
+    "point3Pre": "자세한 내용은 ",
+    "point3Link": "플랜 이용 안내",
+    "point3Post": "에서 확인하실 수 있습니다.",
+    "cancel": "취소",
+    "confirm": "확인"
+  },
+  "ui": {
+    "modal": {
+      "title": "독스헌트 플랜",
+      "monthlyPlan": "월간 플랜",
+      "yearlyPlan": "연간 플랜(16%↓)",
+      "enterprise": "엔터프라이즈 문의가 필요하신가요?",
+      "contactSales": "상담 신청하기",
+      "usagePolicy": "과도한 사용 방지를 위한 제한 기준이 적용됩니다.",
+      "usagePolicyLink": "플랜 이용 안내"
+    },
+    "card": {
+      "recommended": "출시 기념 🎉 20% 할인",
+      "currentPlan": "현재 나의 플랜",
+      "getStarted": "시작하기",
+      "getStartedWithDiscount": "할인받고 시작하기",
+      "haveCouponCode": "할인 코드가 있으신가요?",
+      "enterCouponCode": "할인 코드 입력",
+      "contactSales": "영업팀에 문의하기",
+      "perMonth": ""
+    },
+    "price": {
+      "contactRequired": "별도 문의",
+      "free": "0원",
+      "currency": "원"
+    }
+  }
+}

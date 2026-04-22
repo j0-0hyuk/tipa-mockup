@@ -1,0 +1,515 @@
+{
+  "navigation": {
+    "save": "저장하기",
+    "export": "내보내기",
+    "reference": "참고자료",
+    "lastSaved": "{{time}} 전에 저장됨",
+    "savedNow": "방금 저장됨",
+    "unsavedChangesWarning": "저장되지 않은 변경사항이 있습니다. 계속하시겠습니까?"
+  },
+  "sidebar": {
+    "reference": "참고자료",
+    "modify": "수정하기",
+    "history": "내보내기 이력"
+  },
+  "tooltip": {
+    "export": {
+      "disabled": "내보내기는 문서 생성 완료 후 가능합니다.",
+      "proPlanRequired": "내보내기는 Pro 플랜 기능입니다",
+      "diffPending": "수정 완료 후 가능합니다."
+    },
+    "themeColor": "테마 색상",
+    "exportHistory": "내보내기 이력",
+    "unfold": "메뉴 펼치기",
+    "fold": "메뉴 접기",
+    "generate": "문서 생성중(클릭)",
+    "regenerate": "문서 재생성 버튼을 눌러주세요."
+  },
+  "navItem": {
+    "generationFailed": "사업계획서 생성 실패"
+  },
+  "reference": {
+    "title": "참고자료",
+    "sampleData": {
+      "title1": "반려식물 시장의 성장과 기회: '식집사' 문화의 확산 - Goover",
+      "source1": "농촌진흥청",
+      "title2": "농촌진흥청, 반려식물 인구와 산업 규모 전국 단위 조사"
+    }
+  },
+  "export": {
+    "title": "내보내기",
+    "message": "내보내기 기능이 실행됩니다.",
+    "drawer": {
+      "title": "한글/워드 문서 생성",
+      "fileUpload": {
+        "label": "양식 업로드",
+        "dropZoneLabel": "지원 포멧 : hwp, hwpx 파일 지원",
+        "dropZoneDescription": "",
+        "uploadedLabel": "업로드한 양식",
+        "recommended": "(hwpx)권장",
+        "warning": "*hwp는 간혹 문서가 깨질 수 있어 hwpx 사용을 권장드립니다.\n*모든 문서는 입력 포멧과 상관없이 hwpx로 내보내집니다.\n*완성된 파일의 오류 발생 시, 신고를 부탁드립니다."
+      },
+      "alerts": {
+        "hwpConversionRequired": "hwp 파일은 변환이 필요합니다",
+        "unsupportedFileFormat": "지원하지 않는 파일 형식입니다.",
+        "confirm": "확인"
+      },
+      "buttons": {
+        "cancel": "취소",
+        "export": "내보내기"
+      },
+      "language": {
+        "label": "언어 설정",
+        "description": "선택한 언어로 결과물이 생성됩니다.",
+        "options": {
+          "ko": "한국어",
+          "en": "영어"
+        }
+      },
+      "extension": "확장자 선택",
+      "exportMode": {
+        "label": "출력 모드",
+        "options": {
+          "strict": "완성도 우선",
+          "strictDescription": "AI가 적극적으로 추론하며 모든 내용을 생성하지만 할루시네이션 발생 가능",
+          "flexible": "신뢰도 우선",
+          "flexibleDescription": "원본에 있는 내용만 근거하여 작성하지만, 빈칸이 생기거나 출력양이 적을 수 있음"
+        }
+      },
+      "toast": {
+        "exportStarted": "문서 생성을 시작합니다. 문서가 준비될 때까지 잠시 기다려주세요."
+      },
+      "method": {
+        "label": "내보내기 방식",
+        "options": {
+          "hwpx": "한글(hwpx)로 내보내기",
+          "docx": "워드(docx)로 내보내기",
+          "pdf": "PDF로 내보내기"
+        }
+      }
+    },
+    "history": {
+      "title": "내보내기 이력",
+      "actions": {
+        "download": "다운로드",
+        "delete": "삭제"
+      },
+      "status": {
+        "progress": "문서를 생성 중입니다... (약 7~8분 소요)",
+        "failed": "내보내기 실패. (크레딧 차감되지 않음) \n문제 해결을 위해 오류 신고로 문의해주세요.",
+        "errorReport": "오류 신고"
+      }
+    }
+  },
+  "onboardingGuideModal": {
+    "steps": {
+      "0": {
+        "title": "AI가 문서를 만들고 있어요",
+        "description": "원본이 완성되기까 지 약간의 시간이 필요합니다.\n기다리시는 동안 독스헌트 활용법을 간단히 소개해 드릴게요.",
+        "image": "/images/guides/ko/product-guide-modal-1.webp"
+      },
+      "1": {
+        "title": "자동 생성 + 직접 편집",
+        "description": "AI가 뼈대를 만들고, 세부는 자유롭게 수정하세요.\n마치 사업계획서를 대신 써주는 비서처럼 생각하시면 돼요.",
+        "image": "/images/guides/ko/product-guide-modal-2.webp"
+      },
+      "2": {
+        "title": "원하는 형식으로 내보내기",
+        "description": "작성된 원본은 다양한 형식으로 내보낼 수 있습니다.\n지원사업 계획서, 제안서, 내부 공유 문서까지 손쉽게 완성하세요.",
+        "image": "/images/guides/ko/product-guide-modal-3.webp"
+      },
+      "3": {
+        "title": "기업(팀) 정보는 직접 작성해야 해요",
+        "description": "7번 회사/팀 섹션은 AI가 생성하지 않습니다.\n우리만의 고유한 이야기와 정보를 직접 작성해 주세요.",
+        "image": "/images/guides/ko/product-guide-modal-4.webp"
+      }
+    },
+    "buttons": {
+      "prev": "이전",
+      "next": "다음",
+      "start": "시작하기"
+    }
+  },
+  "document": {
+    "title": "새 원본 생성하기",
+    "productName": "원본 제목을 입력하세요.",
+    "method": "시작 방식 선택",
+    "emptyMethodTitle": "빈 페이지에서 시작",
+    "emptyMethodDescription": "빈 페이지에서 원하는 콘텐츠를 직접 구성합니다.",
+    "guideMethodTitle": "사업계획서 자동 세팅",
+    "guideMethodDescription": "내 아이템에 대한 사업계획서 전용 콘텐츠들을 자동 세팅합니다.",
+    "submitButton": "시작하기",
+    "proBadge": "PRO",
+    "creditDeduction": "{{credit}} 크레딧 차감"
+  },
+  "editor": {
+    "productName": "아이템명"
+  },
+  "menuNavigation": {
+    "rename": "제목 수정하기",
+    "delete": "삭제",
+    "renameCorePlan": "제목 수정하기",
+    "cancel": "취소",
+    "save": "저장",
+    "deleteTitle": "삭제하시겠습니까?",
+    "deleteDescription": "이 작업은 실행 취소할 수 없습니다.\n‘삭제’ 버튼을 누르면 모든 내용이 영구적으로 삭제됩니다.",
+    "deleteButton": "삭제",
+    "placeholder": "새로운 이름을 입력해주세요"
+  },
+  "productCreationLoading": {
+    "phase10": [
+      "아이템 개요 작성 중...",
+      "문제정의·솔루션 정리 중...",
+      "시장·고객 데이터 반영 중...",
+      "경쟁사 분석 및 차별점 작성 중...",
+      "비즈니스 모델 설계 중..."
+    ],
+    "phase20to50": "재무 계획·투자 유치 구성 중...",
+    "phase50to70": "R&D 및 기술 경쟁력 작성 중...",
+    "phase70to90": "문서 전체 정리 중...",
+    "phase100": "원본 생성 완료!"
+  },
+  "suggestionMenu": {
+    "advancedBlocks": "고급 블럭",
+    "basicBlocks": "기본 블럭",
+    "title": {
+      "text": "텍스트",
+      "heading1": "제목1",
+      "heading2": "제목2",
+      "heading3": "제목3",
+      "quote": "인용",
+      "bulletList": "글머리 기호 목록",
+      "numberedList": "번호 매기기 목록",
+      "toggleableHeading1": "제목 토글 1",
+      "toggleableHeading2": "제목 토글 2",
+      "toggleableHeading3": "제목 토글 3",
+      "image": "이미지",
+      "table": "표",
+      "timeline": "타임라인",
+      "tamSamSom": "동심원 다이어그램",
+      "bulletedList": "글머리 기호 목록",
+      "concentricCirclesDiagram": "동심원 다이어그램",
+      "persona": "페르소나",
+      "positioningMap": "포지셔닝 맵",
+      "composedChart": "혼합 차트",
+      "donutChart": "도넛 차트",
+      "mermaid": "플로우 차트"
+    },
+    "description": {
+      "text": "일반 텍스트를 작성해보세요.",
+      "heading1": "섹션 제목(대), 좌측 메뉴에 표시됩니다.",
+      "heading2": "섹션 대목(중), 좌측 메뉴에 표시됩니다.",
+      "heading3": "섹션 소목(소)",
+      "quote": "인용문을 작성하세요.",
+      "numberedList": "번호가 매겨진 목록을 생성하세요.",
+      "bulletedList": "글머리 기호 목록을 생성하세요.",
+      "toggleableHeading1": "제목 토글 1",
+      "toggleableHeading2": "제목 토글 2",
+      "toggleableHeading3": "제목 토글 3",
+      "image": "이미지를 업로드하거나 링크로 추가하세요.",
+      "table": "간단한 표를 추가합니다.",
+      "timeline": "진행 순서를 시간 흐름에 따라 시각화할 수 있습니다.",
+      "tamSamSom": "'탐/샘/솜' 같은 중첩 구조를 시각화할 수 있습니다.",
+      "concentricCirclesDiagram": "'탐/샘/솜' 같은 중첩 구조를 시각화할 수 있습니다.",
+      "persona": "목표 고객의 특징을 대표하는 가상의 인물을 만듭니다.",
+      "positioningMap": "두 기준 축으로 제품의 위치를 시각화할 수 있습니다.",
+      "mermaid": "프로세스를 순서도 형태로 시각화할 수 있습니다.",
+      "barChart": "카테고리별 데이터를 막대의 길이로 비교할 수 있습니다.",
+      "lineChart": "시간에 따른 변화나 추이를 선으로 표현할 수 있습니다.",
+      "composedChart": "막대와 꺾은선을 결합해 다각도로 분석할 수 있습니다.",
+      "donutChart": "각 항목의 비율을 도넛 형태로 시각화할 수 있습니다."
+    }
+  },
+  "mainPage": {
+    "title": "아이템을 입력하고, 사업계획서 초안을 생성하세요",
+    "titleMobile": "아이템 설명을 작성하고,\n사업계획서를 생성하세요",
+    "example": "[작성 예시]\n- 아이템명: 독스헌트(DocsHunt) \n- 아이템 설명: AI가 사업계획서 초안을 생성하고, 원하는 양식으로 변환까지 해주는 솔루션 \n- 타겟 고객: 사업계획서 작성에 어려움을 겪는 스타트업 대표 및 실무자 \n- 해결 문제: 사업계획서 양식이 제각각이라서 발생하는 문서 작성의 비효율",
+    "detailDescription": "이미 사업계획서를 가지고 있다면, 원하는 양식에 맞춰 변환할 수도 있어요.",
+    "detailBadge": "양식 채우기",
+    "promo": {
+      "description": "지금 구독하면 출시 기념가격이 구독 해지 전까지 평생 유지돼요",
+      "planLabel": "Pro 플랜",
+      "planPriceKR": "평생 39,000원",
+      "planPriceUS": "Lifetime $39",
+      "planPriceKRAmount": "39,000원",
+      "planPriceUSAmount": "$28.00",
+      "lifetimeLabel": "평생",
+      "approx": "약",
+      "cta": "업그레이드"
+    },
+    "sideNavigation": {
+      "create": "사업계획서 초안 만들기",
+      "fill": "지원사업 양식 채우기",
+      "docs": "내 문서함",
+      "record": "내 사업계획서 초안"
+    }
+  },
+  "recentDraftList": {
+    "title": "최근 사업계획서",
+    "defaultItemName": "사업계획서 초안",
+    "openButton": "열기"
+  },
+  "mainPrompt": {
+    "placeholder": "어떤 사업을 하고 계신가요? 구체적으로 알려줄수록 AI가 더욱 정확한 사업계획서를 생성합니다.",
+    "addFile": "파일 추가",
+    "fileDescription": "추가한 파일 내용이 문서에 반영됩니다",
+    "maxFilesLimit": "최대 3개까지만 업로드 가능합니다",
+    "calculatingCredit": "크레딧 계산중이에요. 잠시만 기다려주세요.",
+    "toast": {
+      "referenceFileTooLarge": "레퍼런스 파일이 너무 큽니다.",
+      "genericError": "문서 생성 중 오류가 발생했습니다."
+    },
+    "xmlCharacterLimitModal": {
+      "title": "파일을 읽을 수 없어요",
+      "description": "문서(hwp, hwpx, docx) 중 내용이 너무 많은 파일이 있습니다.",
+      "convertToPdf": "PDF로 변환 후 다시 시도해주세요.",
+      "convertLinkText": "PDF로 변환하기",
+      "reduceContent": "내용을 줄인 후 다시 시도해주세요."
+    },
+    "validation": {
+      "promptRequired": "프롬프트를 입력해주세요"
+    },
+    "template": {
+      "default": "PSST 사업계획서 양식 (기본)",
+      "emptyState": "양식을 찾을 수 없습니다.\n직접 업로드해 보세요.",
+      "uploadButton": "원하는 양식 파일 업로드"
+    }
+  },
+  "detailInput": {
+    "title": "아이템 이름과 소개만 입력해도\n사업계획서를 만들 수 있습니다",
+    "optionalTitle": "여기서부터는 선택 입력 사항이에요",
+    "itemName": "아이템 이름",
+    "itemNamePlaceholder": "독스헌트 AI",
+    "itemIntroduction": "아이템 소개",
+    "itemIntroductionPlaceholder": "다양한 데이터를 저장하고 원본 데이터 기반으로 한글/워드/영어 등 모든 문서 양식을 자동 생성하는 RAG 기반 AI SaaS 서비스. 북미 진출을 목표로 하는 글로벌 문서 자동화 솔루션",
+    "itemIntroductionTooltip": [
+      "고객-문제-해결-가치 공식: `[어떤 고객]의 [어떤 문제]를 [어떤 방식]으로 해결하여 [어떤 가치]를 제공하는 서비스입니다.`",
+      "숫자 활용: 가능하다면 숫자를 활용해 구체적인 효용을 보여주세요. (예: '10분 만에', '30% 비용 절감')",
+      "쉬운 단어 사용: 전문 용어 대신 초등학생도 이해할 수 있는 쉬운 단어로 설명하세요."
+    ],
+    "tip": "작성 팁",
+    "optionalForm": {
+      "businessStory": {
+        "label": "사업 스토리",
+        "placeholder": "창업자 김성우가 직접 겪은 반복적인 문서 작성의 비효율성을 해결하기 위해 시작. 12,000개 이상의 사업계획서 자동 생성 경험을 통해 실질적 니즈 검증 완료. 글로벌 시장의 거대한 기회 발견",
+        "tooltip": [
+          "왜 이 사업을 시작하게 되었는지 창업자 본인의 '진짜 경험'에서 출발하세요.",
+          "`[문제 발생(고통)] → [해결을 위한 노력과 실패] → [결정적 계기/아이디어 발견] → [우리의 해결책 제시] → [우리가 꿈꾸는 미래(비전)]` 순서로 이야기를 구성하면 몰입도가 높아집니다.",
+          "창업자 본인의 이야기로 시작하되, 결국 이 사업이 '고객의 문제'를 해결하고 '고객의 삶'을 어떻게 바꿀 것인지 설명해야 합니다. "
+        ]
+      },
+      "marketAndStrategy": {
+        "label": "시장과 전략",
+        "placeholder": "1차 타겟(한국): MVP 검증 및 초기 자금 확보\n• 스타트업, 컨설턴트, AC/VC (정부지원사업 특화)\n• 핵심 타겟(북미): 캐나다: 2025년 9월 테스트 시장, 미국: 캐나다 성공 시 본격 진출\n• 스타트업(Business Plan, Grant Applications), 컨설팅 회사, SMBs, Enterprise\n• 시장 규모: 북미 시장 2032년 91억 달러 (전체 207억 달러의 44%)",
+        "tooltip": [
+          "'20대 여성'이 아니라, '서울에 거주하는 28세 직장인으로 퇴근 후 자기계발에 관심이 많지만 시간이 부족한 김민지 씨'처럼 가상의 인물을 설정하여 고객을 구체화하세요.",
+          "각 경쟁사를 목록으로 만들고 동일한 기준으로 비교 서술하는 방식을 사용해보세요. 우리의 독점적인 위치가 보일 것입니다.",
+          "'SNS 마케팅을 하겠다'가 아니라, '초기 3개월간 인스타그램에서 2030 여성 패션 인플루언서 10명과 협업하여 공동구매를 진행하고, 이를 통해 초기 고객 1,000명을 확보하겠다'처럼 구체적인 실행 방안과 목표 수치를 제시하세요."
+        ]
+      },
+      "revenueAndFinancial": {
+        "label": "수익 및 재무 계획",
+        "placeholder": "2025년 9월-12월: 캐나다 테스트 (목표: 100명 캐나다 사용자)\n2026년: 캐나다 본격 진출 + 미국 테스트 → 매출 17.1억원<br>2027년: 북미 전체 확장 → 매출 72.1억원\n2028년: 글로벌 확장 → 매출 178억원<br>손익분기점: 36개월차 달성 (월 매출 2.8억원 vs 운영비 5천만원)",
+        "tooltip": [
+          "구독료, 중개 수수료, 광고 수익, 제품 판매 등 어떻게 돈을 벌 것인지 명확히 정의하세요. (예: 기본 기능은 무료, 고급 기능은 월 9,900원의 구독료)",
+          "비용을 고정비(인건비, 임대료 등)와 변동비(재료비, 광고비 등)로 나누어 정리하면 예측이 쉬워집니다.",
+          "'내년에 10억 벌겠다'가 아니라, `(타겟 고객 수) X (구매 전환율) X (객단가) = 예상 매출`과 같이 논리적인 근거를 바탕으로 아래에서부터 매출을 쌓아 올리는 방식으로 추정하세요. "
+        ]
+      },
+      "progressAndRoadmap": {
+        "label": "현재 진행 상황 및 로드맵",
+        "placeholder": "2026년: 17.1억원 (북미 30% + 한국 70%)\n2027년: 72.1억원 (북미 70% + 한국 30%)\n2028년: 178억원 (북미 80% + 기타 20%)\n\n수익 모델: SaaS 구독제 Starter: $39/월 (한국 39,000원/월), Pro: $99/월 (한국 99,000원/월), Enterprise: 별도 협의",
+        "tooltip": [
+          "시간의 흐름에 따라 단계별로 계획을 목록화하여 보여주면 좋습니다.",
+          "'코딩 시작' 같은 소소한 업무가 아닌, 'MVP 출시', '베타테스터 1,000명 확보', '손익분기점 돌파' 등 사업의 방향을 결정하는 중요한 이정표 중심으로 작성하세요.",
+          "지금까지 이룬 성과(과거)를 바탕으로, 현재 진행 상황을 보여주고, 이를 기반으로 미래 계획(1년, 3년)을 제시하면 좋습니다."
+        ]
+      },
+      "companyName": {
+        "label": "팀(회사)명",
+        "placeholder": "주식회사 사페레아우데"
+      },
+      "teamInfo": {
+        "label": "팀원 정보",
+        "placeholder": "팀 구성원과 역할을 설명해주세요",
+        "tooltip": [
+          "단순히 'OO회사 근무'가 아니라, 'OO회사에서 XX프로젝트를 맡아 매출을 150% 성장시킨 경험'처럼 이 사업과 직접적으로 관련된 성과 중심으로 경력을 작성하세요.",
+          "각 팀원이 가진 역량(개발, 마케팅, 기획 등)이 어떻게 상호 보완하여 시너지를 내는지 설명하세요. 사업에 필요한 모든 핵심 역량을 우리 팀이 갖추고 있음을 보여주는 것이 중요합니다."
+        ],
+        "table": {
+          "columns": {
+            "name": "이름",
+            "position": "직위",
+            "responsibilities": "담당업무",
+            "skills": "보유 역량"
+          },
+          "placeholders": {
+            "name": "예: 김OO",
+            "position": "예: 대표",
+            "responsibilities": "예: 전략 총괄",
+            "skills": "예: OO학 박사, OO 관련 경력(00년 이상)"
+          },
+          "addButton": "팀원 추가"
+        }
+      }
+    }
+  },
+  "chart": {
+    "unit": "단위",
+    "breakEvenPoint": "손익분기점"
+  },
+  "chat": {
+    "form": {
+      "itemName": "아이템명",
+      "itemDescription": "아이템 설명",
+      "businessStory": "사업 스토리",
+      "marketAndStrategy": "시장과 전략",
+      "revenueAndFinancials": "수익 및 재무 계획",
+      "progressAndRoadmap": "현재 진행 상황 및 로드맵",
+      "teamName": "팀(회사)명",
+      "teamInfo": "팀원 정보"
+    },
+    "status": {
+      "generating": "사업계획서 만들기를 시작합니다! (약 3~5분 소요)",
+      "documentGenerating": "사업계획서 생성 중... (약 3~5분 소요)",
+      "documentDone": "사업계획서 생성 완료",
+      "thinking": "생각 중...",
+      "streaming": "문서 수정중...",
+      "abort": "문서 수정 중단됨",
+      "done": "문서 수정 완료",
+      "emailNotification": "사업계획서 생성이 끝나면 가입하신 <strong>이메일로 바로 알려드릴게요.</strong>"
+    },
+    "marketingAgree": {
+      "title": "마케팅 수신 동의",
+      "button": "동의하고 알림 받기",
+      "notificationEnabled": "이메일 알림이 활성화되었습니다."
+    },
+    "tally": {
+      "description": "*문서가 생성되면 설문이 종료돼요."
+    },
+    "error": {
+      "failed": "예기치 못하게 생성에 실패했습니다.",
+      "retry": "다시 시도"
+    },
+    "input": {
+      "placeholder": "수정 사항을 입력하세요."
+    },
+    "noCredit": {
+      "title": {
+        "pro": "계속 수정하려면 크레딧 충전이 필요해요",
+        "free": "지금 이 사업계획서, 계속 수정하시겠어요?"
+      },
+      "description": {
+        "pro": "사용 가능한 크레딧이 모두 소진됐어요.\n크레딧을 충전하면 지금 요청하신 작업을 바로 진행할 수 있어요.",
+        "free": "무료 크레딧이 모두 소진됐어요.\nPro에서는 전체 페이지를 확인하고 이어서 수정할 수 있어요."
+      },
+      "button": {
+        "pro": "크레딧 충전하고 계속하기",
+        "free": "Pro플랜으로 이어서 하기"
+      },
+      "subTitle": "지금 이 사업계획서, 계속 수정하시겠어요?"
+    },
+    "completion": {
+      "message1": "사업계획서가 완성되었습니다!\n\n완성된 사업계획서를 읽어보고, 수정 사항을 하단의 입력창에 적어주세요. 그럼 독스헌트 AI가 바로 수정해드릴게요.",
+      "message2": "수정이 필요하지 않다면, 우측 상단의 파란색 \"내보내기\" 버튼을 눌러 파일을 받아볼 수 있어요."
+    }
+  },
+  "sourcePopover": {
+    "headerTitle": "AI가 참고한 자료",
+    "trigger": "출처 {{count}}"
+  },
+  "docs": {
+    "title": "내 문서함",
+    "table": {
+      "columns": {
+        "filename": "제목",
+        "format": "파일포맷",
+        "createdAt": "생성일"
+      }
+    },
+    "emptyState": "아직 생성한 문서가 없습니다.",
+    "toast": {
+      "progress": "문서가 아직 생성 중입니다. 완료 후 다운로드할 수 있습니다.",
+      "success": "문서가 삭제되었습니다.",
+      "failed": "문서 생성에 실패했습니다.",
+      "error": "파일 다운로드에 실패했습니다."
+    }
+  },
+  "fillForm": {
+    "title": "지원사업 양식 채우기",
+    "description": "원하는 지원사업 사업계획서 양식을 선택해주세요",
+    "steps": {
+      "selectTemplate": "양식 파일 선택",
+      "inputContent": "채울 내용 입력",
+      "completeDocument": "문서 파일 완성"
+    },
+    "stepper": {
+      "selectTemplate": "양식 선택",
+      "prompt": "프롬프트",
+      "uploadData": "자료 업로드",
+      "selectImage": "이미지 선택",
+      "documentSettings": "문서 세부 설정",
+      "generate": "생성"
+    },
+    "template": {
+      "hwpWarning": "*hwp는 간혹 문서가 깨질 수 있어",
+      "hwpWarningRecommend": "hwpx 사용을 권장드립니다.",
+      "exportFormat": "*모든 문서는 입력 포맷과 상관없이 hwpx로 내보내집니다.",
+      "errorReport": "*완성된 파일의 오류 발생 시, 우측 하단의 채널톡으로 신고를 부탁드립니다.",
+      "emptyState": "아직 사용한 양식이 없습니다.",
+      "viewDocshuntTemplates": "독스헌트 제공 양식 보기",
+      "selected": "양식이 선택되었습니다.",
+      "dropzone": {
+        "mainText": "채우고 싶은 양식 파일을 업로드 하세요.",
+        "formatText": "*지원 포맷 : hwpx, hwp",
+        "formatRecommend": "(hwpx 권장)"
+      },
+      "tabs": {
+        "recent": "최근 사용한 양식",
+        "docshunt": "독스헌트 제공 양식",
+        "my": "내가 업로드한 양식"
+      },
+      "uploadError": {
+        "title": "파일 업로드 에러",
+        "unknownError": "알 수 없는 에러가 발생했습니다. 관리자에게 문의하세요.",
+        "payloadTooLarge": "업로드한 양식의 내용이 너무 많습니다."
+      },
+      "calculatingCredit": "이전 작업에 의해 크레딧 계산중입니다.\n 잠시만 기다려주세요.",
+      "error": "에러가 발생했습니다."
+    },
+    "prompt": {
+      "inputLabel": "프롬프트 입력",
+      "placeholder": "프롬프트 없이, 초안이나 참고 자료만 입력해도 사업계획서가 완성됩니다.\n더 보충하고 싶은 내용이 있을 경우 프롬프트로 작성해주세요.",
+      "previous": "이전",
+      "submit": "양식 채우기",
+      "submitDisabledHint": "프롬프트, 초안, 참고 자료 중 하나 이상 입력해주세요",
+      "references": {
+        "label": "참고자료",
+        "option": "(파일/이미지)",
+        "dropzone": {
+          "mainText": "참고 자료가 있다면 업로드 하세요.",
+          "formatText": "*지원 포맷: pdf, docs, hwp, hwpx, png",
+          "sizeText": "* 지원 용량: 최대 30MB 파일 3개"
+        },
+        "addFile": "파일 추가"
+      },
+      "draft": {
+        "label": "내 사업계획서 초안",
+        "option": "(*1개 선택 가능)",
+        "productName": "제품",
+        "selected": "선택됨",
+        "select": "선택"
+      }
+    },
+    "output": {
+      "loading": "문서 파일을 작성하고 있습니다...(약 3분 소요)",
+      "download": "다운로드",
+      "startOver": "처음으로",
+      "error": {
+        "title": "양식 채우기 중 문제가 발생했습니다.",
+        "message": "하단 버튼을 눌러 처음부터 다시 시도해 주세요.",
+        "navigateToTemplate": "양식 선택 화면으로 이동"
+      }
+    }
+  }
+}

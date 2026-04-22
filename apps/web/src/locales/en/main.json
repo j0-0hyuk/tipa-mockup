@@ -1,0 +1,499 @@
+{
+  "navigation": {
+    "save": "Save",
+    "export": "Export",
+    "reference": "Reference",
+    "lastSaved": "Saved {{time}} ago",
+    "savedNow": "Saved now",
+    "unsavedChangesWarning": "You have unsaved changes. Do you want to continue?"
+  },
+  "sidebar": {
+    "reference": "References",
+    "modify": "Modify",
+    "history": "Export History"
+  },
+  "tooltip": {
+    "export": {
+      "disabled": "Export is available after document generation is completed.",
+      "proPlanRequired": "Export is a Pro plan feature",
+      "diffPending": "Available after completing modifications."
+    },
+    "themeColor": "Theme Color",
+    "exportHistory": "Export History",
+    "unfold": "Unfold",
+    "fold": "Fold",
+    "generate": "Document generation(click)",
+    "regenerate": "Please click the regenerate button."
+  },
+  "navItem": {
+    "generationFailed": "Generation Failed"
+  },
+  "reference": {
+    "title": "Reference",
+    "sampleData": {
+      "title1": "Growth and Opportunities in the Houseplant Market: The Spread of 'Plant Parent' Culture - Goover",
+      "source1": "Rural Development Administration",
+      "title2": "Rural Development Administration, National Survey on Houseplant Population and Industry Scale"
+    }
+  },
+  "export": {
+    "title": "Export",
+    "message": "Export function will be executed.",
+    "drawer": {
+      "title": "Export",
+      "fileUpload": {
+        "label": "Select Template",
+        "dropZoneLabel": "Upload Template",
+        "dropZoneDescription": "(Maximum file size: 10MB: .hwp, .hwpx)",
+        "uploadedLabel": "Uploaded Template",
+        "recommended": "(HWPX) Recommended",
+        "warning": "*HWP files may sometimes break, so we recommend using HWPX.\n*All documents are exported as HWPX regardless of the input format.\n*Please report any errors in completed files."
+      },
+      "alerts": {
+        "hwpConversionRequired": "HWP files require conversion",
+        "unsupportedFileFormat": "Unsupported file format.",
+        "confirm": "Confirm"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "export": "Export"
+      },
+      "language": {
+        "label": "Language Settings",
+        "description": "The document will be exported in the selected language.",
+        "options": {
+          "ko": "Korean",
+          "en": "English"
+        }
+      },
+      "extension": "Extension",
+      "exportMode": {
+        "label": "Output Mode",
+        "options": {
+          "strict": "Completeness First",
+          "strictDescription": "AI automatically fills all sections, but hallucinations may occur.",
+          "flexible": "Accuracy First",
+          "flexibleDescription": "Based only on Core Plan data, but some sections may remain unfilled."
+        }
+      },
+      "toast": {
+        "exportStarted": "Document generation started. Please wait while the document is being prepared."
+      },
+      "method": {
+        "label": "Export Method",
+        "options": {
+          "hwpx": "Export as HWPX",
+          "docx": "Export as DOCX",
+          "pdf": "Export as PDF"
+        }
+      }
+    },
+    "history": {
+      "title": "Document History",
+      "actions": {
+        "download": "Download",
+        "delete": "Delete"
+      },
+      "status": {
+        "progress": "Generating document... (about 7-8 minutes)",
+        "failed": "Export failed. (No credits deducted)\nPlease report this issue so we can help.",
+        "errorReport": "Report Error"
+      }
+    }
+  },
+  "onboardingGuideModal": {
+    "steps": {
+      "0": {
+        "title": "AI is generating your Core Plan",
+        "description": "It will take just a moment. \nWe'll briefly introduce how to use DocsHunt.",
+        "image": "/images/guides/en/product-guide-modal-1.webp"
+      },
+      "1": {
+        "title": "Auto-generation + Direct editing",
+        "description": "AI creates the framework, and you can edit the details. Think of it as an assistant writing your business plan.",
+        "image": "/images/guides/en/product-guide-modal-2.webp"
+      },
+      "2": {
+        "title": "Export to any format",
+        "description": "The completed Core Plan can be exported in various formats for proposals, applications, or internal sharing.",
+        "image": "/images/guides/en/product-guide-modal-3.webp"
+      },
+      "3": {
+        "title": "Company (team) info is up to you",
+        "description": "AI does not generate the 7. Company/Team section.\nPlease write your own story and information.",
+        "image": "/images/guides/en/product-guide-modal-4.webp"
+      }
+    },
+    "buttons": {
+      "prev": "Prev",
+      "next": "Next",
+      "start": "OK"
+    }
+  },
+  "document": {
+    "title": "Create New Core Plan",
+    "productName": "Core Plan Name",
+    "method": "Choose how to start",
+    "emptyMethodTitle": "Start with a blank document",
+    "emptyMethodDescription": "You can start writing directly in an empty document.",
+    "guideMethodTitle": "Start with a guide",
+    "guideMethodDescription": "Answer a few questions to draft your business plan.",
+    "submitButton": "Get start",
+    "proBadge": "PRO",
+    "creditDeduction": "{{credit}} credits deducted"
+  },
+  "editor": {
+    "productName": "Product Name"
+  },
+  "menuNavigation": {
+    "rename": "Rename",
+    "delete": "Delete",
+    "renameCorePlan": "Rename Core Plan",
+    "cancel": "Cancel",
+    "save": "Save",
+    "deleteTitle": "Are you sure you want to delete this Core Plan?",
+    "deleteDescription": "This action cannot be undone. Pressing the 'Delete Core Plan' button will permanently remove all of its content.",
+    "deleteButton": "Delete Core Plan",
+    "placeholder": "Enter a new name"
+  },
+  "productCreationLoading": {
+    "phase10": [
+      "Writing item overview...",
+      "Organizing problem definition & solutions...",
+      "Analyzing market & customer data...",
+      "Analyzing competitors & differentiators...",
+      "Designing business model..."
+    ],
+    "phase20to50": "Creating financial plan & investment...",
+    "phase50to70": "Writing R&D & technology advantages...",
+    "phase70to90": "Finalizing document...",
+    "phase100": "Core Plan creation completed!"
+  },
+  "suggestionMenu": {
+    "advancedBlocks": "Advanced Blocks",
+    "basicBlocks": "Basic Blocks",
+    "title": {
+      "text": "Text",
+      "heading1": "Heading 1",
+      "heading2": "Heading 2",
+      "heading3": "Heading 3",
+      "quote": "Quote",
+      "bulletedList": "Bulleted list",
+      "numberedList": "Numbered list",
+      "toggleableHeading1": "Toggle heading 1",
+      "toggleableHeading2": "Toggle heading 2",
+      "toggleableHeading3": "Toggle heading 3",
+      "image": "Image",
+      "table": "Table",
+      "timeline": "Timeline",
+      "tamSamSom": "Concentric circles diagram",
+      "concentricCirclesDiagram": "Concentric circles diagram",
+      "persona": "Persona",
+      "positioningMap": "Positioning map",
+      "mermaid": "Flow chart",
+      "barChart": "Bar chart",
+      "lineChart": "Line chart",
+      "composedChart": "Mixed chart",
+      "donutChart": "Donut chart"
+    },
+    "description": {
+      "text": "Write plain text.",
+      "heading1": "Big section heading. Displayed in the left menu.",
+      "heading2": "Medium section heading. Displayed in the left menu.",
+      "heading3": "Small section heading. Displayed in the left menu.",
+      "quote": "Capture a quote.",
+      "bulletList": "Create a simple bulleted list.",
+      "numberedList": "Create a list with numbering.",
+      "toggleableHeading1": "Hide content inside a large heading.",
+      "toggleableHeading2": "Hide content inside a medium heading.",
+      "toggleableHeading3": "Hide content inside a small heading.",
+      "image": "Upload an image or embed with a link.",
+      "table": "Add simple tabular content.",
+      "timeline": "Visualize the flow of events over time.",
+      "tamSamSom": "Visualize nested structures such as TAM/SAM/SOM.",
+      "concentricCirclesDiagram": "Visualize nested structures such as TAM/SAM/SOM.",
+      "persona": "Create a fictional target customer.",
+      "positioningMap": "Visualize product positions on two axes.",
+      "mermaid": "Visualize a process in sequential shapes.",
+      "barChart": "Compare categorical data using bar lengths.",
+      "lineChart": "Express changes or trends over time with lines.",
+      "composedChart": "Analyze with a combination of bars and lines.",
+      "donutChart": "Visualize proportions of items in a donut shape."
+    }
+  },
+  "mainPage": {
+    "title": "Write your item description and generate a business plan",
+    "titleMobile": "Write your item description and\ngenerate a business plan",
+    "example": "[Writing Example]\n- Item Name: DocsHunt \n- Item Description: A solution that generates business plan drafts with AI and converts them to your desired format \n- Target Customers: Startup CEOs and practitioners who struggle with business plan writing \n- Problem Solved: Inefficiency in document writing due to varying business plan formats",
+    "detailDescription": "If you already have a business plan, you can also convert it to your desired format.",
+    "detailBadge": "Fill in the form",
+    "promo": {
+      "description": "Subscribe now to lock in the launch special price for life as long as you stay subscribed.",
+      "planLabel": "Pro plan",
+      "planPriceKR": "Lifetime 39,000 KRW",
+      "planPriceUS": "Lifetime $39",
+      "planPriceKRAmount": "39,000 KRW",
+      "planPriceUSAmount": "$28.00",
+      "lifetimeLabel": "Lifetime",
+      "approx": "Approx.",
+      "cta": "Upgrade"
+    },
+    "sideNavigation": {
+      "create": "Create Business Plan Draft",
+      "fill": "Fill Support Business Form",
+      "docs": "My Docs",
+      "record": "My Business Plan Drafts"
+    }
+  },
+  "recentDraftList": {
+    "title": "Recent Business Plans",
+    "defaultItemName": "Business Plan Draft",
+    "openButton": "Open"
+  },
+  "mainPrompt": {
+    "placeholder": "What kind of business are you in? Please enter the name and introduction of the item, the target customer, and the problem you want to solve as an example. The more specifically you tell them, the more accurate the AI generates a business plan.",
+    "addFile": "Add File",
+    "fileDescription": "The content of added files will be reflected in the document",
+    "maxFilesLimit": "You can upload up to 3 files only",
+    "calculatingCredit": "Calculating credits. Please wait a moment.",
+    "toast": {
+      "referenceFileTooLarge": "The reference file is too large.",
+      "genericError": "An error occurred while creating the document."
+    },
+    "xmlCharacterLimitModal": {
+      "title": "We can't read this file",
+      "description": "One of the document files (hwp, hwpx, docx) contains too much content.",
+      "convertToPdf": "Convert it to PDF and try again.",
+      "convertLinkText": "Convert to PDF",
+      "reduceContent": "Please reduce the content and try again."
+    },
+    "validation": {
+      "promptRequired": "Please enter a prompt"
+    }
+  },
+  "detailInput": {
+    "title": "You can create a business plan\nby just entering the item name and description",
+    "optionalTitle": "The following are optional input fields",
+    "itemName": "Item Name",
+    "itemNamePlaceholder": "DocsHunt AI",
+    "itemIntroduction": "Item Introduction",
+    "itemIntroductionPlaceholder": "Document automation SaaS",
+    "itemIntroductionTooltip": [
+      "Customer-Problem-Solution-Value formula: `[Which customers] solve [what problem] through [what method] to provide [what value].`",
+      "Use numbers: If possible, use numbers to show specific benefits. (e.g., 'in 10 minutes', '30% cost reduction')",
+      "Use simple words: Explain in simple words that even elementary school students can understand, rather than technical terms."
+    ],
+    "tip": "Tips",
+    "optionalForm": {
+      "businessStory": {
+        "label": "Business Story",
+        "placeholder": "Founded by Kim Sung-woo who experienced the inefficiency of repetitive document creation firsthand. Validated real needs through experience of automatically generating over 12,000 business plans. Discovered huge opportunities in the global market",
+        "tooltip": [
+          "Start from the founder's 'real experience' of why this business was started.",
+          "Structure the story in this order: `[Problem occurrence (pain)] → [Efforts and failures to solve] → [Key insight/idea discovery] → [Our solution] → [Future we dream of (vision)]` to increase engagement.",
+          "Start with the founder's story, but ultimately explain how this business will solve 'customer problems' and change 'customer lives'."
+        ]
+      },
+      "marketAndStrategy": {
+        "label": "Market Analysis & Strategy",
+        "placeholder": "Primary target (Korea): MVP validation and initial funding\n• Startups, consultants, AC/VC (specialized in government support programs)\n• Core target (North America): Canada: September 2025 test market, US: Full-scale entry after Canada success\n• Startups (Business Plan, Grant Applications), consulting companies, SMBs, Enterprise\n• Market size: North American market $9.1 billion by 2032 (44% of total $20.7 billion)",
+        "tooltip": [
+          "Instead of 'women in their 20s', specify customers like 'Kim Min-ji, a 28-year-old office worker living in Seoul who is interested in self-development after work but lacks time' to make customers more concrete.",
+          "List each competitor and compare them using the same criteria. This will reveal our unique position.",
+          "Instead of 'we'll do SNS marketing', present specific action plans and target numbers like 'collaborate with 10 fashion influencers for women in their 2030s on Instagram for the first 3 months to conduct group purchases and secure 1,000 initial customers through this'."
+        ]
+      },
+      "revenueAndFinancial": {
+        "label": "Revenue & Financial Plan",
+        "placeholder": "Sep-Dec 2025: Canada test (target: 100 Canadian users)\n2026: Full Canada entry + US test → Revenue 1.71 billion KRW<br>2027: Full North America expansion → Revenue 7.21 billion KRW\n2028: Global expansion → Revenue 17.8 billion KRW<br>Break-even point: Achieved in 36 months (monthly revenue 280M KRW vs operating cost 50M KRW)",
+        "tooltip": [
+          "Clearly define how you will make money: subscription fees, brokerage fees, advertising revenue, product sales, etc. (e.g., basic features are free, premium features have a monthly subscription fee of 9,900 KRW)",
+          "Dividing costs into fixed costs (personnel costs, rent, etc.) and variable costs (material costs, advertising costs, etc.) makes forecasting easier.",
+          "Instead of 'we'll make 1 billion next year', estimate sales by building up from the bottom using logical grounds like `(target customers) X (purchase conversion rate) X (average order value) = expected revenue`."
+        ]
+      },
+      "progressAndRoadmap": {
+        "label": "Current Progress & Roadmap",
+        "placeholder": "2026: 1.71 billion KRW (North America 30% + Korea 70%)\n2027: 7.21 billion KRW (North America 70% + Korea 30%)\n2028: 17.8 billion KRW (North America 80% + Others 20%)\n\nRevenue model: SaaS subscription Starter: $39/month (Korea 39,000 KRW/month), Pro: $99/month (Korea 99,000 KRW/month), Enterprise: Custom pricing",
+        "tooltip": [
+          "It's good to show plans step by step in a list format according to the flow of time.",
+          "Focus on important milestones that determine the direction of the business, such as 'MVP launch', 'securing 1,000 beta testers', 'achieving break-even point', rather than minor tasks like 'starting coding'.",
+          "It's good to show current progress based on achievements so far (past), and present future plans (1 year, 3 years) based on this."
+        ]
+      },
+      "companyName": {
+        "label": "Company Name",
+        "placeholder": "Please enter your company name"
+      },
+      "teamInfo": {
+        "label": "Team Information",
+        "placeholder": "Please describe your team members and their roles",
+        "tooltip": [
+          "Instead of simply 'worked at OO company', write about achievements directly related to this business, such as 'led XX project at OO company and achieved 150% revenue growth'.",
+          "Explain how the capabilities each team member has (development, marketing, planning, etc.) complement each other to create synergy. It's important to show that our team has all the core capabilities needed for the business."
+        ],
+        "table": {
+          "columns": {
+            "name": "Name",
+            "position": "Position",
+            "responsibilities": "Responsibilities",
+            "skills": "Skills"
+          },
+          "placeholders": {
+            "name": "e.g., John Doe",
+            "position": "e.g., CEO",
+            "responsibilities": "e.g., Strategy & Leadership",
+            "skills": "e.g., PhD in Computer Science, 10+ years experience in AI"
+          },
+          "addButton": "Add Team Member"
+        }
+      }
+    }
+  },
+  "chart": {
+    "unit": "Unit",
+    "breakEvenPoint": "Break-even point"
+  },
+  "chat": {
+    "form": {
+      "itemName": "Item Name",
+      "itemDescription": "Item Description",
+      "businessStory": "Business Story",
+      "marketAndStrategy": "Market and Strategy",
+      "revenueAndFinancials": "Revenue and Financial Plan",
+      "progressAndRoadmap": "Current Progress and Roadmap",
+      "teamName": "Team (Company) Name",
+      "teamInfo": "Team Member Information"
+    },
+    "status": {
+      "generating": "Starting business plan creation! (Takes about 2-3 minutes)",
+      "documentGenerating": "Generating business plan... (Takes about 2-3 minutes)",
+      "documentDone": "Business plan generation complete",
+      "thinking": "Thinking...",
+      "streaming": "Updating document...",
+      "abort": "Document update aborted",
+      "done": "Document update complete",
+      "emailNotification": "Once the business plan is generated, we'll notify you via the <strong>email address you registered.</strong>"
+    },
+    "marketingAgree": {
+      "title": "Marketing Consent",
+      "button": "Agree and Receive Notifications",
+      "notificationEnabled": "Email notifications have been enabled."
+    },
+    "tally": {
+      "description": "*The survey will end once the document is generated."
+    },
+    "error": {
+      "failed": "Generation failed unexpectedly.",
+      "retry": "Retry"
+    },
+    "input": {
+      "placeholder": "Enter your modifications."
+    },
+    "noCredit": {
+      "title": {
+        "pro": "To continue editing, you need to charge credits",
+        "free": "Do you want to continue editing this business plan?"
+      },
+      "description": {
+        "pro": "All available credits have been used.\nBy charging credits, you can immediately proceed with the task you requested.",
+        "free": "All free credits have been used.\nIn Pro, you can check the entire page and continue editing."
+      },
+      "button": {
+        "pro": "Charge credits and continue",
+        "free": "Continue with Pro plan"
+      },
+      "subTitle": "Do you want to continue editing this business plan?"
+    },
+    "completion": {
+      "message1": "Your business plan is complete!\n\nPlease review the completed business plan and enter any modifications in the input field below. DocsHunt AI will make the changes for you right away.",
+      "message2": "If no modifications are needed, you can download the file by clicking the blue \"Export\" button in the top right corner."
+    }
+  },
+  "docs": {
+    "title": "My Docs",
+    "table": {
+      "columns": {
+        "filename": "Filename",
+        "format": "Format",
+        "createdAt": "Created At"
+      }
+    },
+    "emptyState": "No documents created yet.",
+    "toast": {
+      "progress": "The document is still being generated. You can download it after completion.",
+      "success": "Document has been deleted.",
+      "failed": "Document generation failed.",
+      "error": "File download failed."
+    }
+  },
+  "fillForm": {
+    "title": "Fill Form",
+    "description": "Select the form to fill out and enter the content, and AI will automatically complete the document.",
+    "steps": {
+      "selectTemplate": "Select Template File",
+      "inputContent": "Enter Content to Fill",
+      "completeDocument": "Complete Document File"
+    },
+    "template": {
+      "hwpWarning": "*HWP files may sometimes break,",
+      "hwpWarningRecommend": "so we recommend using HWPX.",
+      "exportFormat": "*All documents are exported as HWPX regardless of input format.",
+      "errorReport": "*If errors occur in completed files, please report them via Channel Talk in the bottom right corner.",
+      "emptyState": "No templates used yet.",
+      "viewDocshuntTemplates": "View DocsHunt Templates",
+      "selected": "Template has been selected.",
+      "dropzone": {
+        "mainText": "Upload the template file you want to fill.",
+        "formatText": "*Supported formats: HWPX, HWP",
+        "formatRecommend": "(HWPX recommended)"
+      },
+      "tabs": {
+        "recent": "Recently Used Templates",
+        "docshunt": "DocsHunt Templates",
+        "my": "My Uploaded Templates"
+      },
+      "uploadError": {
+        "title": "File Upload Error",
+        "unknownError": "An unknown error occurred. Please contact the administrator.",
+        "payloadTooLarge": "The uploaded template has too much content."
+      },
+      "calculatingCredit": "Credit is being calculated from a previous task.\nPlease wait a moment.",
+      "error": "An error occurred."
+    },
+    "prompt": {
+      "inputLabel": "Enter Prompt",
+      "placeholder": "Your business plan can be completed with just a draft or reference materials—no prompt required. Add a prompt if you want to supplement the content.",
+      "previous": "Previous",
+      "submit": "Fill Form",
+      "submitDisabledHint": "Please enter at least one of: prompt, draft, or reference materials",
+      "references": {
+        "label": "Reference Materials",
+        "option": "(Files/Images)",
+        "dropzone": {
+          "mainText": "Upload reference materials if you have any.",
+          "formatText": "*Supported formats: PDF, DOCS, HWP, HWPX, PNG, JPG, JPEG",
+          "sizeText": "*Supported size: Up to 3 files, 30MB each"
+        },
+        "addFile": "Add File"
+      },
+      "draft": {
+        "label": "My Business Plan Draft",
+        "option": "(*Select 1)",
+        "productName": "Product",
+        "selected": "Selected",
+        "select": "Select"
+      }
+    },
+    "output": {
+      "loading": "Creating document file... (Takes about 3 minutes)",
+      "download": "Download",
+      "startOver": "Start Over",
+      "error": {
+        "title": "An error occurred while filling the form.",
+        "message": "Please click the button below to try again from the beginning.",
+        "navigateToTemplate": "Go to Template Selection"
+      }
+    }
+  }
+}

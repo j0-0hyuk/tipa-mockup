@@ -1,0 +1,38 @@
+{
+  "tab": "Invite Event",
+  "title": "Invite others and get up to 1 year free!",
+  "eventPeriod": "Event period: ~{{date}}",
+  "eventEnded": "This event has ended",
+  "eventEndedDescription": "We'll be back with new benefits and events next year.",
+  "linkSection": {
+    "title": "My Invite Link",
+    "copy": "Copy",
+    "copied": "Link copied!"
+  },
+  "progressSection": {
+    "title": "Invite Progress",
+    "count": "{{count}} invitees joined",
+    "progress": "{{current}}/{{target}}",
+    "tier1": "Tier 1 ({{threshold}}) → {{months}} month(s) free",
+    "tier2": "Tier 2 ({{threshold}}) → +{{months}} month(s) free",
+    "achieved": "Achieved",
+    "grantedAt": "Granted on {{date}}"
+  },
+  "infoSection": {
+    "title": "Event Info",
+    "howTo": {
+      "title": "How to participate",
+      "step1": "Share your invite link with others.",
+      "step2": "When the invitee visits Docshunt through the link and completes a paid purchase, the invite counts.",
+      "step3": "Invitees get a 10% discount on their first purchase.",
+      "step4": "Get +1 month at 5 invites, and +11 months at 10 invites, automatically credited."
+    },
+    "notice": {
+      "title": "Notice",
+      "item1": "Event period: Until December 31, 2026",
+      "item2": "Only the first paid purchase by each invitee counts.",
+      "item3": "If an invitee cancels their purchase, that invite will be deducted. If this causes you to no longer meet the reward threshold, granted rewards may be revoked.",
+      "item4": "If you have an active plan, the reward days will extend your current plan. Otherwise, a plan will be issued for the reward duration."
+    }
+  }
+}

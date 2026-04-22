@@ -1,0 +1,72 @@
+{
+  "starter": {
+    "name": "Free",
+    "description": "Get started with DocsHunt for free",
+    "features": [
+      "Basic features",
+      "1 draft creation & 1 form fill-out per account"
+    ]
+  },
+  "pro": {
+    "name": "Pro (1 Month)",
+    "description": "Great for urgent business plan submissions",
+    "buttonText": "Start with Pro",
+    "existingProUser": "Already a Pro user?",
+    "features": [
+      "Create business plan drafts",
+      "Fill out grant application forms",
+      "Access to the premium AI model"
+    ]
+  },
+  "seasonPass": {
+    "name": "Master 2026",
+    "description": "Solve all 2026 grant applications with one Master plan!",
+    "badge": "Early Bird 🛫 -79% off",
+    "priceUnit": "/~2026",
+    "buttonText": "Start with Master",
+    "existingProUser": "Already a Pro user?",
+    "features": [
+      "One payment for all of 2026",
+      "Create business plan drafts",
+      "Fill out grant application forms",
+      "Access to the premium AI model"
+    ]
+  },
+  "existingProModal": {
+    "title": "Already a Pro user?",
+    "point1Bold": "Existing Pro users will keep their $39/month rate,",
+    "point1Rest": " and can use all features until cancellation.",
+    "point2Bold": "If a Pro user purchases the Master plan,",
+    "point2Rest": " a prorated refund will be automatically applied based on the remaining Pro subscription period, and the Master plan will be activated immediately.",
+    "point3Pre": "For more details, please check the ",
+    "point3Link": "Plan Usage Guide",
+    "point3Post": ".",
+    "cancel": "Cancel",
+    "confirm": "OK"
+  },
+  "ui": {
+    "modal": {
+      "title": "DocsHunt Plans",
+      "monthlyPlan": "Monthly",
+      "yearlyPlan": "Annual(16%↓)",
+      "enterprise": "Interested in an enterprise solution?",
+      "contactSales": "Contact Sales",
+      "usagePolicy": "Usage limits apply to prevent excessive use.",
+      "usagePolicyLink": "Plan Usage Guide"
+    },
+    "card": {
+      "recommended": "Launch special 🎉 20% off",
+      "currentPlan": "Current Plan",
+      "getStarted": "Get Started",
+      "getStartedWithDiscount": "Get Started with Discount",
+      "haveCouponCode": "Have a coupon code?",
+      "enterCouponCode": "Enter coupon code",
+      "contactSales": "Contact Sales",
+      "perMonth": ""
+    },
+    "price": {
+      "contactRequired": "Custom",
+      "free": "$0"
+    }
+  }
+}

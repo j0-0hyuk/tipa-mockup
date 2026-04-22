@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "credit": "내 크레딧",
+    "creditTotal": "/ 2,000 크레딧",
+    "planUpgrade": "플랜",
+    "updateNews": "업데이트 소식",
+    "upgrade": "업그레이드",
+    "newFeatures": "새로운 기능",
+    "reportErrors": "오류 신고",
+    "logout": "로그아웃",
+    "loading": "로딩 중..."
+  }
+}

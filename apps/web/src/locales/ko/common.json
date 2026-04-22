@@ -1,0 +1,63 @@
+{
+  "button": {
+    "save": "저장하기",
+    "export": "내보내기",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기",
+    "next": "다음",
+    "prev": "이전",
+    "submit": "제출",
+    "generate": "생성하기",
+    "complete": "완료",
+    "goHome": "홈으로 이동",
+    "upgrade": "플랜 업그레이드",
+    "logout": "로그아웃",
+    "addSource": "새 원본 추가",
+    "optional": "추가 입력하기",
+    "chartColor": "차트 색상",
+    "exportHistory": "내보내기 이력",
+    "apply": "적용"
+  },
+  "form": {
+    "required": "필수",
+    "optional": "선택",
+    "placeholder": {
+      "select": "선택하세요",
+      "input": "입력하세요"
+    },
+    "validation": {
+      "required": "필수 입력 사항입니다.",
+      "maximumLength": "최대 10000자까지 입력할 수 있습니다.",
+      "fileSizeExceeded": "파일 크기는 30MB 이하여야 합니다"
+    }
+  },
+  "status": {
+    "loading": "Loading...",
+    "success": "성공",
+    "error": "오류",
+    "saved": "저장됨"
+  },
+  "tooltip": {
+    "reference": "참고자료"
+  },
+  "terms": {
+    "allAgree": "약관에 모두 동의",
+    "term": "서비스 이용약관 (필수)",
+    "personal": "개인정보 수집 및 이용 동의 (필수)",
+    "marketing": "마케팅 정보 수집 및 이용 동의 (선택)"
+  },
+  "time": {
+    "day": "일",
+    "hour": "시간",
+    "minute": "분"
+  },
+  "language": {
+    "ko": "한국어",
+    "en": "영어"
+  },
+  "toggle": {
+    "chat": "채팅",
+    "document": "문서"
+  }
+}

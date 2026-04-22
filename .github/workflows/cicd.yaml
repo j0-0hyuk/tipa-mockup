@@ -1,0 +1,250 @@
+name: CD-WEB
+run-name: Deploy to Frontend ${{ inputs.environment }} by @${{ github.triggering_actor }}
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Environment'
+        type: environment
+        required: true
+
+env:
+  NSG_RULE_NAME: Allow-GitHub-Runner-${{ github.run_id }}
+
+jobs:
+  build-and-deploy:
+    name: 'Build and Deploy Frontend'
+    runs-on: ubuntu-latest
+    permissions: write-all
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Set robots.txt based on environment
+        run: |
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            cp apps/web/public/robots.prod.txt apps/web/public/robots.txt
+            echo "📝 Using production robots.txt (allows crawlers)"
+          else
+            cp apps/web/public/robots.dev.txt apps/web/public/robots.txt
+            echo "📝 Using development robots.txt (blocks all crawlers)"
+          fi
+
+      - name: Configure npm for private packages
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${GH_PAT}" >> .npmrc
+
+      - name: Install dependencies and Build
+        env:
+          VITE_ENVIRONMENT: ${{ inputs.environment }}
+          VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}
+          VITE_FACEBOOK_PIXEL_ID: ${{ secrets.VITE_FACEBOOK_PIXEL_ID }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_AI_API_URL: ${{ secrets.VITE_AI_API_URL }}
+          VITE_AI_PROXY_URL: ${{ secrets.VITE_AI_PROXY_URL }}
+          VITE_UPDATE_URL: ${{ secrets.VITE_UPDATE_URL }}
+          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_ID }}
+          VITE_PADDLE_CLIENT_TOKEN: ${{ secrets.VITE_PADDLE_CLIENT_TOKEN }}
+          VITE_PADDLE_ENVIRONMENT: ${{ secrets.VITE_PADDLE_ENVIRONMENT }}
+          VITE_PADDLE_PRO_MONTHLY_PRICE_ID: ${{ secrets.VITE_PADDLE_PRO_MONTHLY_PRICE_ID }}
+          VITE_PADDLE_PRO_YEARLY_PRICE_ID: ${{ secrets.VITE_PADDLE_PRO_YEARLY_PRICE_ID }}
+          VITE_ATOMOS_WORKSPACE_ID: ${{ secrets.VITE_ATOMOS_WORKSPACE_ID }}
+          VITE_PADDLE_SEASON_PASS_PRICE_ID: ${{ secrets.VITE_PADDLE_SEASON_PASS_PRICE_ID }}
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+          SECURE_LOCAL_STORAGE_DISABLED_KEYS: ${{ secrets.SECURE_LOCAL_STORAGE_DISABLED_KEYS }}
+          REACT_APP_SECURE_LOCAL_STORAGE_DISABLED_KEYS: ${{ secrets.REACT_APP_SECURE_LOCAL_STORAGE_DISABLED_KEYS }}
+          VITE_META_API_URL: ${{ secrets.VITE_META_API_URL }}
+          VITE_TOSSPAYMENTS_CLIENT_KEY: ${{ secrets.VITE_TOSSPAYMENTS_CLIENT_KEY }}
+          VITE_ADMIN_USER_DATA_PASSWORD: ${{ secrets.VITE_ADMIN_USER_DATA_PASSWORD }}
+          NODE_OPTIONS: '--max-old-space-size=4096'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+          NPM_USER_CONFIG="$(mktemp)"
+          export NPM_CONFIG_USERCONFIG="$NPM_USER_CONFIG"
+          printf '//npm.pkg.github.com/:_authToken=%s\n' "${GITHUB_TOKEN}" > "$NPM_USER_CONFIG"
+          pnpm install
+          pnpm build
+          rm -f "$NPM_USER_CONFIG"
+          unset NPM_CONFIG_USERCONFIG
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get Public IP of Runner
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Add Inbound NSG Rule for SSH
+        run: |
+          az network nsg rule create \
+            --name "${{ env.NSG_RULE_NAME }}" \
+            --nsg-name "${{ vars.NSG_NAME }}" \
+            --resource-group "${{ vars.RESOURCE_GROUP_NAME }}" \
+            --priority 101 \
+            --access Allow \
+            --protocol Tcp \
+            --destination-port-ranges "${{ secrets.VM_SSH_PORT || '22' }}" \
+            --source-address-prefixes "${{ steps.ip.outputs.ipv4 }}" \
+            --description "Allow SSH from GitHub Actions runner for deployment"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container
+
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_LOGIN_USERNAME }}
+          password: ${{ secrets.ACR_LOGIN_PASSWORD }}
+
+      - name: Set current time as tag
+        id: set_time
+        run: echo "TAG=$(TZ='Asia/Seoul' date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: true
+          tags: ${{ secrets.ACR_NAME }}.azurecr.io/docs-front-web:${{ env.TAG }}
+          build-args: |
+            ENV=${{ inputs.environment }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+          platforms: linux/amd64
+
+      - name: Build and push Proxy image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/proxy/Dockerfile
+          push: true
+          tags: ${{ secrets.ACR_NAME }}.azurecr.io/docs-front-proxy:${{ env.TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+          platforms: linux/amd64
+
+      - name: Copy docker-compose.yml to Server via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          source: 'docker-compose.yaml'
+          target: '/home/azureuser'
+
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          script: |
+            export TAG=${{ env.TAG }}
+            export API_SERVER=${{ secrets.API_SERVER }}
+            export API_AI_SERVER=${{ secrets.API_AI_SERVER }}
+            export PROXY_SERVER=proxy:3000
+            export ACR_NAME=${{ secrets.ACR_NAME }}
+            export APP_DOMAIN=${{ secrets.APP_DOMAIN }}
+            export MAKE_DOMAIN=${{ secrets.MAKE_DOMAIN }}
+            export ADMIN_DOMAIN=${{ secrets.ADMIN_DOMAIN }}
+            export ENV=${{ inputs.environment }}
+            export AI_API_KEY=${{ secrets.AI_API_KEY }}
+            export NOTION_TOKEN=${{ secrets.NOTION_TOKEN }}
+            export NOTION_DATA_SOURCE_ID=${{ secrets.NOTION_DATA_SOURCE_ID }}
+            docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_LOGIN_USERNAME }} -p ${{ secrets.ACR_LOGIN_PASSWORD }}
+            cd /home/azureuser
+            docker compose -f /home/azureuser/docker-compose.yaml pull
+            docker compose -f /home/azureuser/docker-compose.yaml up -d --remove-orphans
+            echo "===== docker ps (docs-front) ====="
+            docker ps --format 'table {{.Names}}\t{{.Status}}' | grep docs-front || true
+            echo "===== restart count ====="
+            docker inspect -f '{{.Name}} restart={{.RestartCount}} state={{.State.Status}} exit={{.State.ExitCode}} error={{.State.Error}}' docs-front-web-container docs-front-proxy-container || true
+            echo "===== recent proxy logs (tail 50) ====="
+            docker logs docs-front-proxy-container --tail 50 || true
+            echo "===== recent web logs (tail 50) ====="
+            docker logs docs-front-web-container --tail 50 || true
+            echo "===== smoke test from host ====="
+            SMOKE_URL="https://${{ secrets.APP_DOMAIN }}/api/generate"
+            SMOKE_PAYLOAD='{"prompt":"ping"}'
+            smoke_passed=0
+            for attempt in 1 2 3 4 5; do
+              echo "===== smoke attempt ${attempt}/5 ====="
+              tmp_response="/tmp/smoke_response_${attempt}_$$.txt"
+              http_status=$(curl -sS \
+                --connect-timeout 5 \
+                --max-time 15 \
+                -o "$tmp_response" \
+                -w "%{http_code}" \
+                -X POST "$SMOKE_URL" \
+                -H "Content-Type: application/json" \
+                --data "$SMOKE_PAYLOAD" || echo "000")
+              echo "HTTP status: $http_status"
+              echo "Response body:"
+              cat "$tmp_response" || true
+              case "$http_status" in
+                2*)
+                  smoke_passed=1
+                  rm -f "$tmp_response"
+                  break
+                  ;;
+              esac
+              rm -f "$tmp_response"
+              if [ "$attempt" -lt 5 ]; then
+                sleep 2
+              fi
+            done
+            sleep 2
+            echo "===== proxy logs after smoke (tail 50) ====="
+            docker logs docs-front-proxy-container --tail 50 || true
+            echo "===== web logs after smoke (tail 50) ====="
+            docker logs docs-front-web-container --tail 50 || true
+            echo "===== docker ps -a (summary) ====="
+            docker ps -a --format 'table {{.Names}}\t{{.Status}}' || true
+            if [ "$smoke_passed" -ne 1 ]; then
+              echo "Smoke test failed after 5 attempts."
+              exit 1
+            fi
+            echo "===== docker image prune ====="
+            if ! docker image prune -af; then
+              echo "Warning: docker image prune failed; continuing without pruning."
+            fi
+
+      - name: Remove Inbound NSG Rule
+        if: always()
+        run: |
+          az network nsg rule delete \
+            --name "${{ env.NSG_RULE_NAME }}" \
+            --nsg-name "${{ vars.NSG_NAME }}" \
+            --resource-group "${{ vars.RESOURCE_GROUP_NAME }}"

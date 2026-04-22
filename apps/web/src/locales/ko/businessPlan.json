@@ -1,0 +1,184 @@
+{
+  "sections": {
+    "titleAndIntro": {
+      "title": "사업계획서 제목",
+      "itemName": "아이템 이름",
+      "oneLineIntro": "아이템 한 줄 소개"
+    },
+    "summary": {
+      "title": "0. 요약 (Summary)",
+      "problemSummary": "0-1. 문제 인식 요약",
+      "solutionSummary": "0-2. 실현 가능성 요약",
+      "scaleUpSummary": "0-3. 성장 전략 요약",
+      "teamSummary": "0-4. 팀 요약"
+    },
+    "problem": {
+      "title": "1. 문제 인식(Problem)",
+      "businessBackground": "1-1. 사업 배경",
+      "problemDefinition": "1-2. 문제 정의",
+      "customerPainPoints": "1-3. 고객 피드백",
+      "tamSamSom": "1-4. 시장 분석",
+      "marketGrowthAndTrends": "1-5. 시장 성장성/트렌드"
+    },
+    "tamSamSom": {
+      "units": {
+        "trillion": "조원",
+        "hundredBillion": "천억원",
+        "million": "백만원"
+      }
+    },
+    "marketGrowthTrend": {
+      "marketSize": "시장규모",
+      "growthFactors": "성장 요인",
+      "growthDriversOriginal": "시장 및 정책적 성장 동력",
+      "factorTypes": {
+        "market": "시장/정책적 요인",
+        "environmental": "기술/환경적 요인",
+        "customer": "고객/수요 요인"
+      }
+    },
+    "solution": {
+      "title": "2. 실현 가능성 (Solution)",
+      "solutionOverview": "2-1. 솔루션 개요",
+      "valueDeliveryProcess": "가치 전달 프로세스",
+      "coreFeatures": "2-2. 핵심 기능",
+      "expectedBenefits": "2-3. 기대 효과",
+      "progressAndPlan": "2-4. 진행 현황 및 구체화 계획",
+      "progressAndPlanTable": {
+        "itemName": "항목이름",
+        "itemDescription": "항목 설명",
+        "period": "기간"
+      },
+      "competitiveAnalysis": "2-5. 경쟁 우위 분석",
+      "competitiveAnalysisTable": {
+        "title": "경쟁 환경 분석",
+        "myService": "자사 서비스",
+        "competitors": "경쟁사",
+        "service": "서비스"
+      },
+      "positioningMap": "포지셔닝 맵",
+      "positioningMapTitle": "포지셔닝 맵"
+    },
+    "scaleUp": {
+      "title": "3. 성장 전략 (Scale-up)",
+      "revenueModel": "3-1. 비즈니스 모델",
+      "pricingStrategy": "가격 전략",
+      "pricingStrategyTable": {
+        "revenueModel": "수익모델",
+        "billingCriteria": "과금 기준",
+        "billingStructure": "과금 구조"
+      },
+      "marketing": "3-2. 사업화 전략",
+      "marketingDetails": {
+        "northStarMetric": "북극성 지표",
+        "targetCustomer": "타겟 고객",
+        "positioningStrategy": "포지셔닝 전략",
+        "marketingFunnel": "마케팅 퍼널",
+        "funnelTable": {
+          "stage": "단계",
+          "channel": "채널",
+          "kpiTarget": "KPI 목표",
+          "strategy": "전략"
+        }
+      },
+      "globalStrategy": "글로벌 진출 전략",
+      "globalStrategyDetails": {
+        "targetCountriesTable": {
+          "country": "국가",
+          "selectionCriteria": "선정 기준",
+          "description": "설명"
+        },
+        "entryStrategyTitle": "진입 전략 구조",
+        "entryStrategyTable": {
+          "strategy": "전략",
+          "executionPlan": "실행 방안"
+        }
+      },
+      "milestones": "3-3. 마일스톤 및 로드맵",
+      "milestonesTable": {
+        "period": "추진 기간",
+        "content": "추진 내용",
+        "detailsSummary": "세부 내용 요약"
+      },
+      "roadmap": "1년 상세 로드맵",
+      "assumptions": "3-4. 재무 목표 및 추정",
+      "assumptionsDetails": {
+        "revenueAssumptions": "매출 가정",
+        "costAssumptions": "비용 가정",
+        "unitEconomics": "단위 경제성",
+        "table": {
+          "item": "항목",
+          "details": "세부내용"
+        }
+      },
+      "metricVisualizations": "핵심 재무지표 전망",
+      "projectedStatements": "3-6. 추정 재무제표",
+      "projectedStatementsDetails": {
+        "category": "구분",
+        "strategicInsight": "전략적 시사점"
+      },
+      "fundraising": "3-7. 자금 조달 및 사용 계획",
+      "fundraisingDetails": {
+        "targetAmount": "목표 금액",
+        "fundraisingMethod": "자금 조달 방법",
+        "investmentPurpose": "투자 목적"
+      },
+      "exitStrategy": "3-8. EXIT 전략",
+      "exitStrategyDetails": {
+        "objectiveAndPath": "목표 및 경로",
+        "finalGoal": "최종 목표",
+        "primaryPath": "주요 경로",
+        "targetTiming": "목표 시기",
+        "potentialAcquirers": "잠재적 인수 기업",
+        "valueAndMaximization": "가치 및 극대화",
+        "targetEnterpriseValue": "목표 기업가치",
+        "valuationRationale": "평가 근거",
+        "calculation": "계산 방식",
+        "justification": "근거",
+        "maximizationPlan": "극대화 계획"
+      }
+    },
+    "team": {
+      "title": "4. 팀 (Team)",
+      "visionAndMission": "4-1. 비전/미션",
+      "visionAndMissionDetails": {
+        "vision": "비전",
+        "mission": "미션"
+      },
+      "coreTeamMembers": "4-2. 대표자/팀원 프로필",
+      "coreTeamMembersTable": {
+        "name": "이름",
+        "position": "직위",
+        "responsibilities": "담당 업무",
+        "skills": "보유 역량",
+        "contribution": "기여도"
+      },
+      "teamCapabilities": "4-3. 팀 핵심 역량 및 시너지"
+    }
+  },
+  "teamOverview": {
+    "companyName": "기업(팀)명",
+    "companyContact": "회사 연락처",
+    "companyAddress": "회사 주소",
+    "establishmentDate": "설립연월일",
+    "businessNumber": "사업자번호",
+    "corporateNumber": "법인등록번호",
+    "businessType": "업태",
+    "businessItem": "종목"
+  },
+  "representativeProfile": {
+    "name": "대표자 명",
+    "contact": "대표자 연락처",
+    "email": "대표자 이메일",
+    "introduction": "대표자 소개 (경력 등)"
+  },
+  "coreTeamMembers": {
+    "name": "이름",
+    "position": "직무",
+    "contact": "연락처",
+    "email": "이메일"
+  },
+  "announcements": {
+    "teamInfoGuide": "기업(팀) 정보는 사용자가 직접 작성하는 항목입니다. 아래 제공되는 형식을 참고하여 자유롭게 기재하실 수 있습니다."
+  }
+}

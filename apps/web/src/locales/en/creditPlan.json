@@ -1,0 +1,146 @@
+{
+  "title": "Plan",
+  "tabs": {
+    "creditPlan": "Plan",
+    "creditPolicy": "Credit Usage Guide"
+  },
+  "backToMain": "Back to Editor",
+  "loading": "Loading...",
+  "myCredit": "Credits",
+  "currentCredit": "Additional Credits (Permanent)",
+  "buyCreditButton": "Get More Credits",
+  "planCredit": "Monthly Credits",
+  "additionalCredit": "Purchased Credits (Never Expire)",
+  "totalCredit": "Total Credits",
+  "myPlan": "Plan",
+  "upgradeButton": "Change Plan",
+  "planNames": {
+    "starter": "DocsHunt Free",
+    "seasonPass": "DocsHunt Master Plan",
+    "proMonthly": "DocsHunt Pro (Monthly)",
+    "proYearly": "DocsHunt Pro (Yearly)"
+  },
+  "shortPlanNames": {
+    "starter": "Free",
+    "proMonthly": "Monthly Pro",
+    "proYearly": "Yearly Pro"
+  },
+  "nextBilling": "Next payment on",
+  "planExpiryDate": "Plan expiry date",
+  "planChangeDate": "Your plan will change to {{plan}} on {{date}}",
+  "cancelSubscription": "Cancel Plan",
+  "cancelConfirm": "Are you sure you want to cancel your subscription?",
+  "cancelSuccess": "Subscription has been cancelled.",
+  "renewSubscription": "Continue Pro Plan",
+  "renewConfirm": "Are you sure you want to restart your subscription?",
+  "renewSuccess": "Subscription has been restarted.",
+  "paymentHistory": "Payment History",
+  "paymentTable": {
+    "date": "Date",
+    "paymentContent": "Description",
+    "receipt": "Invoice",
+    "totalAmount": "Amount",
+    "receiptButton": "View Invoice",
+    "vatIncluded": "(VAT inc.)",
+    "noHistory": "No payment history available."
+  },
+  "paymentItems": {
+    "SUBSCRIPTION_M": "DocsHunt Pro (Monthly)",
+    "SUBSCRIPTION_Y": "DocsHunt Pro (Yearly)",
+    "SEASON_PASS": "DocsHunt Master Plan",
+    "MONTHLY_PASS": "Pro Monthly Pass"
+  },
+  "creditPurchaseModal": {
+    "title": "Purchase Additional Credits",
+    "recommendedBadge": "Recommended",
+    "credits": "/10,000 Credits",
+    "purchaseButton": "Purchase",
+    "features": [
+      "10,000 additional credits",
+      "Credits never expire",
+      "Access to the premium AI model"
+    ],
+    "footer": "Curious how credits are used?",
+    "policyLink": "Learn more about credits"
+  },
+  "errors": {
+    "receiptError": "Unable to load receipt.",
+    "paymentHistoryError": "Unable to load payment history."
+  },
+  "creditPolicy": {
+    "title": "How Credits Work",
+    "whatIsCredit": {
+      "question": "1. What are credits?",
+      "answers": [
+        "Credits are units consumed when using various AI features such as business plan generation, editing, and format conversion on DocsHunt.",
+        "When you subscribe to the Pro plan, 10,000 credits are provided, and you can purchase additional credits if you run out."
+      ]
+    },
+    "creditSystem": {
+      "question": "2. How many credits do I get with my plan?"
+    },
+    "additionalPurchase": {
+      "question": "3. Can I purchase additional credits?",
+      "answers": [
+        "Additional credits can only be purchased with the Pro plan or higher.",
+        "You can purchase a minimum of 10,000 credits from the [Plans&Billing] page."
+      ]
+    },
+    "carryOver": {
+      "question": "4. Do credits expire?",
+      "answers": [
+        "Credits included with the Pro plan are reset monthly and do not roll over.",
+        "Additional credits you purchase do not expire and are permanently retained."
+      ]
+    },
+    "table": {
+      "headers": [
+        "Plan",
+        "Monthly Credits",
+        "Additional Purchase",
+        "Expiration"
+      ],
+      "rows": [
+        [
+          "Pro",
+          "10,000",
+          "Available",
+          "Expire monthly"
+        ]
+      ]
+    }
+  },
+  "changeConfirm": {
+    "title": "Change to this plan?",
+    "description": "The plan will be applied from the next billing date.",
+    "nextBillingDate": "Next billing date",
+    "billingAmount": "Billing amount",
+    "cancel": "Cancel",
+    "confirm": "Change"
+  },
+  "changeScheduled": {
+    "title": "Plan change has been scheduled",
+    "description": "{{plan}} plan will be applied from {{date}}.",
+    "confirm": "OK"
+  },
+  "errorModal": {
+    "title": "Unable to process request",
+    "description": "Please try again later.<br/>If the problem persists, please <a>contact us</a>.",
+    "inquiryButton": "Contact Us",
+    "confirmButton": "OK"
+  },
+  "insufficient": {
+    "title": "You're low on credits",
+    "productCreationDescription": "Creating a new project requires {{credit}} credits.",
+    "productExportDescription": "Exporting a project requires {{credit}} credits.",
+    "remaining": "You have {{remaining}} credits remaining.",
+    "needed": "Required: {{needed}} credits",
+    "fillCredit": "Get more credits",
+    "close": "Close"
+  },
+  "blurContent": {
+    "title": "Curious about your business's core strategy?",
+    "description": "Upgrade your plan to view the complete business plan content.",
+    "upgradeButton": "View Full Business Plan"
+  }
+}

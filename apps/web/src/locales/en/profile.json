@@ -1,0 +1,13 @@
+{
+  "profile": {
+    "credit": "My Credit",
+    "creditTotal": "/ 2,000 credits",
+    "planUpgrade": "Plan",
+    "updateNews": "Update News",
+    "upgrade": "Upgrade",
+    "newFeatures": "New Features",
+    "reportErrors": "Report",
+    "logout": "Logout",
+    "loading": "Loading..."
+  }
+}

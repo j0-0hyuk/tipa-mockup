@@ -1,0 +1,9 @@
+node_modules/
+**/dist/
+.turbo/
+pnpm-lock.yaml
+**/routeTree.gen.ts
+**/*.gen.ts
+**/*.woff2
+packages/ui/src/assets/fonts/
+*.log

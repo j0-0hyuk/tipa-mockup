@@ -1,0 +1,42 @@
+{
+  "name": "docs-front",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "admin": "turbo run dev --filter=admin",
+    "make": "turbo run dev --filter=make",
+    "web": "pnpm --filter @docs-front/web run dev",
+    "proxy": "turbo run dev --filter=proxy",
+    "test:projects": "vitest run",
+    "test:projects:watch": "vitest --watch"
+  },
+  "devDependencies": {
+    "@docs-front/vitest-config": "workspace:*",
+    "@types/node": "^24.0.10",
+    "prettier": "^3.5.3",
+    "turbo": "2.8.9",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "pnpm": {
+    "overrides": {
+      "@swc/core": "latest",
+      "@swc/helpers": "latest",
+      "@swc/plugin-emotion": "latest",
+      "@vitejs/plugin-react-swc": "^4.2.1"
+    },
+    "onlyBuiltDependencies": [
+      "@sentry/cli",
+      "@swc/core",
+      "esbuild",
+      "unrs-resolver"
+    ],
+    "ignoredBuiltDependencies": [
+      "core-js",
+      "es5-ext"
+    ]
+  },
+  "packageManager": "pnpm@10.30.0+sha512.2b5753de015d480eeb88f5b5b61e0051f05b4301808a82ec8b840c9d2adf7748eb352c83f5c1593ca703ff1017295bc3fdd3119abb9686efc96b9fcb18200937"
+}

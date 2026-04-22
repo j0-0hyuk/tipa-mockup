@@ -1,0 +1,285 @@
+{
+  "selectOnboarding": {
+    "termsAgreement": {
+      "title": "Terms Agreement"
+    },
+    "howToGenerate": {
+      "title": "Choose Generation Method"
+    }
+  },
+  "uploadFile": {
+    "title": "Enter item name and description, and upload PDF files",
+    "form": {
+      "itemName": {
+        "label": "Item Name",
+        "placeholder": "Airbnb (AirBnC) — Book accommodations anywhere in 5 seconds"
+      },
+      "description": {
+        "label": "Item Description",
+        "placeholder": "Airbnb is a accommodation sharing platform that allows travelers to book hosts' spare rooms through an app, and hosts to monetize their extra space. Recorded 250 bookings and 38% revisit rate in 6 weeks of beta. Automated the entire 'booking-check-in-payment' process with trust score-based matching algorithm and real-time secure payments. Goal to achieve 150 cities, 10,000 hosts, and 100,000 bookings within 18 months."
+      },
+      "files": {
+        "label": "File Upload"
+      }
+    }
+  },
+  "manualInput": {
+    "title": "Manual Input",
+    "form": {
+      "required": "This is a required field.",
+      "maxLength": "Maximum 10000 characters allowed."
+    },
+    "step1": {
+      "title": "Item Information",
+      "form": {
+        "itemName": {
+          "label": "Item Name",
+          "placeholder": "Airbnb (AirBnC) — Book accommodations anywhere in 5 seconds"
+        },
+        "itemIntroduction": {
+          "label": "Item Introduction",
+          "placeholder": "Item introduction"
+        }
+      }
+    },
+    "step2": {
+      "title": "Detailed Information",
+      "form": {
+        "background": {
+          "label": "Background"
+        },
+        "career": {
+          "label": "Career",
+          "placeholder": "Select startup experience"
+        },
+        "value": {
+          "label": "Value"
+        },
+        "feature": {
+          "label": "Features"
+        },
+        "market": {
+          "label": "Market"
+        },
+        "difference": {
+          "label": "Differentiation",
+          "placeholder": "Example) Lyft: Largest competitor in US and Canada. Didi: China's largest mobility service, weak international market presence with security concerns. Limited interface and language. Ola: India service. Inconsistent service quality and vehicle condition. Grab: Southeast Asia ridesharing company with extensive ecosystem in food delivery market as well. Differentiation"
+        }
+      }
+    },
+    "step3": {
+      "title": "Business Plan",
+      "form": {
+        "businessPlan": {
+          "label": "Business Plan",
+          "placeholder": "Example) 1. Select service areas for operation then gradually expand. 2. Reflect Beta test feedback to improve app UI/UX. 3. Strengthen verification procedures and safety features for driver and user safety. 4. Plan to expand services through partnerships with local businesses."
+        },
+        "marketingStrategy": {
+          "label": "Marketing Strategy",
+          "placeholder": "Example) Plan to market through various social media platforms with content like user reviews, service tutorial videos, and promotional events. Also plan to share service introduction videos and customer success stories on YouTube, and conduct region-specific promotions and Q&A sessions in local communities and forums (Naver Cafe, Daum Cafe). Branded"
+        },
+        "developmentStatus": {
+          "label": "Development Status",
+          "placeholder": "Example) 1. Secured 100 pre-booking customers through MVP launch. 2. Completed advanced matching algorithm, reducing wait time and improving efficiency through optimal matching algorithm between users and drivers. 3. Improving service based on user feedback through Beta test."
+        }
+      }
+    },
+    "step4": {
+      "title": "Draft for Investment and Review",
+      "subtitle": "Fill this page to generate a draft considering investment and review",
+      "optionalIndicator": "{{filled}}/{{total}}",
+      "form": {
+        "field1": {
+          "placeholder": "Example)"
+        },
+        "field2": {
+          "placeholder": "Example)"
+        },
+        "field3": {
+          "placeholder": "Example)"
+        },
+        "field4": {
+          "placeholder": "Example)"
+        },
+        "field5": {
+          "placeholder": "Example)"
+        },
+        "field6": {
+          "placeholder": "Example)"
+        }
+      }
+    }
+  },
+  "manualInputDetailed": {
+    "steps": {
+      "item": {
+        "header": "Create your Core Plan in 3 steps",
+        "optionalHeader": "Optional inputs —\nYour Core Plan is ready to generate anytime",
+        "form": {
+          "name": {
+            "label": "Product Name",
+            "placeholder": "AirBnC"
+          },
+          "description": {
+            "label": "Product Description",
+            "placeholder": "AirBnC is an accommodation-sharing platform that allows travelers to book rooms from local hosts, enabling hosts to monetize their extra space. In just 6 weeks of beta, it achieved 2,500 bookings with a 38% matching rate, and has automated the entire 'Booking-Check-in-Payment' process with a trust-based matching algorithm and real-time secure payments. The goal is to reach 100,000 bookings from 10,000 hosts across 150 cities within 18 months."
+          },
+          "color": {
+            "label": "Theme Color",
+            "description": "Please select a color that best represents your product. This color will be used as the base for generating charts and images."
+          }
+        },
+        "validation": {
+          "nameAndDescriptionRequired": "Please write item name and description."
+        }
+      },
+      "solution": {
+        "header": {
+          "line1": "Fill out this page to complete your",
+          "line2": "Problem-Solution overview",
+          "line3": "",
+          "optional": "(Optional)"
+        },
+        "form": {
+          "painPoint": {
+            "label": "Pain Point",
+            "placeholder": "During conferences or festivals, hotel prices in the city can surge up to 3-4 times their usual rate, placing a heavy burden on travelers. Even at these high prices, guests are often left with generic accommodations that lack any local experience. Currently, there is no viable alternative in the market to solve this problem.",
+            "tooltip": "What specific and urgent “Pain Point” are customers willing to spend their time and money to solve?\u2028Please describe it in the format: [Who] + [In what situation] + [What difficulties they face].\nTo make your case more persuasive, also explain how customers are currently addressing the problem and what limitations existing solutions have."
+          },
+          "background": {
+            "label": "Our Story",
+            "placeholder": "The idea of \"sharing spare rooms\" came from experiencing the surge in accommodation prices during a conference. We secured our first booking with an MVP that consisted of just an air mattress in a living room.",
+            "tooltip": "Explain honestly what led you to start this business — whether it was a personal experience or a market opportunity you spotted.\u2028Investors care deeply about the story behind “Why is this team the right one to solve this problem?” Make sure to clearly convey your motivation and what makes your team uniquely qualified."
+          },
+          "features": {
+            "label": "Key Features",
+            "placeholder": "1. Property Search: Users input their desired dates and criteria to see a list of recommended local accommodations.\n2. Booking Request & Confirmation: When a user requests to book a property, the reservation is confirmed either upon the host's acceptance or automatically.\n3. Location Sharing: Guests and hosts can share their locations in real-time and communicate via an integrated map feature.\n4. Payment & Review System: Payment is processed automatically upon booking confirmation, and a trust score is calculated based on mutual reviews after the stay.",
+            "tooltip": "List up to five key features of your service or product.\u2028Describe each one from the customer’s point of view, focusing on the value or benefit they receive from it."
+          },
+          "mission": {
+            "label": "Mission & Vision",
+            "placeholder": "- Mission: To connect travelers with spare spaces around the world through technology, offering unique and affordable accommodation experiences.\n- Vision: To create a world where anyone can not just 'stay' anywhere, but 'belong' anywhere.",
+            "tooltip": "- Mission: A mission is a present-day commitment that explains what we do and how we do it as a company. (Example: We solve XX problems using OOO technology.)\n- Vision: A vision is the ultimate future state that will be realized when our mission is fulfilled. (Example: A world where everyone can live without worrying about OO.)"
+          }
+        }
+      },
+      "market": {
+        "header": {
+          "line1": "Fill out this page to outline your",
+          "line2": "Market & Competition Strategy",
+          "line3": "",
+          "optional": "(Optional)"
+        },
+        "form": {
+          "target": {
+            "label": "Target Market & Customer",
+            "placeholder": "Target Market: Within the global travel community (a $150B market), we are initially targeting Gen Z travelers who seek authentic, exploratory experiences beyond non-competitive niche markets. The estimated size of this initial market is approximately ₩500 billion KRW.\nTarget Customer: Travelers aged 29-38 who use social media to find local hotspots and are dissatisfied with the high commission fees and commercialized content on existing platforms.",
+            "tooltip": "Describe the size of the overall market and the initial target market you plan to focus on, including specific figures.\u2028Then, define the profile of customers who would need your product the most in this market, using: [Age group] + [Behavior patterns] + [Needs or pain points]."
+          },
+          "rival": {
+            "label": "Competitors",
+            "placeholder": "Booging: A weekend-focused booking platform, primarily partnered with hotels and resorts rather than individual hosts, which makes direct communication between guests and hosts difficult.\nAcoba: A short-term rental platform centered in Southeast Asia, which suffers from low-quality reviews and inconsistent property management standards.",
+            "tooltip": "Select 2–4 key competitors and briefly analyze each competitor's core strengths and weaknesses."
+          },
+          "profit": {
+            "label": "Unique Selling Points",
+            "placeholder": "Unique Community Experience: We go beyond simple accommodation by offering authentic local experiences hosted by locals themselves, such as \"local tours\" and \"cooking classes.\"\nTrust-Based Matching: Our proprietary \"Trust Score\" algorithm, which incorporates past reviews and response rates, optimally matches guests with the most suitable hosts.\nTransparent Pricing: We build trust by displaying the final price from the initial search stage, not just at the final booking step, eliminating any hidden fees.",
+            "tooltip": "What unique strengths set our service apart — ones that competitors cannot easily replicate?\u2028From perspectives such as [technological advantage], [unique business model], and [differentiated experience], list 3–4 specific key differentiators."
+          },
+          "revenueModel": {
+            "label": "Revenue Model",
+            "placeholder": "- Transaction Fees: We take a 10% commission fee on the booking value paid by the guest.\n- Subscription Fees: We offer premium features for hosts, such as priority listing, for a monthly subscription fee of ₩9,900.\n- Commission Fees: We charge a 15% commission fee for brokering local experiences and content operated by hosts, such as \"local tours.\"",
+            "tooltip": "Explain how your business makes money by outlining all core revenue streams.\u2028For each revenue model, clearly describe who pays, for what, when, and how much\n— for example: transaction fees, monthly/annual subscriptions, advertising revenue, etc."
+          },
+          "strategy": {
+            "label": "Marketing & Sales Strategy",
+            "placeholder": "Acquisition through Content: We will collaborate with travel YouTubers who appeal to our target audience (Gen Z) with \"authentic localism\" to secure initial brand awareness through genuine travel content.\nActivation through First Booking: We will provide new users who sign up via our content with a limited-edition discount coupon, dramatically lowering the barrier to making their first booking.\nViral Growth through Referrals: We will expand our customer base at a low cost through a referral program where both the referrer and the new user receive credits upon the friend's first booking.",
+            "tooltip": "How will you design the full customer journey — from [① discovering your product → ② trying it for the first time → ③ sharing it with others]?\nDiscovery: Through which channels will customers find out about your product? (e.g., Instagram, YouTube, online communities, paid ads)\nFirst use: What will encourage them to try it? (e.g., referral codes, discount coupons, free trials)\nSpread: Who will help spread the word? (e.g., influencers, community partners, direct sales by your team)"
+          }
+        }
+      },
+      "goal": {
+        "header": {
+          "line1": "Fill out this page to define your",
+          "line2": "Action Plan & Future Goals",
+          "line3": "",
+          "optional": "(Optional)"
+        },
+        "form": {
+          "currentStatus": {
+            "label": "Current Progress",
+            "placeholder": "- Incorporation & Team Formation: Incorporated in Jan 2024 with 3 co-founders (2 developers, 1 editor).\n- Product Development (MVP/Alpha): After an 8-month development period, our service has been successfully stabilized as of Jan 2025, with continuous improvements based on market feedback.\n- Key Metrics: Achieved 250 bookings with a 38% matching rate within 6 weeks of beta. Current traction includes over 1,000 cumulative bookings and 500 registered hosts.",
+            "tooltip": "Showcase what you’ve accomplished so far and the actions you took to get here — this is where you prove your execution capability.\u2028 Summarize your key achievements in areas such as [product development], [team building], [key metrics achieved], and [government projects or funding secured]."
+          },
+          "plan": {
+            "label": "3-Year Milestones",
+            "placeholder": "~ Q4 2025: Establish Domestic Market Presence.\n- Official product launch and system enhancement.\n- Secure 20,000 cumulative guests and 50,000 registered users by year-end.\n~ H1 2026: Expand into Southeast Asian Market.\n- Introduce AI-based personalized recommendations and a Host Protection Program.\n- Growth: Enter Thai and Vietnamese markets, achieving 5,000 monthly bookings.\n~ 2027: Prepare for Global Expansion.\n- Product (Validation): Build the foundation and partnerships for a future M&A or IPO.",
+            "tooltip": "Outline your key milestones for the next 1–3 years, organized by timeline.\u2028 Include specific goals across major areas such as product development, growth, and market expansion."
+          },
+          "sales": {
+            "label": "Revenue Plan",
+            "placeholder": "- Year 1: ₩250M KRW / Year 2: ₩1.5B KRW / Year 3: ₩9.0B KRW\n- (Basis: Year 3 projection is based on 4,200 paying customers × ₩100,000 ARPU per month).",
+            "tooltip": "Present your annual revenue targets for the next 3 years.\u2028To increase the credibility of your plan, include key assumptions such as target number of paying customers, average revenue per user (ARPU), and other core metrics used to calculate these targets."
+          },
+          "cost": {
+            "label": "Use of Funds",
+            "placeholder": "Personnel (50%): Salaries for core team members essential for development and operations (developers, designers, marketers).\nMarketing (30%): Costs for influencer collaborations, content creation, and referral programs to acquire early users and hosts.\nOperating Expenses (20%): Essential service operation costs, including server fees, payment gateway (PG) commissions, and other SaaS tool subscriptions.",
+            "tooltip": "Show a main cost structure. List the top 3–4 cost drivers in order of importance, and provide a brief description for each\n— for example: personnel costs, marketing expenses, server costs, transaction fees, etc."
+          },
+          "investment": {
+            "label": "Funding Plan",
+            "placeholder": "Our goals are comparable to similar pre-Series A startups. The funds will be used to hire 2 additional developers (₩300M) and for initial marketing (₩200M). Estimated remainder: ₩500M.",
+            "tooltip": "If you plan to raise investment, specify the following:\n- Target funding amount\n- Detailed allocation plan for how the funds will be used\n- Runway (the period your business can operate with this funding)"
+          }
+        }
+      },
+      "rnd": {
+        "header": {
+          "line1": "Fill out this page to outline your",
+          "line2": "Technical Growth Potential",
+          "line3": "",
+          "optional": "(Optional)"
+        },
+        "form": {
+          "goal": {
+            "label": "R&D Goals",
+            "placeholder": "To develop a system that proactively identifies and warns against potential safety threats (e.g., inappropriate messages, high-risk accommodations) to ensure a best-in-class user journey. This system will block fraudulent transactions and account takeover attempts in real-time with over 99% accuracy. Our goal is to reduce safety-related customer service inquiries by 50% and maximize platform trust.",
+            "tooltip": "Clearly describe what problem your product solves and what value it creates.\u2028Include measurable, quantitative goals relevant to your industry — for example: 20% performance improvement, 15% increase in production yield, or 99% algorithm accuracy."
+          },
+          "tech": {
+            "label": "Key Technologies",
+            "placeholder": "- Natural Language Processing (NLP): Utilizes a deep learning model (BERT-based) to analyze user messages, detecting hidden aggression, emotional distress, and other risk signals.\n- Anomaly Detection: Employs machine learning to identify unusual booking and login patterns that deviate from normal user behavior, thereby preventing account fraud.\n- Graph Neural Networks (GNN): Models the relationships between users, properties, and bookings as a graph to predict and detect organized fraudulent activities.",
+            "tooltip": "Describe the scientific principles, engineering design, core algorithms, or proprietary formulations/manufacturing methods that underpin your technology."
+          },
+          "infra": {
+            "label": "R&D Resources",
+            "placeholder": "- Data: An internal dataset of over 1 million anonymized user messages, booking logs, and transaction data, including 5,000 labeled instances of fraud/safety incidents.\n- Infrastructure (H/W): Cloud-based GPU servers (NVIDIA A10G class) for model training and deployment.\n- Software (S/W): Python, PyTorch, Scikit-learn, Apache Spark.",
+            "tooltip": "What are the key resources required to implement your technology?\u2028List the essential elements for R&D in detail, such as [main components/materials], [core data], [specialized equipment/facilities], [development software], and [specialized research personnel], according to your field."
+          },
+          "status": {
+            "label": "R&D Progress",
+            "placeholder": "We have completed the initial data acquisition and prior art/literature review stages. An automated pipeline for internal data collection, anonymization, and preprocessing has been established. We plan to finalize risk signal definitions and data labeling by Q4 2025, at which point we will commence prototype model development.",
+            "tooltip": "What stage is your R&D at? Provide specific details for each stage\n- Completed work (past achievements)\n- Ongoing work (current activities)\n- Planned work (near-future actions)"
+          },
+          "copyright": {
+            "label": "Intellectual Property",
+            "placeholder": "An AI-Based User Safety Prediction System and Method Thereof\n- Type: Patent\n- Application No.: 10-2025-0012345\n- Status: Pending",
+            "tooltip": "List any intellectual property (IP) you have secured or are in the process of filing. For each item, please include its name, type (e.g., Patent, Trademark), application/registration number, and current status (e.g., Granted, Pending)."
+          }
+        }
+      }
+    },
+    "toast": {
+      "documentCreationStarted": "Starting original document creation."
+    }
+  },
+  "confirmModal": {
+    "title": "Generate Core Plan?",
+    "description": [
+      "The AI will generate a Core Plan based on your input.",
+      "The original document created can be modified in a later chat."
+    ],
+    "cancel": "Cancel",
+    "confirm": "Generate"
+  }
+}

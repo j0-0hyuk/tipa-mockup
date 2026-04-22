@@ -1,0 +1,103 @@
+# .cursorrules
+
+You are a Senior Frontend Engineer working in a Turbo Monorepo environment.
+
+## 📂 Project Structure & Context
+
+- **Root:** Turbo Monorepo
+- **Apps:**
+  - `apps/web`: Main Service (React + Vite) - **Primary Context**
+  - `apps/admin`: Admin Dashboard
+  - `apps/sejong`: Chrome Extension
+  - `apps/make`: MVP Project
+- **Packages:**
+  - `packages/ui`: Shared UI Components (Radix UI + Emotion/css)
+  - **Import Rule:** Always import shared UI components from `@docs-front/ui`.
+    - Ex: `import { Flex } from '@docs-front/ui';`
+
+## 🛠 Tech Stack
+
+- **Framework:** React, Vite, TypeScript
+- **State/Async:** TanStack Query v5, Zod, Ky (Custom Instances)
+- **Styling:** @emotion/css, Radix UI
+- **AI SDK:** Vercel AI SDK, react-markdown
+
+## 🚨 Critical Coding Conventions (MUST FOLLOW)
+
+### 1. Networking (Ky + Zod)
+
+- **NEVER** use `axios`, `fetch`, or raw `ky.get()`.
+- **ALWAYS** use the pre-configured instances explicitly:
+  - Public API: `api` (from `@/service/api/instance` or equivalent)
+  - Private API: `authenticatedApi` (from `@/service/auth/instance` or equivalent)
+- **Zod Validation:** Every API response body MUST be validated with Zod schemas using `.parse()`.
+
+**Example (API Function):**
+
+```typescript
+import { authenticatedApi } from '@/service/auth/instance';
+import { getProductResponseSchema } from '@/schema/product';
+import type { GetProductResponse } from '@/schema/product';
+
+export const getProduct = async (
+  productId: number
+): Promise<GetProductResponse> => {
+  // Always use .json() to parse the body
+  const response = await authenticatedApi.get(`products/${productId}`).json();
+
+  // Validate strictly with Zod (.parse throws error if invalid)
+  return getProductResponseSchema.parse(response);
+};
+```
+
+### 2. State Management (TanStack Query v5)
+
+- **Pattern:** ALWAYS use the `queryOptions` factory pattern.
+- **Do NOT** pass objects directly to `useQuery` or `useSuspenseQuery`.
+- **Query Keys:** Define keys inside the factory function for consistency.
+
+**Example (Query Options Factory):**
+
+```typescript
+import { queryOptions } from '@tanstack/react-query';
+
+export const getProductsQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['products'],
+    queryFn: () => getProducts()
+  });
+};
+```
+
+- **Usage:** ```typescript
+  const { data } = useSuspenseQuery(getProductsQueryOptions());
+
+```
+
+### 3. Styling & Components
+- **Library:** Use `@emotion/css` for styling.
+- **Components:** - Check `packages/ui` first. Import via `@docs-front/ui`.
+  - Example: `import { Flex } from '@docs-front/ui';`
+  - For local components, prefer Radix UI primitives for complex interactions.
+  - Use `Flex`, `Grid` components from the shared UI library for layout instead of raw `div` with CSS.
+
+### 4. Design System (packages/ui theme)
+- **Theme Colors:** Do **NOT** use `theme.color.basic` (e.g. `basic.grey[500]`). Use **semantic colors only** from `theme.color`: `textPrimary`, `textSecondary`, `textTertiary`, `textDisabled`, `lineLight`, `lineDefault`, `lineAccent`, `lineWarning`, `bgWhite`, `bgLightGrey`, `bgMediumGrey`, `bgDarkGrey`, `bgBlack`, `bgAccent`, `bgAccentSubtle`, `textAccent`, `textWarning`, `bgWarning`, `bgWarningSubtle`, etc.
+- **Core Components (design system):** Prefer and align with these as the source of truth: **Button**, **Toast**, **TextField**, **Dialog**. Use them for consistent UI; when building new patterns, match their patterns and tokens.
+
+### 5. TypeScript & Paths
+- **Path Alias:**
+  - Inside `apps/web`: Use `@/` for absolute paths (points to `./src`).
+  - Example: `import { useBreakPoints } from '@/hooks/useBreakPoints';`
+- **Strictness:** - No `any`.
+  - Use `z.infer<typeof schema>` to generate TypeScript types from Zod schemas.
+
+## 📝 General Rules
+- **Formatting:** Prettier rules apply.
+- **Variable Declaration:** Prefer `const` over `let`.
+- **React:** - Use functional components with Hooks.
+  - Separate logic into Custom Hooks when components get too large.
+- **Monorepo Awareness:**
+  - Be careful with imports. Do not import from other apps (e.g., `apps/admin`) into `apps/web`.
+  - Only import from `packages/*` or local `src/*`.
+```

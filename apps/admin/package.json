@@ -1,0 +1,46 @@
+{
+  "name": "admin",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@bichon/ds": "catalog:",
+    "@emotion/css": "catalog:",
+    "@emotion/is-prop-valid": "catalog:",
+    "@emotion/react": "catalog:",
+    "@emotion/styled": "catalog:",
+    "@hookform/resolvers": "catalog:",
+    "@react-oauth/google": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "ky": "catalog:",
+    "motion": "catalog:",
+    "overlay-kit": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-dropzone": "catalog:",
+    "react-hook-form": "catalog:",
+    "lucide-react": "catalog:",
+    "usehooks-ts": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@docs-front/eslint-config": "workspace:*",
+    "@docs-front/typescript-config": "workspace:*",
+    "@swc/plugin-emotion": "catalog:",
+    "@tanstack/eslint-plugin-router": "^1.129.7",
+    "@tanstack/router-plugin": "^1.132.2",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react-swc": "catalog:",
+    "eslint": "catalog:",
+    "vite": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
+  }
+}

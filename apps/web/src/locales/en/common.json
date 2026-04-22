@@ -1,0 +1,63 @@
+{
+  "button": {
+    "save": "Save",
+    "export": "Export",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "next": "Next",
+    "prev": "Previous",
+    "submit": "Submit",
+    "generate": "Generate",
+    "complete": "Complete",
+    "goHome": "Go Home",
+    "upgrade": "Upgrade Plan",
+    "logout": "Logout",
+    "addSource": "Add Source",
+    "optional": "Add More Details",
+    "chartColor": "Chart Color",
+    "exportHistory": "Export History",
+    "apply": "Apply"
+  },
+  "form": {
+    "required": "Required",
+    "optional": "Optional",
+    "placeholder": {
+      "select": "Please select",
+      "input": "Please enter"
+    },
+    "validation": {
+      "required": "This field is required",
+      "maximumLength": "Maximum 10000 characters",
+      "fileSizeExceeded": "File size must be 30MB or less"
+    }
+  },
+  "status": {
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "saved": "Saved"
+  },
+  "tooltip": {
+    "reference": "Reference"
+  },
+  "terms": {
+    "allAgree": "Agree to all terms",
+    "term": "Terms of Service (Required)",
+    "personal": "Privacy Policy (Required)",
+    "marketing": "Marketing Consent (Optional)"
+  },
+  "time": {
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute"
+  },
+  "language": {
+    "ko": "Korean",
+    "en": "English"
+  },
+  "toggle": {
+    "chat": "Chat",
+    "document": "Document"
+  }
+}

@@ -1,0 +1,197 @@
+upstream api-server {
+    server ${API_SERVER};
+}
+
+upstream api-ai-server {
+    server ${API_AI_SERVER};
+}
+
+upstream api-proxy {
+    server ${PROXY_SERVER};
+    keepalive 32;
+}
+
+# 8글자 request_id 생성
+map $request_id $short_request_id {
+    "~^(.{8})" $1;
+}
+
+server {
+    listen 80;
+    server_name ${APP_DOMAIN} ${MAKE_DOMAIN} ${ADMIN_DOMAIN};
+
+    client_max_body_size 2000M;
+
+    # Certbot이 도메인 소유권을 확인할 때 사용하는 경로
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# app
+server {
+    listen 443 ssl;
+    server_name ${APP_DOMAIN};
+
+    client_max_body_size 2000M;
+
+    access_log /var/log/nginx/app.access.log;
+    error_log /var/log/nginx/app.error.log;
+
+    # SSL 인증서 경로 (이 경로는 Docker 볼륨을 통해 공유됨)
+    ssl_certificate /etc/letsencrypt/live/${APP_DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${APP_DOMAIN}/privkey.pem;
+
+    location / {
+        # root를 /usr/share/nginx/html 을 바라보게 했으므로(Dockerfile 참고)
+        # 해당 경로 아래에 배포해주면 됩니다.
+        root   /usr/share/nginx/html/app;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # SSE streaming endpoints
+    location ~* ^/api/.*:stream$ {
+        client_max_body_size 2000M;
+
+        proxy_pass http://api-server;
+
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_set_header Connection '';
+        proxy_http_version 1.1;
+        proxy_set_header X-Accel-Buffering no;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+
+    # AI Proxy (Gemini 등)
+    location ^~ /api/generate {
+        client_max_body_size 10M;
+        proxy_pass http://api-proxy/api/generate;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+        proxy_set_header Connection "";
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+
+    # AI Proxy (Notion latest update)
+    location = /api/notion/latest-time {
+        proxy_pass http://api-proxy/api/notion/latest-time;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+        proxy_set_header Connection "";
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+
+    location /api {
+        client_max_body_size 2000M;
+
+        proxy_pass http://api-server/api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+}
+
+# make
+server {
+    listen 443 ssl;
+    server_name ${MAKE_DOMAIN};
+
+    client_max_body_size 2000M;
+
+    access_log /var/log/nginx/make.access.log;
+    error_log /var/log/nginx/make.error.log;
+
+    # SSL 인증서 경로
+    ssl_certificate /etc/letsencrypt/live/${MAKE_DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${MAKE_DOMAIN}/privkey.pem;
+
+    # make 서비스의 React 빌드 파일 경로
+    location / {
+        root   /usr/share/nginx/html/make;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ^~ /api/make {
+        client_max_body_size 2000M;
+        proxy_pass http://api-ai-server/api/make;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+
+    location /api {
+        client_max_body_size 2000M;
+        proxy_pass http://api-server/api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+    }
+}
+
+# admin
+server {
+    listen 443 ssl;
+    server_name ${ADMIN_DOMAIN};
+
+    client_max_body_size 2000M;
+
+    access_log /var/log/nginx/admin.access.log;
+    error_log /var/log/nginx/admin.error.log;
+
+    # SSL 인증서 경로
+    ssl_certificate /etc/letsencrypt/live/${ADMIN_DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${ADMIN_DOMAIN}/privkey.pem;
+
+    # admin 서비스의 React 빌드 파일 경로
+    location / {
+        root   /usr/share/nginx/html/admin;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        client_max_body_size 2000M;
+        proxy_pass http://api-server/api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Request-ID $short_request_id;
+        proxy_connect_timeout 600s;
+        proxy_send_timeout 600s;
+        proxy_read_timeout 600s;
+        send_timeout 600s;
+    }
+}
