@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://docshunt.ai/sitemap.xml
