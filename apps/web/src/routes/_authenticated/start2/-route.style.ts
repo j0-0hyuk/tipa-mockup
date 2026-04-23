@@ -177,7 +177,7 @@ export const StyledReviewIndex = styled.span`
   flex-shrink: 0;
 `;
 
-/* ===== Step 3: Split view ===== */
+/* ===== Step 3: Split view (legacy) ===== */
 export const StyledSplitView = styled.div`
   display: flex;
   gap: 24px;
@@ -242,7 +242,7 @@ export const StyledMarkdownPane = styled.div`
     line-height: 2.1;
 
     > li::before {
-      content: '● ';
+      content: '\\25CF  ';
       display: inline-block;
       width: 1.5em;
       margin-left: -1.5em;
@@ -256,7 +256,7 @@ export const StyledMarkdownPane = styled.div`
     margin: 4px 0;
 
     > li::before {
-      content: '○ ';
+      content: '\\25CB  ';
       font-size: 8px;
     }
   }
@@ -343,6 +343,141 @@ export const StyledToolButton = styled.button<{ $active?: boolean }>`
     background: #E7F0FF;
     box-shadow: 0 4px 12px -4px rgba(44, 129, 252, 0.2);
   }
+`;
+
+/* ===== Tool Bar (horizontal — unused) ===== */
+export const StyledToolBar = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #EEF1F5;
+`;
+
+export const StyledToolBarButton = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid ${({ $active }) => ($active ? '#2C81FC' : '#EEF1F5')};
+  border-radius: 8px;
+  background: ${({ $active }) => ($active ? '#E7F0FF' : '#FFFFFF')};
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  color: ${({ $active }) => ($active ? '#2C81FC' : '#596070')};
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #2C81FC;
+    background: #E7F0FF;
+  }
+`;
+
+/* ===== Draft Layout (sidebar + content) ===== */
+export const StyledDraftLayout = styled.div`
+  display: flex;
+  gap: 28px;
+  min-height: 600px;
+`;
+
+export const StyledDraftSidebar = styled.div`
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 4px;
+`;
+
+export const StyledSidebarLabel = styled.div`
+  font-size: 13px;
+  font-weight: 700;
+  color: #98A2B3;
+  letter-spacing: 0.02em;
+  padding: 0 12px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+`;
+
+export const StyledSidebarItem = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 8px;
+  background: ${({ $active }) => ($active ? '#E7F0FF' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#2C81FC' : '#596070')};
+  font-size: 14px;
+  font-weight: ${({ $active }) => ($active ? 600 : 400)};
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  text-align: left;
+  line-height: 1.4;
+
+  &:hover {
+    background: ${({ $active }) => ($active ? '#E7F0FF' : '#F4F6F8')};
+    color: ${({ $active }) => ($active ? '#2C81FC' : '#25262C')};
+  }
+`;
+
+export const StyledSidebarDivider = styled.div`
+  height: 1px;
+  background: #EEF1F5;
+  margin: 16px 0;
+`;
+
+export const StyledSidebarToolSection = styled.div`
+  background: #F8F9FB;
+  border: 1px solid #EEF1F5;
+  border-radius: 12px;
+  padding: 14px 10px 6px;
+`;
+
+export const StyledSidebarToolButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #E3E4E8;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #25262C;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-bottom: 6px;
+
+  svg {
+    color: #2C81FC;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    border-color: #2C81FC;
+    background: #EEF4FF;
+  }
+`;
+
+export const StyledDraftContent = styled.div`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 `;
 
 /* ===== Step 4: Result panels ===== */
@@ -487,7 +622,7 @@ export const StyledFileRemove = styled.button`
   &:hover { color: #F04452; }
 `;
 
-/* ===== Section Page Navigation ===== */
+/* ===== Section Page Navigation (unused) ===== */
 export const StyledPageIndicator = styled.div`
   display: flex;
   align-items: center;
@@ -562,7 +697,7 @@ export const StyledViewTab = styled.button<{ $active?: boolean }>`
 
 /* ===== Slide Placeholder (16:9 PPT ratio) ===== */
 export const StyledSlidePlaceholder = styled.div`
-  flex: 1;
+  width: 100%;
   aspect-ratio: 16 / 9;
   background: #FFFFFF;
   border: 1px solid #D8DCE4;
@@ -570,10 +705,313 @@ export const StyledSlidePlaceholder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #B5B9C4;
-  font-size: 15px;
+  color: #D0D5DD;
+  font-size: 14px;
   letter-spacing: -0.02em;
   box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.06),
-    0 6px 24px rgba(15, 23, 42, 0.04);
+    0 2px 8px rgba(15, 23, 42, 0.08),
+    0 8px 32px rgba(15, 23, 42, 0.04);
+`;
+
+/* ===== Tool Result Panel (fixed right drawer) ===== */
+export const StyledToolResultPanel = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: #FAFBFC;
+  border-left: 1px solid #E3E4E8;
+  box-shadow: -8px 0 32px rgba(15, 23, 42, 0.1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  transition: width 0.2s ease;
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  animation: slideIn 0.2s ease-out;
+`;
+
+export const StyledDrawerCollapsedTab = styled.button`
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 12px 12px;
+  background: #2C81FC;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 0 16px rgba(44, 129, 252, 0.25);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  z-index: 100;
+  transition: all 0.15s;
+
+  span {
+    writing-mode: vertical-rl;
+  }
+
+  &:hover {
+    background: #1A6BE0;
+    padding-right: 18px;
+  }
+`;
+
+export const StyledToolResultHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #EEF1F5;
+  flex-shrink: 0;
+`;
+
+export const StyledToolResultTitle = styled.span`
+  font-size: 17px;
+  font-weight: 700;
+  color: #25262C;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledToolResultClose = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #98A2B3;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.15s;
+
+  &:hover {
+    color: #596070;
+    background: #F2F4F7;
+  }
+`;
+
+export const StyledToolResultTabs = styled.div`
+  display: flex;
+  gap: 0;
+  padding: 0 24px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+  border-bottom: 1px solid #EEF1F5;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+`;
+
+export const StyledToolResultTab = styled.button<{ $active: boolean }>`
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 2px solid ${({ $active }) => ($active ? '#2C81FC' : 'transparent')};
+  background: none;
+  color: ${({ $active }) => ($active ? '#2C81FC' : '#98A2B3')};
+  font-size: 13px;
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  white-space: ${({ $active }) => ($active ? 'normal' : 'nowrap')};
+  overflow: hidden;
+  text-overflow: ${({ $active }) => ($active ? 'unset' : 'ellipsis')};
+  max-width: ${({ $active }) => ($active ? 'none' : '120px')};
+
+  &:hover {
+    color: ${({ $active }) => ($active ? '#2C81FC' : '#596070')};
+  }
+`;
+
+export const StyledToolResultCards = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+`;
+
+export const StyledToolResultCard = styled.div`
+  background: #FFFFFF;
+  border: 1px solid #EEF1F5;
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: #C7DBFF;
+    box-shadow: 0 2px 12px rgba(44, 129, 252, 0.08);
+  }
+`;
+
+export const StyledToolResultCardTitle = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  color: #25262C;
+  margin-bottom: 4px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledToolResultCardMeta = styled.div`
+  font-size: 13px;
+  color: #98A2B3;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledToolResultCardSummary = styled.div`
+  font-size: 14px;
+  color: #596070;
+  line-height: 1.75;
+  letter-spacing: -0.02em;
+`;
+
+/* ===== Detail Modal (유사과제 전문) ===== */
+export const StyledDetailModalBox = styled.div`
+  background: #FFFFFF;
+  border-radius: 16px;
+  max-width: 720px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.25);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+`;
+
+export const StyledDetailModalHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+`;
+
+export const StyledDetailModalTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 700;
+  color: #25262C;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+`;
+
+export const StyledDetailModalMeta = styled.div`
+  font-size: 14px;
+  color: #98A2B3;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #EEF1F5;
+`;
+
+export const StyledDetailModalBody = styled.div`
+  font-size: 15px;
+  color: #25262C;
+  line-height: 1.95;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+
+  h1,
+  h2,
+  h3 {
+    color: #1A1D23;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 28px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #EEF1F5;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 22px 0 10px;
+  }
+
+  p {
+    margin: 0 0 14px;
+    line-height: 1.95;
+    text-align: justify;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 16px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 8px;
+    line-height: 1.9;
+  }
+
+  strong {
+    font-weight: 700;
+    color: #25262C;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 18px 0 24px;
+    font-size: 13px;
+    line-height: 1.7;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+
+  thead th {
+    background: #F8FAFC;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #25262C;
+    border-top: 1px solid #D8DCE4;
+    border-bottom: 1px solid #D8DCE4;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    color: #444B59;
+    border-bottom: 1px solid #EEF1F5;
+    vertical-align: top;
+  }
+
+  > :first-of-type {
+    margin-top: 0;
+  }
 `;

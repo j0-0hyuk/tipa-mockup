@@ -5,7 +5,6 @@ import Streamdown from '@/markdown/Streamdown';
 import {
   Sparkles,
   ChevronRight,
-  ChevronLeft,
   Search,
   GitCompare,
   DollarSign,
@@ -53,12 +52,34 @@ import {
   StyledDiffNew,
   StyledListItem,
   StyledSpinnerRing,
-  StyledPageIndicator,
-  StyledPageButton,
-  StyledPageInfo,
   StyledViewTabs,
   StyledViewTab,
   StyledSlidePlaceholder,
+  StyledDraftLayout,
+  StyledDraftSidebar,
+  StyledSidebarLabel,
+  StyledSidebarItem,
+  StyledSidebarDivider,
+  StyledDraftContent,
+  StyledSidebarToolButton,
+  StyledSidebarToolSection,
+  StyledToolResultPanel,
+  StyledToolResultCards,
+  StyledToolResultHeader,
+  StyledToolResultTitle,
+  StyledToolResultClose,
+  StyledToolResultTabs,
+  StyledToolResultTab,
+  StyledToolResultCard,
+  StyledToolResultCardTitle,
+  StyledToolResultCardMeta,
+  StyledToolResultCardSummary,
+  StyledDrawerCollapsedTab,
+  StyledDetailModalBox,
+  StyledDetailModalHeader,
+  StyledDetailModalTitle,
+  StyledDetailModalMeta,
+  StyledDetailModalBody,
 } from './-route.style';
 import { InstantStepper } from '../start/-components/InstantStepper/InstantStepper';
 import { Step1SelectTemplate, type SavedDraft } from '../start/-components/steps/Step1SelectTemplate';
@@ -714,6 +735,456 @@ const TOOL_RESULTS: Record<ToolId, { title: string; type: 'table' | 'list' | 'ca
   section: { title: '항목별 내용 검토', type: 'text' },
 };
 
+/* ───── Tool card data (for right panel) ───── */
+interface ToolCard {
+  title: string;
+  meta?: string;
+  summary: string;
+  detail?: string;
+}
+
+interface SimilarProjectCard extends ToolCard {
+  sectionId: number;
+  detail: string;
+}
+
+interface SimilarProjectTab {
+  projectTitle: string;
+  projectMeta: string;
+  cards: SimilarProjectCard[];
+}
+
+const buildSimilarSectionTitle = (sectionId: number) => `${sectionId + 1}. ${SECTION_ITEMS[sectionId].title}`;
+
+const TOOL_CARDS: Partial<Record<ToolId, ToolCard[]>> = {
+  duplicate: [
+    { title: '자연어 기반 문서 자동 생성 기술 개발', meta: '한국전자통신연구원 · 유사도 87%', summary: 'LLM 기반 문서 자동 생성 파이프라인 구축 과제로, 본 과제와 핵심 기술(자연어처리, 문서 구조화)이 높은 유사도를 보임.' },
+    { title: 'AI 활용 공공문서 작성 지원 시스템', meta: '한국과학기술정보연구원 · 유사도 72%', summary: '공공 행정 문서의 AI 작성 지원에 초점. 본 과제의 R&D 계획서 특화와 달리 범용 행정 문서를 대상으로 함.' },
+    { title: '딥러닝 기반 한국어 문서 요약 및 생성', meta: '서울대학교 · 유사도 65%', summary: '한국어 문서 요약 모델 연구로, 문서 생성보다 요약에 중점. 본 과제의 장문 생성과는 방향이 다름.' },
+  ],
+  budget: [
+    { title: '인건비 (40%)', meta: '800백만원 · 책임연구원 2인, 연구원 4인', summary: '한국산업기술진흥협회 노임단가표 기준 적용. 1차년도 440백만원, 2차년도 360백만원 편성.' },
+    { title: '연구기자재 (20%)', meta: '400백만원 · GPU 서버, 스토리지', summary: 'A100 GPU 서버 1식, 고성능 스토리지 1식, AWS 클라우드 이용료 포함.' },
+    { title: '연구활동비 (15%)', meta: '300백만원', summary: '학회 참가, 출장, 전문가 자문 비용. 국제학회 2회, 국내학회 4회 참가 계획.' },
+    { title: '위탁연구비 (10%)', meta: '200백만원', summary: '데이터 라벨링 10만건 위탁, 전문가 검수 데이터 구축 위탁.' },
+  ],
+  techcode: [
+    { title: '자연어처리 / 언어AI', meta: '코드: EA0202 · 적합도 94%', summary: '본 과제의 핵심 기술인 LLM 기반 문서 생성, 문장 교정, 의미 분석이 해당 분류에 직접 해당.' },
+    { title: '인공지능 일반 / 기계학습', meta: '코드: EA0101 · 적합도 88%', summary: '파인튜닝, RAG, 모델 경량화 등 기반 기술이 기계학습 분류에 포함.' },
+    { title: '정보서비스 / 문서관리', meta: '코드: IB0301 · 적합도 72%', summary: '최종 서비스 형태가 문서 관리 및 작성 지원 시스템으로, 응용 분야 분류에 해당.' },
+  ],
+  testlab: [
+    { title: '한국정보통신기술협회 (TTA)', meta: '031-780-9114', summary: 'SW 시험인증 및 AI 품질인증 수행. GS 인증 1등급 취득을 위한 공인 시험 기관.' },
+    { title: '한국산업기술시험원 (KTL)', meta: '02-860-1114', summary: 'AI 성능시험 및 안전인증 수행. 산업용 AI 시스템의 성능 평가 전문.' },
+    { title: '한국인터넷진흥원 (KISA)', meta: '118', summary: '정보보호 인증 및 개인정보 영향평가 수행. 연구 데이터 보안 관련 인증 필요 시 활용.' },
+  ],
+  proofread: [
+    { title: '정량 목표 구체화', meta: '기술개발 목표 항목', summary: '"정확도를 높이는 것이다" → "정확도를 95% 이상으로 향상시키는 것이다" — 정량적 수치를 명시하여 평가 가능한 목표로 교정.' },
+    { title: '활용 분야 명시', meta: '기대효과 항목', summary: '"다양한 분야에서 활용" → "법무, 행정, 금융 등 문서 집약 산업에서 활용하여 업무 효율을 30% 이상 향상" — 구체적 분야와 수치 추가.' },
+    { title: '보안 조치 구체화', meta: '연구실 안전 항목', summary: '"데이터는 안전하게 관리한다" → "비밀 등급으로 분류하여 AES-256 암호화로 저장하며, 2-Factor 인증 기반 접근 통제를 적용" — 구체적 기술 명시.' },
+  ],
+  section: [
+    { title: '기술개발 목표 보완 필요', meta: '정량 목표 단일 지표 편중', summary: 'TRL 단계(현재 TRL 3 → 목표 TRL 7)를 명시하고, 세부 KPI를 3개 이상 설정하여 다각적 평가가 가능하도록 보완 필요.' },
+    { title: '연구개발 방법 보완 필요', meta: '외부 평가 기관 누락', summary: '검증 방법에 외부 평가 기관 활용 계획이 누락. TTA 또는 KTL의 공인 시험을 1회 이상 포함 권장.' },
+    { title: '선행연구 보완 필요', meta: '경쟁 서비스 분석 부족', summary: '국내 특허 분석은 포함되어 있으나, 주요 경쟁 기업(네이버, 카카오)의 상용 서비스 분석이 부족.' },
+    { title: '사업비 보완 필요', meta: '클라우드 비용 분리 권장', summary: '인건비 비율 40%로 적정하나, 연구기자재 항목에서 클라우드 서비스(AWS/GCP) 비용 분리 계상 권장.' },
+    { title: '추진일정 보완 필요', meta: '2차년도 일정 불명확', summary: '2차년도 이후 일정이 불명확. 최소 2차년도까지의 분기별 마일스톤 포함 필요.' },
+  ],
+};
+
+const SIMILAR_PROJECTS: SimilarProjectTab[] = [
+  {
+    projectTitle: 'AI 기반 R&D 문서 자동 작성 플랫폼 개발',
+    projectMeta: '한국전자통신연구원 · 2024 · NTIS 1711196972',
+    cards: [
+      {
+        sectionId: 0,
+        title: buildSimilarSectionTitle(0),
+        meta: '정량 KPI 구성, 작성시간 단축 목표, 근거 연결률 제시',
+        summary: '초안의 기술개발 목표 중 정량 KPI, 작성시간 절감, 근거 제시 수준을 함께 설정하는 부분과 유사함.',
+        detail: `## (1) 기술개발 목표 설정 배경
+
+정부지원 R&D 과제 신청을 준비하는 중소기업 및 연구기관은 공고문 해석, 유사과제 조사, 항목별 논리 구성, 연구비 편성 정합성 확보를 동시에 수행해야 하므로 계획서 초안 작성에 과도한 시간과 인력이 소요되고 있음. 특히 문서 품질이 담당자의 경험에 크게 의존하여, 보유 기술 수준과 무관하게 계획서 완성도 차이로 평가 결과가 달라지는 문제가 지속적으로 발생함.
+
+본 과제는 이러한 문제를 해결하기 위해 사용자가 입력한 핵심 정보와 참고 자료를 바탕으로 연구개발계획서 주요 항목의 초안을 자동 생성하고, 유사과제 및 공고문 근거를 함께 제시하는 **AI 기반 R&D 문서 자동 작성 플랫폼**을 개발하는 것을 목표로 함.
+
+## (2) 최종 개발 목표
+
+최종 개발 목표는 연구개발계획서 작성 시간을 획기적으로 단축하면서도, 실제 제출 가능한 수준의 항목별 문서 완성도를 확보하는 것임. 이를 위해 항목 구조 인식, 초안 생성, 근거 검색, 품질 검토 기능을 하나의 워크플로우로 통합하여 실사용 환경에서 즉시 활용 가능한 서비스 수준을 달성하고자 함.
+
+## (3) 정량적 성과 지표
+
+| 지표 | 현재 수준 | 목표 수준 | 측정 방법 |
+|------|-----------|-----------|-----------|
+| 계획서 초안 작성 시간 | 평균 40시간 | 14시간 이내 | 사용자 테스트 수행 시간 측정 |
+| 항목별 작성 적합도 | 숙련자 의존 | 92점 이상 | 전문가 블라인드 평가 |
+| 근거 문장 연결률 | 기준 없음 | 85% 이상 | 생성문 내 출처 매핑 비율 |
+| 사용자 재수정 횟수 | 평균 12회 | 7회 이하 | 편집 로그 분석 |
+| 사용자 만족도 | 기준 없음 | 4.4/5.0 이상 | 베타 서비스 설문 |
+
+## (4) 목표 달성 기준
+
+본 과제는 단순 문장 생성 기능 구현에 그치지 않고, 사용자가 1회 입력한 정보만으로 주요 7개 항목의 초안을 생성하고, 항목별 근거 문장 및 보완 포인트를 동시에 제시할 수 있어야 함. 또한 실사용자 파일럿 환경에서 작성 시간 절감과 문서 품질 향상 효과가 모두 확인되어야 최종 목표 달성으로 판정함.`,
+      },
+      {
+        sectionId: 1,
+        title: buildSimilarSectionTitle(1),
+        meta: '데이터 구축부터 생성·근거보강·검수환류까지의 수행 체계',
+        summary: '초안의 연구개발 방법에서 데이터 구축, RAG 보강, 검수 루프를 묶는 수행 구조와 유사함.',
+        detail: `## (1) 연구개발 추진전략
+
+연구개발 방법은 데이터 구축, 항목별 초안 생성, 근거 기반 보강, 전문가 검수 환류의 4개 축으로 구성함. 각 축은 독립 과업으로 수행하되, 최종적으로는 하나의 서비스 흐름 안에서 순차적으로 연결되도록 설계하여 사용자가 입력 단계부터 초안 완성 단계까지 단절 없이 작업할 수 있도록 함.
+
+## (2) 세부 개발 과업
+
+| 세부 과업 | 주요 내용 | 핵심 산출물 |
+|-----------|-----------|-------------|
+| 데이터 수집 및 정제 | NTIS, 공고문, 특허, 기존 계획서 샘플을 항목 단위로 분절·정제 | 학습 코퍼스, 라벨링 가이드 |
+| 항목 구조 분석 엔진 개발 | 입력 정보를 계획서 목차에 맞게 의미 단위로 재배치 | 항목 분류 모델 |
+| 초안 생성 및 근거 보강 | 항목별 초안 생성 후 유사과제·공고문 근거를 검색하여 반영 | 생성 모델, RAG 모듈 |
+| 검수 피드백 환류 | 전문가 수정 로그를 수집하여 재학습 및 품질 개선 | 검수 데이터셋, 개선 리포트 |
+
+## (3) 검증 및 평가 체계
+
+초안 생성 결과는 항목 적합도, 논리 일관성, 공고 반영성, 근거 제시 수준의 4개 평가 축으로 검증함. 내부 단위 테스트와 통합 테스트 이후 전문가 패널 평가를 수행하고, 베타 서비스 단계에서 실제 작성 시간 단축률과 재수정 횟수를 측정하여 실효성을 검증함.
+
+## (4) 운영 방식
+
+서비스는 사용자 입력, 항목별 초안 생성, 근거 확인, 수정 반영, 저장/이력 비교의 흐름으로 제공함. 이를 통해 연구개발 방법 자체가 단순 기술 개발 계획이 아니라 실제 문서 작성 프로세스와 직접 연결되는 구조를 갖도록 함.`,
+      },
+      {
+        sectionId: 2,
+        title: buildSimilarSectionTitle(2),
+        meta: '보유 문서 AI 자산과 추가 고도화 범위의 구분',
+        summary: '초안의 선행연구개발 항목 중 기존 보유기술, 재사용 자산, 추가 개발 필요성을 나누는 방식과 유사함.',
+        detail: `## (1) 선행연구개발 개요
+
+주관기관은 최근 3년간 법률 문서, 행정 문서, 특허 명세서와 같이 구조가 명확하고 전문 용어 비중이 높은 분야를 대상으로 문장 생성 및 문서 구조화 기술을 개발해 왔음. 참여기관은 한국어 장문 생성, 검색 증강 생성(RAG), 도메인 특화 파인튜닝 분야의 선행 연구를 수행하여 계획서 도메인 전환에 필요한 기반 기술을 확보하고 있었음.
+
+## (2) 주요 선행 성과
+
+| 선행 성과 | 확보 내용 | 본 과제 활용 방식 |
+|-----------|-----------|-------------------|
+| 전문 문서 구조 분석 엔진 | 문단 목적 분류, 주장-근거 구조 식별 | 계획서 항목별 목차 자동 분해 |
+| 도메인 특화 언어 자산 | 기술용어 사전, 문체 템플릿, 임베딩 벡터 | 공고 적합 문장 생성 및 추천 |
+| 장문 생성 품질 개선 실험 | 반복 문장 감소, 사실성 향상, 요약 품질 개선 | 항목별 초안 생성 모델 고도화 |
+| 근거 검색 엔진 | 유사문서·규정·특허 연결 검색 | 생성 결과의 근거 보강 |
+
+## (3) 추가 개발 필요성
+
+기존 기술은 각 도메인에서 개별 기능 단위로 검증된 수준이었으나, 연구개발계획서 도메인은 항목 간 논리 정합성과 공고 반영성이 중요하므로 별도의 데이터 구축과 규정 기반 검토 로직이 필요하였음. 이에 따라 본 과제에서는 기존 선행 자산을 재사용하되, 계획서 특화 데이터와 검수 체계를 추가하여 서비스 수준으로 통합 개발함.
+
+## (4) 기대되는 선행성과 활용 효과
+
+선행연구 결과를 바탕으로 신규 개발 범위를 줄이고 초기 품질 수준을 빠르게 확보할 수 있었으며, 계획서 도메인에 집중한 추가 개발을 통해 상용 서비스 수준의 안정성과 활용도를 확보할 수 있도록 설계함.`,
+      },
+      {
+        sectionId: 3,
+        title: buildSimilarSectionTitle(3),
+        meta: '주관기관-참여기관 역할 분담과 수행 준비도 제시',
+        summary: '초안의 연구개발기관 실적에서 기관별 역할, 인프라, 수행 준비도를 함께 설명하는 부분과 유사함.',
+        detail: `## (1) 연구개발기관 구성
+
+본 과제는 서비스 개발 및 실증 경험을 보유한 주관기관과 대규모 언어모델 최적화 역량을 보유한 참여 연구기관이 공동 수행하는 구조로 설계함. 또한 계획서 품질 검토를 위해 외부 평가전문가 자문단을 운영하여 기술 개발과 실사용 검증을 병행함.
+
+## (2) 기관별 역할 및 실적
+
+| 기관 | 주요 역할 | 보유 역량 | 관련 실적 |
+|------|-----------|-----------|-----------|
+| 주관기관 | 데이터 파이프라인 구축, 플랫폼 개발, 서비스 운영 | 도메인 문서 서비스 상용화 경험 | 법률·행정 문서 자동화 SaaS 운영 |
+| 참여 연구기관 | 생성 모델 파인튜닝, RAG 품질 개선, 성능 평가 | 한국어 LLM 최적화 및 논문·특허 성과 | 장문 생성 및 검색 품질 개선 연구 |
+| 외부 자문단 | 항목별 초안 품질 검토, 사업 공고 적합성 자문 | 과제 기획 및 심사 경험 | 정부 R&D 기획·평가 참여 경력 |
+
+## (3) 연구수행 준비도
+
+주관기관은 이미 클라우드 기반 운영 환경과 문서형 데이터 처리 파이프라인을 보유하고 있으며, 참여 연구기관은 GPU 학습 자원과 평가용 벤치마크 환경을 확보하고 있음. 이에 따라 과제 착수 직후 데이터 구축과 모델 실험을 병행할 수 있는 수준의 수행 준비도를 갖추고 있음.
+
+## (4) 보유 인프라 현황
+
+| 구분 | 보유 현황 | 활용 계획 |
+|------|-----------|-----------|
+| 연산 인프라 | GPU 서버 2식, 클라우드 추론 환경 | 모델 학습 및 대량 생성 실험 |
+| 데이터 자산 | 전문 문서 코퍼스 120만건 | 도메인 적응형 파인튜닝 |
+| 평가 체계 | 전문가 패널, 품질평가 체크리스트 | 생성 결과 블라인드 검증 |`,
+      },
+      {
+        sectionId: 4,
+        title: buildSimilarSectionTitle(4),
+        meta: '비목별 예산과 과업 연결, 1·2차년도 배분 구조',
+        summary: '초안의 사업비 사용계획에서 비목별 편성 근거와 과업-예산 연결 구조를 보여주는 부분과 유사함.',
+        detail: `## (1) 총괄 사업비 편성
+
+총 사업비는 18억원으로 편성하였으며, 1차년도에는 데이터 구축과 핵심 모델 개발, 2차년도에는 서비스 통합과 실증 운영에 예산을 집중 배분함. 예산은 인건비 중심으로 편성하되, 학습 인프라와 외부 검증 비용을 별도 반영하여 기술개발과 서비스 실증이 균형 있게 추진되도록 설계함.
+
+## (2) 비목별 편성 내역
+
+| 비목 | 1차년도(백만원) | 2차년도(백만원) | 합계(백만원) | 편성 근거 |
+|------|----------------|----------------|-------------|-----------|
+| 인건비 | 420 | 330 | 750 | 항목별 생성 엔진, 품질 검토 모듈 개발 인력 |
+| 연구기자재 | 220 | 110 | 330 | GPU 서버, 스토리지, 추론 환경 구축 |
+| 연구활동비 | 110 | 130 | 240 | 자문회의, 사용자 인터뷰, 베타테스트 운영 |
+| 위탁연구비 | 100 | 120 | 220 | 데이터 라벨링, 전문가 검수, 외부 품질평가 |
+| 클라우드/운영비 | 80 | 80 | 160 | 학습·추론 리소스 및 서비스 운영 |
+| 간접비 | 60 | 40 | 100 | 기관 운영 기준 적용 |
+
+## (3) 과업-예산 연계 계획
+
+데이터 수집 및 항목 라벨링 과업에는 위탁연구비와 연구활동비를 집중 배정하고, 생성 모델 및 RAG 모듈 개발에는 인건비와 연구기자재 비용을 우선 배분함. 실증 단계에서는 사용자 테스트, 품질 평가, 서비스 안정화에 필요한 운영비를 확대 반영함.
+
+## (4) 집행 관리 방안
+
+사업비는 분기 단위 집행 점검 체계를 운영하며, 각 세부 과업의 진척도와 연계하여 조정함. 특히 외주성 비용은 산출물 검수 완료 후 집행하는 원칙을 적용하여 연구비 집행의 타당성과 투명성을 확보함.`,
+      },
+      {
+        sectionId: 5,
+        title: buildSimilarSectionTitle(5),
+        meta: '단계별 산출물, 판정 기준, 마일스톤 관리',
+        summary: '초안의 연구개발 추진일정 중 단계 구분, 분기별 산출물, 검증 기준을 함께 제시하는 방식과 유사함.',
+        detail: `## (1) 총괄 추진일정
+
+과제 수행기간은 2024년 1월부터 2025년 12월까지 24개월로 설정하였으며, 데이터 구축, 핵심 모델 개발, 서비스 통합, 실증 및 고도화의 4단계로 구분하여 추진함. 각 단계의 산출물은 다음 단계의 입력값으로 직접 활용되도록 설계하여 일정 연계성을 확보함.
+
+## (2) 단계별 일정 계획
+
+| 기간 | 주요 수행 내용 | 핵심 산출물 | 판정 기준 |
+|------|----------------|-------------|-----------|
+| 2024.01 ~ 2024.06 | 데이터 수집, 항목 라벨링, 공고문 구조화 | 정제 데이터셋, 라벨링 가이드 | 라벨 일치율 95% 이상 |
+| 2024.07 ~ 2024.12 | 구조 분석 모델, 초안 생성 모델 개발 | 생성 모델 v1, 내부 평가 리포트 | 항목 적합도 88점 이상 |
+| 2025.01 ~ 2025.06 | RAG 모듈 및 서비스 UI 통합 | 통합 시제품 v1.0 | 워크플로우 전 구간 정상 동작 |
+| 2025.07 ~ 2025.12 | 베타 테스트, 품질 개선, 인증 대응 | 최종 서비스 v2.0, 실증 보고서 | 만족도 4.4 이상, 시간 단축률 65% 이상 |
+
+## (3) 마일스톤 관리
+
+주요 마일스톤은 데이터셋 구축 완료, 생성 모델 1차 성능 확보, 시제품 통합 완료, 실증 결과 확보의 4개로 설정함. 각 마일스톤은 기술 성과와 사용자 관점 성과를 함께 확인하는 방식으로 관리하여 일정과 성과가 분리되지 않도록 운영함.
+
+## (4) 리스크 대응
+
+데이터 라벨링 지연, 생성 품질 미달, 외부 실증 일정 조정 등의 리스크를 고려하여 단계 간 2주 이상 버퍼 기간을 확보하고, 분기별 점검회의를 통해 일정 이슈를 조기 조정하도록 계획함.`,
+      },
+      {
+        sectionId: 6,
+        title: buildSimilarSectionTitle(6),
+        meta: '시간 절감 효과와 SaaS 사업화 로드맵',
+        summary: '초안의 기대효과 및 활용방안에서 기술 효과, 비용 절감, 사업화 로드맵을 함께 제시하는 부분과 유사함.',
+        detail: `## (1) 기술적 기대효과
+
+본 과제를 통해 연구개발계획서 항목별 자동 초안 생성, 공고 적합 문장 추천, 근거 기반 보완 제안, 문서 이력 비교 기능이 통합된 전문 문서 AI 플랫폼을 확보할 수 있음. 이는 향후 성과보고서, 사업계획서, 기술제안서 등 인접 문서 영역으로 확장 가능한 공통 기술 기반으로 활용 가능함.
+
+## (2) 경제적·산업적 기대효과
+
+| 구분 | 기대효과 내용 | 목표 수준 |
+|------|---------------|-----------|
+| 비용 절감 | 외부 컨설팅 및 수기 작성 비용 절감 | 고객사 평균 35% 절감 |
+| 시간 절감 | 공고 대응 및 초안 작성 기간 단축 | 기존 대비 65% 이상 |
+| 서비스 매출 | 구독형 SaaS 및 기관 공급 매출 창출 | 3년 내 누적 25억원 |
+| 시장 확장 | 공공 R&D 문서에서 민간 제안서 영역으로 확장 | 2개 이상 신규 문서군 적용 |
+
+## (3) 활용방안
+
+본 성과물은 초기에는 정부지원사업 준비 수요가 높은 중소기업과 연구기관을 대상으로 구독형 서비스로 제공하고, 이후 공공기관 및 사업관리기관과의 협력을 통해 기관형 서비스로 확대 적용함. 또한 문서 자동 작성 기능을 API 형태로 제공하여 기업 내부 기획 시스템과 연계할 수 있도록 사업화를 추진함.
+
+## (4) 사업화 로드맵
+
+| 단계 | 기간 | 추진 내용 |
+|------|------|-----------|
+| 1단계 | 과제 수행 중 | 파일럿 고객 확보 및 시범 운영 |
+| 2단계 | 과제 종료 후 1년 | SaaS 정식 출시 및 유료 전환 |
+| 3단계 | 과제 종료 후 2~3년 | 공공기관 공급 및 API 사업 확장 |`,
+      },
+    ],
+  },
+  {
+    projectTitle: '공공 연구개발 계획서 품질 자동 평가 시스템',
+    projectMeta: '과기정통부 · 2023 · NTIS 1711183421',
+    cards: [
+      {
+        sectionId: 0,
+        title: buildSimilarSectionTitle(0),
+        meta: '평가 상관계수, 자동점수 정확도, 편차 감소 지표',
+        summary: '초안의 기술개발 목표 중 정량 성과지표를 다층적으로 설정하는 방식과 유사하되, 품질평가 관점이 더 강함.',
+        detail: `## (1) 기술개발 목표 설정 배경
+
+정부 R&D 사업에는 대량의 연구개발계획서가 접수되나, 기존 평가는 전문가 수작업 중심으로 이루어져 평가자 간 편차가 크고 사전 검토에 장시간이 소요되는 문제가 존재함. 또한 계획서 품질의 객관적 기준이 명확히 축적되지 않아 동일한 수준의 문서라도 평가 결과 차이가 발생하는 한계가 있었음.
+
+본 과제는 이러한 비효율을 개선하기 위해 연구개발계획서의 항목별 완성도와 정합성을 자동으로 분석하고, 전문가 평가와 높은 상관성을 갖는 **품질 자동 평가 시스템**을 개발하는 것을 목표로 함.
+
+## (2) 최종 개발 목표
+
+최종 목표는 제출 문서에 대해 기술개발 목표의 구체성, 연구방법의 타당성, 선행연구 분석 충실도, 사업비 정합성, 추진일정 완성도를 자동 점수화하여 사전 검토와 보완 지원이 가능한 수준의 평가 시스템을 확보하는 것임.
+
+## (3) 정량적 성과 지표
+
+| 지표 | 현재 수준 | 목표 수준 | 측정 방법 |
+|------|-----------|-----------|-----------|
+| 전문가 평가와의 상관계수 | 기준 없음 | 0.87 이상 | 블라인드 비교평가 |
+| 항목별 점수화 정확도 | 수기 평가 의존 | 90% 이상 | 정답셋 대비 정확도 측정 |
+| 문서 처리 시간 | 건당 평균 45분 | 10분 이내 | 시스템 로그 분석 |
+| 평가자 편차 감소율 | 기준 없음 | 30% 이상 | 자동평가 도입 전후 비교 |
+
+## (4) 목표 달성 기준
+
+본 과제는 단순 점수 계산 프로그램이 아니라, 항목별 점수와 함께 보완이 필요한 영역을 제시하고, 대량 접수 문서를 우선순위별로 분류할 수 있어야 함. 전문가 보조 수단으로 실무에 활용 가능한 수준의 설명 가능성과 처리 속도 확보를 최종 판정 기준으로 설정함.`,
+      },
+      {
+        sectionId: 1,
+        title: buildSimilarSectionTitle(1),
+        meta: '평가기준 체계화와 항목별 점수화 모델 설계',
+        summary: '초안의 연구개발 방법에서 항목별 검토 로직과 평가 체계를 세분화하는 부분과 유사함.',
+        detail: `## (1) 연구개발 추진전략
+
+연구개발 방법은 평가 기준 체계화, 정답 데이터 구축, 항목별 점수화 모델 개발, 평가 지원 대시보드 구현의 4단계로 구성함. 기술 개발과 정책 실무 요구사항을 동시에 반영하기 위해 사업관리 실무자와 NLP 연구진이 공동으로 기준 정의 단계부터 참여하도록 설계함.
+
+## (2) 세부 개발 과업
+
+| 세부 과업 | 주요 내용 | 핵심 산출물 |
+|-----------|-----------|-------------|
+| 평가 기준 분석 | 심사 기준서, 평가표, 코멘트 데이터 구조화 | 평가 축 정의서 |
+| 정답 데이터 구축 | 과거 수기 평가 결과와 항목별 점수 라벨링 | 항목별 학습 데이터셋 |
+| 점수화 모델 개발 | 논리성, 정량성, 구체성, 일관성 자동 판단 | 항목별 평가 모델 |
+| 결과 제공 화면 개발 | 점수, 보완 포인트, 우선 검토 대상 시각화 | 평가 대시보드 |
+
+## (3) 평가 및 검증 방식
+
+모델은 항목별 정답셋 정확도, 전문가 평가와의 상관계수, 항목별 오차 범위, 보완 포인트 제시 적절성 기준으로 검증함. 규칙 기반 점검과 학습 기반 모델을 병행 적용하여 설명 가능성과 안정성을 동시에 확보함.
+
+## (4) 운영 흐름
+
+시스템은 문서 입력, 항목 분해, 자동 점수화, 위험 항목 식별, 평가 코멘트 추천의 순서로 동작함. 이를 통해 실무자는 전체 문서 중 우선 검토가 필요한 계획서를 빠르게 식별할 수 있도록 함.`,
+      },
+      {
+        sectionId: 2,
+        title: buildSimilarSectionTitle(2),
+        meta: '수기평가 데이터, 평가표, 코멘트 자산의 활용',
+        summary: '초안의 선행연구개발 항목 중 기존 데이터 자산과 규정 분석 결과를 근거로 제시하는 부분과 유사함.',
+        detail: `## (1) 선행연구개발 개요
+
+본 과제 수행 전 사업관리 조직은 다년간 축적된 수기 평가 결과와 심사 의견서를 보유하고 있었으며, 참여 연구기관은 공공 문서 분류 및 평가 코멘트 분석 관련 선행 연구를 수행한 경험을 보유하고 있었음. 이러한 자산은 계획서 품질 자동평가 시스템의 기준 데이터와 모델 설계에 직접 활용됨.
+
+## (2) 주요 선행 성과
+
+| 선행 자산 | 확보 내용 | 본 과제 활용 계획 |
+|-----------|-----------|-------------------|
+| 수기 평가 결과 데이터 | 항목별 점수, 종합 의견, 평가자 메모 | 정답셋 및 상관분석 기준 |
+| 평가표 및 지침서 | 사업별 평가 항목, 가중치, 서식 차이 | 평가축 정의 및 규칙 설계 |
+| 공공 문서 분석 연구 | 한국어 공공문서 구조 분석, 핵심문장 추출 | 항목 분해 및 특징 추출 |
+| 심사 코멘트 코퍼스 | 보완 필요 포인트와 감점 요인 데이터 | 보완 제안 문구 생성 |
+
+## (3) 선행연구 분석 결과
+
+분석 결과, 기술개발 목표의 정량성, 연구방법의 구체성, 예산 편성의 정합성 항목에서 평가자 간 편차가 상대적으로 크게 나타났으며, 이들 항목은 자동 점수화와 보완 포인트 제시 기능의 우선 개발 대상으로 선정함. 또한 사업 유형별 평가표 차이를 반영하기 위해 공고별 룰셋 관리가 필수적임을 확인함.
+
+## (4) 선행성과 활용 계획
+
+기 확보된 평가 데이터와 공공문서 분석 경험을 바탕으로, 신규 과제에서는 자동 점수화 모델과 설명 가능한 평가 결과 제공 기능을 중심으로 고도화 개발을 추진함.`,
+      },
+      {
+        sectionId: 3,
+        title: buildSimilarSectionTitle(3),
+        meta: '사업관리기관·연구기관·평가위원단의 역할 분담',
+        summary: '초안의 연구개발기관 실적에서 수행 주체별 역할, 실적, 검증 체계를 구분하는 방식과 유사함.',
+        detail: `## (1) 연구개발기관 구성
+
+본 과제는 평가 데이터와 정책 수요를 보유한 사업관리 전문기관, 자연어처리 모델 개발 역량을 보유한 참여 연구기관, 그리고 실제 심사 경험을 가진 외부 평가위원단이 공동으로 수행하는 구조로 설계함. 각 기관은 데이터 확보, 모델 개발, 결과 검증의 역할을 분담하여 자동평가 시스템의 신뢰도를 높이도록 함.
+
+## (2) 기관별 역할 및 주요 실적
+
+| 기관 구분 | 주요 역할 | 보유 역량 | 관련 실적 |
+|-----------|-----------|-----------|-----------|
+| 사업관리 전문기관 | 평가 데이터 제공, 실무 요구 정의, 실증 운영 | 다년간 과제 평가 이력 보유 | 대규모 접수·평가 운영 경험 |
+| 참여 연구기관 | NLP 모델 개발, 점수화 알고리즘 설계 | 한국어 공공문서 분석 연구 | 자동 평가·분류 모델 개발 실적 |
+| 외부 평가위원단 | 라벨 검증, 결과 적정성 자문 | 실제 심사 참여 경험 | 평가 기준 정합성 검토 |
+
+## (3) 수행 준비도
+
+주관기관은 평가 이력 데이터베이스와 평가 기준 문서 체계를 이미 확보하고 있으며, 참여 연구기관은 공공문서 분석용 벤치마크와 모델 학습 환경을 보유하고 있음. 외부 평가위원단 또한 항목별 라벨 기준 확정과 결과 검증에 즉시 참여 가능한 상태로 준비되어 있어 과제 착수 직후 데이터 정제와 모델 설계가 동시에 가능함.
+
+## (4) 기대 성과 연계성
+
+이와 같은 수행 체계는 기술 개발뿐 아니라 실제 행정 운영 환경에서 활용 가능한 수준의 결과를 도출하는 데 적합하며, 과제 종료 후 정책 실무 시스템으로 연계 적용하기 위한 기반을 함께 확보할 수 있음.`,
+      },
+      {
+        sectionId: 4,
+        title: buildSimilarSectionTitle(4),
+        meta: '정답 데이터셋 구축비와 전문가 검증비 중심 예산',
+        summary: '초안의 사업비 사용계획 중 비목별 편성 이유와 검증 비용을 분리해 설명하는 부분과 유사함.',
+        detail: `## (1) 총괄 사업비 편성
+
+총 사업비는 12억원으로 편성하였으며, 자동평가 시스템의 특성을 고려하여 정답 데이터셋 구축과 전문가 검증 비용 비중을 상대적으로 높게 배정함. 생성형 서비스와 달리 평가 기준 정합성과 설명 가능성이 핵심이므로, 데이터 정제 및 검증 체계 확보에 예산을 우선 배분함.
+
+## (2) 비목별 편성 내역
+
+| 비목 | 1차년도(백만원) | 2차년도(백만원) | 합계(백만원) | 편성 근거 |
+|------|----------------|----------------|-------------|-----------|
+| 인건비 | 260 | 210 | 470 | 평가 모델 및 대시보드 개발 인력 |
+| 데이터 구축비 | 170 | 90 | 260 | 심사 의견서 정제, 항목별 라벨링 |
+| 전문가 검증비 | 110 | 80 | 190 | 외부 평가위원 검수 및 자문 |
+| 연구활동비 | 70 | 80 | 150 | 실증 운영, 인터뷰, 현장 적용 테스트 |
+| 시스템 운영비 | 60 | 40 | 100 | 서버 운영, 결과 조회 환경 구축 |
+| 간접비 | 20 | 10 | 30 | 기관 운영 기준 반영 |
+
+## (3) 예산 편성 원칙
+
+예산은 평가 기준 정립, 정답 데이터 구축, 점수화 모델 개발, 실증 검증의 순서로 집행되며, 각 단계의 산출물 검수 완료 후 다음 단계 예산을 집행하는 방식으로 관리함. 특히 외부 전문가 자문과 라벨 검증 비용을 별도로 반영하여 평가 결과의 신뢰성을 확보하도록 함.
+
+## (4) 집행 관리 계획
+
+분기 단위 예산 점검회의를 통해 라벨링 품질, 모델 성능, 실증 일정과 예산 집행의 정합성을 확인하며, 기준 변경이 발생하는 경우 룰셋 수정 비용을 별도 예비항목에서 대응하도록 계획함.`,
+      },
+      {
+        sectionId: 5,
+        title: buildSimilarSectionTitle(5),
+        meta: '기준 설계-모델 개발-실증 검증의 3단계 일정',
+        summary: '초안의 연구개발 추진일정에서 단계별 일정과 판정 기준을 연결해 서술하는 부분과 유사함.',
+        detail: `## (1) 총괄 추진일정
+
+과제 수행기간은 2023년 4월부터 2024년 9월까지 18개월로 설정하였으며, 평가기준 체계화, 항목별 모델 개발, 실데이터 실증 검증의 3단계로 구분하여 추진함. 일정 초기부터 데이터 라벨링과 모델 설계를 병행하여 후반부 실증 단계에서 보정 기간을 충분히 확보하도록 계획함.
+
+## (2) 단계별 일정 계획
+
+| 기간 | 주요 수행 내용 | 핵심 산출물 | 판정 기준 |
+|------|----------------|-------------|-----------|
+| 2023.04 ~ 2023.08 | 평가 기준서 분석, 수기평가 데이터 정제, 라벨 체계 확정 | 평가 축 정의서, 정답 데이터셋 | 라벨 일치율 95% 이상 |
+| 2023.09 ~ 2024.03 | 항목별 점수화 모델 개발, 대시보드 구현 | 평가 모델 v1, 결과 조회 화면 | 정확도 88% 이상 |
+| 2024.04 ~ 2024.09 | 실데이터 병행 평가, 모델 보정, 운영 가이드 작성 | 최종 모델, 실증 결과서 | 상관계수 0.87 이상 |
+
+## (3) 마일스톤 운영
+
+핵심 마일스톤은 평가 기준 체계 확정, 정답 데이터셋 구축 완료, 모델 1차 성능 확보, 병행 평가 실증 완료의 4개로 설정함. 마일스톤마다 전문가 자문단 검증을 필수로 수행하여 결과의 객관성을 확보함.
+
+## (4) 일정 리스크 관리
+
+평가 기준 변경, 라벨 검수 지연, 실증 문서 확보 지연 등의 리스크를 고려하여 단계 간 버퍼 기간을 설정하고, 필요 시 일부 과업을 병렬 수행할 수 있도록 계획함.`,
+      },
+      {
+        sectionId: 6,
+        title: buildSimilarSectionTitle(6),
+        meta: '심사 효율화, 평가 표준화, 운영 확산 계획',
+        summary: '초안의 기대효과 및 활용방안 중 운영기관 활용가치와 성과 확산 계획을 함께 적는 부분과 유사함.',
+        detail: `## (1) 기술적·행정적 기대효과
+
+본 과제를 통해 연구개발계획서의 항목별 품질 수준을 자동으로 진단하고, 보완이 필요한 문서를 우선 식별할 수 있는 평가 지원 기술을 확보할 수 있음. 이는 대량 접수 문서에 대한 1차 사전 검토 부담을 줄이고, 평가위원이 핵심 검토 대상에 집중할 수 있도록 지원하는 행정 효율화 효과를 가져올 것으로 기대됨.
+
+## (2) 기대효과 요약
+
+| 구분 | 기대효과 내용 | 목표 수준 |
+|------|---------------|-----------|
+| 평가 효율화 | 대량 문서의 사전 스크리닝 자동화 | 검토시간 70% 이상 단축 |
+| 품질 표준화 | 평가자 간 편차 완화 및 기준 일관성 확보 | 편차 30% 이상 감소 |
+| 정책 지원 | 접수 단계 보완안내 및 우선 검토 대상 식별 | 위험 문서 조기 탐지 |
+| 시스템 확장성 | 사업별 룰셋 기반 운영 체계 확보 | 3개 이상 사업유형 적용 |
+
+## (3) 활용방안
+
+초기에는 과제 접수 단계의 사전 검토 도구로 활용하고, 이후 평가위원 사전 검토 지원 시스템 및 사업관리기관 내부 행정지원 도구로 확장 적용함. 또한 평가 기준이 변경되는 사업에 대해서는 룰셋 업데이트 방식으로 대응하여 다양한 사업 유형에 재사용할 수 있도록 설계함.
+
+## (4) 성과 확산 계획
+
+과제 종료 후에는 자동평가 결과를 기반으로 한 평가 가이드라인, 품질 진단 리포트 양식, 사업별 기준 관리 체계를 구축하여 실무 운영 프로세스의 표준화까지 연계 추진함.`,
+      },
+    ],
+  },
+];
+
 /* ────────────────────────────────────────────
    Component
    ──────────────────────────────────────────── */
@@ -788,6 +1259,22 @@ export function Start2Page({
   const [selectedTool, setSelectedTool] = useState<ToolId | null>(null);
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionViewMode, setSectionViewMode] = useState<'text' | 'slide'>('text');
+  const [selectedSimilarProjectIndex, setSelectedSimilarProjectIndex] = useState(0);
+  const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(null);
+  const [drawerCollapsed, setDrawerCollapsed] = useState(false);
+
+  const selectedSimilarProject =
+    SIMILAR_PROJECTS[selectedSimilarProjectIndex] ?? SIMILAR_PROJECTS[0];
+  const drawerCards =
+    selectedTool === 'similar'
+      ? selectedSimilarProject.cards
+      : selectedTool
+        ? TOOL_CARDS[selectedTool] ?? []
+        : [];
+  const expandedSimilarCard =
+    selectedTool === 'similar' && expandedCardIndex !== null
+      ? selectedSimilarProject.cards[expandedCardIndex] ?? null
+      : null;
 
   const scrollToTop = () => contentRef.current?.scrollTo(0, 0);
 
@@ -959,10 +1446,15 @@ export function Start2Page({
   }, []);
 
   /* ───── Step 4: Tool select ───── */
-  const handleToolClick = useCallback((toolId: ToolId) => {
+  const handleToolClick = (toolId: ToolId | null) => {
     setSelectedTool(toolId);
-    scrollToTop();
-  }, []);
+    setSelectedSimilarProjectIndex(0);
+    setExpandedCardIndex(null);
+    setDrawerCollapsed(false);
+    if (toolId) {
+      scrollToTop();
+    }
+  };
 
 
   /* ────────────────────────────────────────────
@@ -1135,13 +1627,7 @@ export function Start2Page({
       );
     }
 
-    if (selectedTool) return renderToolResults();
-
     const section = SECTION_ITEMS[currentSection];
-    const isFirst = currentSection === 0;
-    const isLast = currentSection === SECTION_ITEMS.length - 1;
-    const canToggleSectionView = section.id === 6;
-    const activeSectionViewMode = canToggleSectionView ? sectionViewMode : 'text';
 
     return (
       <>
@@ -1149,82 +1635,148 @@ export function Start2Page({
 
         <StyledDisclaimerBanner>
           <Info size={16} style={{ flexShrink: 0, color: '#2C81FC' }} />
-          본 초안은 외부 데이터 없이 사용자 입력만으로 생성되었습니다. 우측 세부 기능을 활용하여 외부 데이터 기반 검증 및 보완을 진행하세요.
+          본 초안은 외부 데이터 없이 사용자 입력만으로 생성되었습니다. 세부 기능을 활용하여 외부 데이터 기반 검증 및 보완을 진행하세요.
         </StyledDisclaimerBanner>
 
-        <StyledPageIndicator>
-          <StyledPageButton
-            $disabled={isFirst}
-            onClick={() => { if (!isFirst) { setCurrentSection((s) => s - 1); setSectionViewMode('text'); scrollToTop(); } }}
-          >
-            <ChevronLeft size={18} />
-          </StyledPageButton>
-          <StyledPageInfo>
-            <span style={{ color: '#2C81FC' }}>{currentSection + 1}</span>
-            <span style={{ color: '#B5B9C4', margin: '0 2px' }}>/</span>
-            <span style={{ color: '#B5B9C4', marginRight: 10 }}>{SECTION_ITEMS.length}</span>
-            {section.title}
-          </StyledPageInfo>
-          <StyledPageButton
-            $disabled={isLast}
-            onClick={() => { if (!isLast) { setCurrentSection((s) => s + 1); setSectionViewMode('text'); scrollToTop(); } }}
-          >
-            <ChevronRight size={18} />
-          </StyledPageButton>
-        </StyledPageIndicator>
+        <StyledDraftLayout>
+          {/* 왼쪽 사이드바: 항목 목차 + 세부 기능 */}
+          <StyledDraftSidebar>
+            <StyledSidebarLabel>항목 목차</StyledSidebarLabel>
+            {SECTION_ITEMS.map((item, i) => (
+              <StyledSidebarItem
+                key={item.id}
+                $active={currentSection === i}
+                onClick={() => { setCurrentSection(i); setSectionViewMode('text'); scrollToTop(); }}
+              >
+                {i + 1}. {item.title}
+              </StyledSidebarItem>
+            ))}
 
-        {canToggleSectionView && (
-          <StyledViewTabs>
-            <StyledViewTab $active={sectionViewMode === 'text'} onClick={() => setSectionViewMode('text')}>
-              <BookOpen size={15} />
-              텍스트
-            </StyledViewTab>
-            <StyledViewTab $active={sectionViewMode === 'slide'} onClick={() => setSectionViewMode('slide')}>
-              <BarChart3 size={15} />
-              슬라이드
-            </StyledViewTab>
-          </StyledViewTabs>
+            <StyledSidebarDivider />
+
+            <StyledSidebarToolSection>
+              <StyledSidebarLabel>세부 기능</StyledSidebarLabel>
+              {TOOL_LIST.map((tool) => {
+                const Icon = tool.icon;
+                return (
+                  <StyledSidebarToolButton
+                    key={tool.id}
+                    onClick={() => {
+                      handleToolClick(selectedTool === tool.id ? null : tool.id);
+                    }}
+                    style={selectedTool === tool.id ? { borderColor: '#2C81FC', background: '#E7F0FF', color: '#2C81FC' } : undefined}
+                  >
+                    <Icon size={15} />
+                    {tool.label}
+                  </StyledSidebarToolButton>
+                );
+              })}
+            </StyledSidebarToolSection>
+          </StyledDraftSidebar>
+
+          {/* 오른쪽 콘텐츠 */}
+          <StyledDraftContent>
+            {currentSection === 6 && (
+              <StyledViewTabs>
+                <StyledViewTab $active={sectionViewMode === 'text'} onClick={() => setSectionViewMode('text')}>
+                  <BookOpen size={15} />
+                  텍스트
+                </StyledViewTab>
+                <StyledViewTab $active={sectionViewMode === 'slide'} onClick={() => setSectionViewMode('slide')}>
+                  <BarChart3 size={15} />
+                  슬라이드
+                </StyledViewTab>
+              </StyledViewTabs>
+            )}
+
+            {currentSection === 6 && sectionViewMode === 'slide' ? (
+              <StyledSlidePlaceholder>
+                슬라이드 영역
+              </StyledSlidePlaceholder>
+            ) : (
+              <StyledMarkdownPane>
+                <Streamdown>{section.markdown}</Streamdown>
+              </StyledMarkdownPane>
+            )}
+          </StyledDraftContent>
+        </StyledDraftLayout>
+
+        {/* 오른쪽 고정 드로어 */}
+        {selectedTool && (
+          drawerCollapsed ? (
+            /* 접힌 상태: 오른쪽 끝에 세로 탭 */
+            <StyledDrawerCollapsedTab onClick={() => setDrawerCollapsed(false)}>
+              <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />
+              <span>{TOOL_RESULTS[selectedTool].title}</span>
+            </StyledDrawerCollapsedTab>
+          ) : (
+            /* 펼친 상태: 드로어 */
+            <StyledToolResultPanel>
+              <StyledToolResultHeader>
+                <StyledToolResultTitle>{TOOL_RESULTS[selectedTool].title}</StyledToolResultTitle>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <StyledToolResultClose onClick={() => setDrawerCollapsed(true)} title="접기">
+                    <ChevronRight size={18} />
+                  </StyledToolResultClose>
+                  <StyledToolResultClose onClick={() => handleToolClick(null)} title="닫기">
+                    <X size={18} />
+                  </StyledToolResultClose>
+                </div>
+              </StyledToolResultHeader>
+              {selectedTool === 'similar' && (
+                <StyledToolResultTabs>
+                  {SIMILAR_PROJECTS.map((project, index) => (
+                    <StyledToolResultTab
+                      key={project.projectTitle}
+                      $active={selectedSimilarProjectIndex === index}
+                      onClick={() => {
+                        setSelectedSimilarProjectIndex(index);
+                        setExpandedCardIndex(null);
+                      }}
+                    >
+                      {project.projectTitle}
+                    </StyledToolResultTab>
+                  ))}
+                </StyledToolResultTabs>
+              )}
+                <StyledToolResultCards>
+                {drawerCards.map((card, i) => (
+                  <StyledToolResultCard
+                    key={`${selectedTool}-${card.title}`}
+                    style={card.detail ? { cursor: 'pointer' } : undefined}
+                    onClick={() => {
+                      if (card.detail) setExpandedCardIndex(i);
+                    }}
+                  >
+                    <StyledToolResultCardTitle>{card.title}</StyledToolResultCardTitle>
+                    {card.meta && <StyledToolResultCardMeta>{card.meta}</StyledToolResultCardMeta>}
+                    <StyledToolResultCardSummary>{card.summary}</StyledToolResultCardSummary>
+                  </StyledToolResultCard>
+                ))}
+              </StyledToolResultCards>
+            </StyledToolResultPanel>
+          )
         )}
 
-        <StyledSplitView>
-          {activeSectionViewMode === 'text' ? (
-            <StyledMarkdownPane>
-              <Streamdown>{section.markdown}</Streamdown>
-            </StyledMarkdownPane>
-          ) : (
-            <StyledSlidePlaceholder>
-              시각자료가 들어갈 영역 (차트, 이미지 등)
-            </StyledSlidePlaceholder>
-          )}
-
-          <StyledToolPanel>
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 600,
-                color: '#596070',
-                marginBottom: 4,
-                letterSpacing: '-0.02em',
-              }}
-            >
-              세부 기능
-            </div>
-            {TOOL_LIST.map((tool) => {
-              const Icon = tool.icon;
-              return (
-                <StyledToolButton
-                  key={tool.id}
-                  $active={selectedTool === tool.id}
-                  onClick={() => handleToolClick(tool.id)}
-                >
-                  <Icon size={16} />
-                  {tool.label}
-                  <ChevronRight size={14} style={{ marginLeft: 'auto', opacity: 0.4 }} />
-                </StyledToolButton>
-              );
-            })}
-          </StyledToolPanel>
-        </StyledSplitView>
+        {/* 유사과제 상세 모달 */}
+        {selectedTool === 'similar' && expandedSimilarCard && (
+          <StyledModalOverlay onClick={() => setExpandedCardIndex(null)}>
+            <StyledDetailModalBox onClick={(e) => e.stopPropagation()}>
+              <StyledDetailModalHeader>
+                <StyledDetailModalTitle>{expandedSimilarCard.title}</StyledDetailModalTitle>
+                <StyledToolResultClose onClick={() => setExpandedCardIndex(null)}>
+                  <X size={20} />
+                </StyledToolResultClose>
+              </StyledDetailModalHeader>
+              {expandedSimilarCard.meta && (
+                <StyledDetailModalMeta>{`핵심 포인트: ${expandedSimilarCard.meta}`}</StyledDetailModalMeta>
+              )}
+              <StyledDetailModalBody>
+                <Streamdown>{expandedSimilarCard.detail}</Streamdown>
+              </StyledDetailModalBody>
+            </StyledDetailModalBox>
+          </StyledModalOverlay>
+        )}
       </>
     );
   };
@@ -1600,13 +2152,6 @@ export function Start2Page({
             (generating || genCompleted) ? (
               <>
                 <div />
-                <div />
-              </>
-            ) : selectedTool ? (
-              <>
-                <Button variant="outlined" size="medium" onClick={() => { setSelectedTool(null); scrollToTop(); }}>
-                  초안으로 돌아가기
-                </Button>
                 <div />
               </>
             ) : (
