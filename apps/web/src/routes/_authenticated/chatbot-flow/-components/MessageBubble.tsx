@@ -6,8 +6,8 @@ import {
   StyledSenderRow,
   StyledSenderAvatar,
   StyledSenderName,
-} from './styles';
-import { TipaLogo } from './TipaLogo';
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
+import { TipaLogo } from '@/routes/_authenticated/chatbot-flow/-components/TipaLogo';
 
 interface MessageBubbleProps {
   side: 'ai' | 'user';

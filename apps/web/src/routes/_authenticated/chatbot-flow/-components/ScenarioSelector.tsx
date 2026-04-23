@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
 import { MessageCircle, RotateCcw } from 'lucide-react';
-import type { ChatMode } from './ChatbotWidget';
-import { TipaLogo } from './TipaLogo';
-import { colors } from './styles';
+import type { ChatMode } from '@/routes/_authenticated/chatbot-flow/-components/ChatbotWidget';
+import { TipaLogo } from '@/routes/_authenticated/chatbot-flow/-components/TipaLogo';
+import { colors } from '@/routes/_authenticated/chatbot-flow/-components/styles';
 
 interface ScenarioSelectorProps {
   exiting: boolean;

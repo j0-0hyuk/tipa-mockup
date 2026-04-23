@@ -1,5 +1,11 @@
 import { Sparkles, ArrowRight, Target } from 'lucide-react';
-import { StyledCtaCard, StyledCtaTitle, StyledCtaButton, StyledCtaSub, StyledMessageRow } from './styles';
+import {
+  StyledCtaCard,
+  StyledCtaTitle,
+  StyledCtaButton,
+  StyledCtaSub,
+  StyledMessageRow,
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
 
 type CtaVariant = 'rnd' | 'company';
 

@@ -2,11 +2,12 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Flex, Button, useToast } from '@docs-front/ui';
 import {
+  AlertTriangle,
   Building2,
   Calendar,
-  Check,
+  HelpCircle,
   Landmark,
-  Minus,
+  ShieldCheck,
   Sparkles,
   Target,
   Wallet,
@@ -23,6 +24,22 @@ import {
   TRL_OPTIONS,
   type CompanyProfile,
 } from '@/constants/companyProfile.constant';
+import {
+  ELIGIBILITY_ANSWER_OPTIONS,
+  TIPA_ELIGIBILITY_CHECKS,
+  computeEligibilitySummary,
+  deriveAutoEligibility,
+  mergeEligibilityAnswers,
+  type EligibilityAnswer,
+} from '@/constants/tipaEligibilityChecks.constant';
+import {
+  SPECIAL_CLAUSE_ANSWER_OPTIONS,
+  computeSpecialClauseSummary,
+  resolveSpecialClauses,
+  type SpecialClauseId,
+  type SpecialClauseAnswer,
+} from '@/constants/tipaSpecialClauses.constant';
+import type { TipaProgram } from '@/constants/tipaMockPrograms.constant';
 import { useCompanyProfile } from '@/service/company/profileStore';
 import { computeCompleteness } from '@/service/company/profileCompleteness';
 import { findMatchingPrograms, scoreTier } from '@/service/company/matchScore';
@@ -35,6 +52,24 @@ import {
   StyledCompletenessTitle,
   StyledContainer,
   StyledContent,
+  StyledEligibilityAutoReason,
+  StyledEligibilityBadge,
+  StyledEligibilityCard,
+  StyledEligibilityCardTop,
+  StyledEligibilityDrillDown,
+  StyledEligibilityDrillDownItem,
+  StyledEligibilityDrillDownList,
+  StyledEligibilityDrillDownTitle,
+  StyledEligibilityHint,
+  StyledEligibilityIndex,
+  StyledEligibilityList,
+  StyledEligibilityNoMeaning,
+  StyledEligibilityOption,
+  StyledEligibilityOptions,
+  StyledEligibilityQuestion,
+  StyledEligibilitySummaryBar,
+  StyledEligibilitySummaryMeta,
+  StyledEligibilitySummaryText,
   StyledEmptyMatches,
   StyledField,
   StyledFieldGrid,
@@ -76,8 +111,18 @@ import {
   StyledSelect,
   StyledTagBadge,
   StyledToggleRow,
-  StyledTopBadge,
-} from './-components/styles';
+} from '@/routes/_authenticated/company/-components/styles';
+import {
+  StyledBtnFilled,
+  StyledBtnOutlined,
+  StyledModalBox,
+  StyledModalClose,
+  StyledModalDesc,
+  StyledModalFooter,
+  StyledModalHeader,
+  StyledModalOverlay,
+  StyledModalTitle,
+} from '@/routes/_authenticated/start/-route.style';
 import styled from '@emotion/styled';
 
 const StyledSectionStack = styled.div`
@@ -85,6 +130,240 @@ const StyledSectionStack = styled.div`
   flex-direction: column;
   gap: 48px;
 `;
+
+const StyledFieldHint = styled.div`
+  font-size: 12px;
+  color: #6e7687;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+`;
+
+const StyledEligibilityBody = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const StyledCheckProgramTitle = styled.div`
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.03em;
+  color: #25262c;
+  margin-bottom: 10px;
+`;
+
+const StyledCheckQuestionList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const StyledCheckQuestionCard = styled.div`
+  border: 1px solid #e6ecf5;
+  border-radius: 14px;
+  padding: 16px 18px;
+  background: #ffffff;
+`;
+
+const StyledCheckQuestion = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: #25262c;
+`;
+
+const StyledCheckHint = styled.div`
+  margin-top: 6px;
+  font-size: 13px;
+  color: #6e7687;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+const StyledCheckOptions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+`;
+
+const StyledCheckOption = styled.button<{
+  $active: boolean;
+  $value: 'confirmed' | 'needs_review' | 'not_applicable';
+}>`
+  min-width: 104px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid
+    ${(p) =>
+      p.$active
+        ? p.$value === 'confirmed'
+          ? '#2c81fc'
+          : p.$value === 'needs_review'
+            ? '#f59e0b'
+            : '#bcc7d6'
+        : '#e3e4e8'};
+  background: ${(p) =>
+    p.$active
+      ? p.$value === 'confirmed'
+        ? '#eef4ff'
+        : p.$value === 'needs_review'
+          ? '#fff7e8'
+          : '#f4f7fb'
+      : '#ffffff'};
+  color: ${(p) =>
+    p.$active
+      ? p.$value === 'confirmed'
+        ? '#1e5bb8'
+        : p.$value === 'needs_review'
+          ? '#a16207'
+          : '#344054'
+      : '#6e7687'};
+  font-size: 13px;
+  font-weight: ${(p) => (p.$active ? 700 : 600)};
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  box-shadow: ${(p) =>
+    p.$active
+      ? p.$value === 'confirmed'
+        ? '0 0 0 2px rgba(44,129,252,0.16)'
+        : p.$value === 'needs_review'
+          ? '0 0 0 2px rgba(245,158,11,0.18)'
+          : '0 0 0 2px rgba(148,163,184,0.14)'
+      : 'none'};
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: ${(p) =>
+      p.$value === 'confirmed'
+        ? '#2c81fc'
+        : p.$value === 'needs_review'
+          ? '#f59e0b'
+          : '#a8b6c8'};
+    background: ${(p) =>
+      p.$value === 'confirmed'
+        ? '#f6f9ff'
+        : p.$value === 'needs_review'
+          ? '#fffaf0'
+          : '#eef2f7'};
+  }
+`;
+
+const StyledCheckFooterNote = styled.div<{ $tone?: 'warning' | 'neutral' }>`
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: ${(p) => (p.$tone === 'neutral' ? '#f5f7fb' : '#fff7e8')};
+  border: 1px solid
+    ${(p) => (p.$tone === 'neutral' ? '#d7deea' : '#fde3a7')};
+  color: ${(p) => (p.$tone === 'neutral' ? '#596070' : '#9a6700')};
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+const StyledPreviewMetaGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const StyledPreviewMetaCard = styled.div`
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e6ecf5;
+`;
+
+const StyledPreviewMetaLabel = styled.div`
+  font-size: 12px;
+  font-weight: 700;
+  color: #6e7687;
+  letter-spacing: -0.02em;
+`;
+
+const StyledPreviewMetaValue = styled.div`
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: #25262c;
+`;
+
+const StyledPreviewSection = styled.div`
+  margin-top: 18px;
+`;
+
+const StyledPreviewSectionTitle = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  color: #25262c;
+  letter-spacing: -0.02em;
+`;
+
+const StyledPreviewSectionBody = styled.div`
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  color: #596070;
+`;
+
+const StyledPreviewPillRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+`;
+
+const StyledPreviewPill = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #f1f5fb;
+  border: 1px solid #d9e3f3;
+  color: #1e5bb8;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+`;
+
+const StyledPreviewList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+`;
+
+const StyledPreviewListItem = styled.div`
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e6ecf5;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  color: #596070;
+`;
+
 
 export const Route = createFileRoute('/_authenticated/company')({
   component: CompanyPage,
@@ -104,6 +383,7 @@ const KIMMINSU_DEMO_PROFILE: CompanyProfile = {
   rndBudget: '1E_3E',
   hasPriorAward: false,
   techKeywords: ['AI', '플랫폼', 'SaaS'],
+  eligibility: {},
 };
 
 const formatDate = (iso: string) => {
@@ -119,6 +399,22 @@ const daysUntil = (iso: string) => {
   return Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)));
 };
 
+const COMPANY_SIZE_LABELS: Record<
+  'STARTUP' | 'SMALL' | 'MID' | 'MID_LARGE',
+  string
+> = {
+  STARTUP: '창업기업',
+  SMALL: '소기업',
+  MID: '중기업',
+  MID_LARGE: '중견기업',
+};
+
+interface PendingProgramCheck {
+  id: string;
+  title: string;
+  specialClauseIds: SpecialClauseId[];
+}
+
 function CompanyPage() {
   const toast = useToast();
   const navigate = useNavigate();
@@ -131,7 +427,13 @@ function CompanyPage() {
       : { ...KIMMINSU_DEMO_PROFILE };
   });
   const [keywordInput, setKeywordInput] = useState('');
-  const [showMatches, setShowMatches] = useState(false);
+  const [showMatches, setShowMatches] = useState(() => !!savedProfile.updatedAt);
+  const [pendingProgramCheck, setPendingProgramCheck] =
+    useState<PendingProgramCheck | null>(null);
+  const [previewProgram, setPreviewProgram] = useState<TipaProgram | null>(null);
+  const [specialClauseAnswers, setSpecialClauseAnswers] = useState<
+    Record<string, SpecialClauseAnswer | undefined>
+  >({});
 
   useEffect(() => {
     window.ChannelIO?.('hideChannelButton');
@@ -148,11 +450,78 @@ function CompanyPage() {
     });
   }, [savedProfile]);
 
+  useEffect(() => {
+    setShowMatches(!!savedProfile.updatedAt);
+  }, [savedProfile.updatedAt]);
+
   const completeness = useMemo(() => computeCompleteness(draft), [draft]);
+  const derivedEligibility = useMemo(
+    () =>
+      deriveAutoEligibility({
+        employeeSize: draft.employeeSize,
+        revenue: draft.revenue,
+        hasPriorAward: draft.hasPriorAward,
+        foundedYear: draft.foundedYear,
+      }),
+    [draft.employeeSize, draft.revenue, draft.hasPriorAward, draft.foundedYear],
+  );
+  const effectiveEligibility = useMemo(
+    () => mergeEligibilityAnswers(draft.eligibility, derivedEligibility),
+    [draft.eligibility, derivedEligibility],
+  );
+  const specialClauseContext = useMemo(
+    () => ({
+      profile: {
+        foundedYear: draft.foundedYear,
+        hasPriorAward: draft.hasPriorAward,
+      },
+      effectiveEligibility,
+    }),
+    [draft.foundedYear, draft.hasPriorAward, effectiveEligibility],
+  );
+  const effectiveDerivedKeys = useMemo(() => {
+    // 사용자가 답변하지 않았고 derived에만 있는 키 = 실제 자동 적용된 키
+    return new Set(
+      Object.keys(derivedEligibility).filter(
+        (id) => !draft.eligibility?.[id],
+      ),
+    );
+  }, [derivedEligibility, draft.eligibility]);
+  const eligibilitySummary = useMemo(
+    () => computeEligibilitySummary(effectiveEligibility, effectiveDerivedKeys),
+    [effectiveEligibility, effectiveDerivedKeys],
+  );
   const matches = useMemo(
     () => (showMatches ? findMatchingPrograms(draft, { minScore: 35, limit: 6 }) : []),
     [draft, showMatches],
   );
+  const activeSpecialClauses = useMemo(
+    () =>
+      resolveSpecialClauses(
+        pendingProgramCheck?.specialClauseIds,
+        specialClauseContext,
+      ),
+    [pendingProgramCheck, specialClauseContext],
+  );
+  const specialClauseSummary = useMemo(
+    () =>
+      computeSpecialClauseSummary(
+        activeSpecialClauses,
+        specialClauseAnswers as Record<string, SpecialClauseAnswer | undefined>,
+      ),
+    [activeSpecialClauses, specialClauseAnswers],
+  );
+  const previewSpecialClauses = useMemo(
+    () =>
+      resolveSpecialClauses(
+        previewProgram?.specialClauses,
+        specialClauseContext,
+      ),
+    [previewProgram, specialClauseContext],
+  );
+  const isSpecialClauseComplete =
+    activeSpecialClauses.length > 0 &&
+    specialClauseSummary.answered === activeSpecialClauses.length;
 
   const patch = useCallback((p: Partial<CompanyProfile>) => {
     setDraft((prev) => ({ ...prev, ...p }));
@@ -176,38 +545,102 @@ function CompanyPage() {
     }));
   }, []);
 
+  const setEligibilityAnswer = useCallback(
+    (id: string, answer: EligibilityAnswer) => {
+      setDraft((prev) => ({
+        ...prev,
+        eligibility: { ...(prev.eligibility ?? {}), [id]: answer },
+        eligibilityUpdatedAt: new Date().toISOString(),
+      }));
+    },
+    [],
+  );
+
   const handleSave = useCallback(() => {
     update(draft);
     setShowMatches(true);
-    toast.open({
-      content:
-        completeness >= 80
-          ? '저장 완료! 일치율 높은 공고를 찾았습니다.'
-          : '저장되었습니다. 더 많은 정보를 채우면 추천 정확도가 올라가요.',
-      duration: 2500,
-    });
     setTimeout(() => {
       document
         .getElementById('matches-section')
         ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
-  }, [draft, update, completeness, toast]);
+  }, [draft, update]);
 
-  const handleStartRnd = useCallback(
-    (programTitle?: string) => {
+  const startRndDraft = useCallback(
+    (
+      programTitle?: string,
+      options?: { answeredCount?: number; needsReviewCount?: number },
+    ) => {
       if (programTitle) {
         toast.open({
-          content: `"${programTitle}" 공고로 초안 작성을 시작합니다.`,
+          content:
+            options?.answeredCount && options.answeredCount > 0
+              ? `"${programTitle}" 초안을 시작해요${options.needsReviewCount ? ` (검토 ${options.needsReviewCount}건)` : ''}`
+              : `"${programTitle}" 초안을 시작해요`,
           duration: 2000,
         });
       }
       navigate({
         to: '/start2',
-        search: programTitle ? { announcementName: programTitle } : undefined,
+        search: programTitle ? { programTitle } : {},
       });
     },
     [navigate, toast],
   );
+
+  const closeProgramCheckModal = useCallback(() => {
+    setPendingProgramCheck(null);
+    setSpecialClauseAnswers({});
+  }, []);
+
+  const closePreviewModal = useCallback(() => {
+    setPreviewProgram(null);
+  }, []);
+
+  const handleSpecialClauseAnswer = useCallback(
+    (clauseId: string, answer: SpecialClauseAnswer) => {
+      setSpecialClauseAnswers((prev) => ({ ...prev, [clauseId]: answer }));
+    },
+    [],
+  );
+
+  const handleStartRnd = useCallback(
+    (program: PendingProgramCheck) => {
+      const applicableClauses = resolveSpecialClauses(
+        program.specialClauseIds,
+        specialClauseContext,
+      );
+
+      if (applicableClauses.length === 0) {
+        startRndDraft(program.title);
+        return;
+      }
+
+      setPendingProgramCheck(program);
+      setSpecialClauseAnswers({});
+    },
+    [specialClauseContext, startRndDraft],
+  );
+
+  const handleConfirmProgramCheck = useCallback(() => {
+    if (!pendingProgramCheck) return;
+
+    const title = pendingProgramCheck.title;
+    const answeredCount = specialClauseSummary.answered;
+    const reviewCount =
+      specialClauseSummary.notReady + specialClauseSummary.notApplicableCount;
+
+    closeProgramCheckModal();
+    startRndDraft(title, {
+      answeredCount,
+      needsReviewCount: reviewCount,
+    });
+  }, [
+    closeProgramCheckModal,
+    pendingProgramCheck,
+    specialClauseSummary,
+    startRndDraft,
+  ]);
 
   return (
     <StyledContainer>
@@ -215,7 +648,7 @@ function CompanyPage() {
         <StyledHeaderLeft>
           <StyledPageTitle>기업정보 및 공고추천</StyledPageTitle>
           <StyledPageDesc>
-            우리 회사에 맞는 R&D 지원사업을 자동으로 찾아드립니다. 정보가 많을수록 매칭 정확도가 올라갑니다.
+            회사 정보를 입력하면 맞는 R&D 공고를 추천해드려요. 정보가 많을수록 정확해져요.
           </StyledPageDesc>
         </StyledHeaderLeft>
 
@@ -227,11 +660,45 @@ function CompanyPage() {
             <StyledCompletenessTitle>프로필 완성도</StyledCompletenessTitle>
             <StyledCompletenessHint>
               {completeness >= 80
-                ? '매칭 정확도 최상'
+                ? '추천 정확도 최상'
                 : completeness >= 60
                   ? '추천 가능'
-                  : '더 입력이 필요해요'}
+                  : '정보를 더 채워주세요'}
             </StyledCompletenessHint>
+            <StyledEligibilityBadge
+              $status={eligibilitySummary.status}
+              style={{ marginTop: 8 }}
+            >
+              {eligibilitySummary.status === 'safe' ? (
+                <>
+                  <ShieldCheck size={12} strokeWidth={2.5} />
+                  이상 없음
+                </>
+              ) : eligibilitySummary.status === 'needs_check' ? (
+                <>
+                  <HelpCircle size={12} strokeWidth={2.5} />
+                  확인 필요 {eligibilitySummary.unknownCount}건
+                </>
+              ) : eligibilitySummary.status === 'risk' ? (
+                <>
+                  <AlertTriangle size={12} strokeWidth={2.5} />
+                  {eligibilitySummary.blockerNoCount > 0
+                    ? `불가 ${eligibilitySummary.blockerNoCount}건`
+                    : `해소 ${eligibilitySummary.warningNoCount}건`}
+                </>
+              ) : eligibilitySummary.status === 'in_progress' ? (
+                <>
+                  <HelpCircle size={12} strokeWidth={2.5} />
+                  {eligibilitySummary.answeredCount}/
+                  {eligibilitySummary.totalCount}
+                </>
+              ) : (
+                <>
+                  <HelpCircle size={12} strokeWidth={2.5} />
+                  진단 전
+                </>
+              )}
+            </StyledEligibilityBadge>
           </StyledCompletenessText>
         </StyledCompletenessCard>
       </StyledHeader>
@@ -245,7 +712,7 @@ function CompanyPage() {
               기본정보
             </StyledSectionTitle>
             <StyledSectionDesc>
-              지원사업 매칭의 기본 단위입니다. 창업 7년 이내 여부, 지역 특화 공고 등에 사용됩니다.
+              창업 연차와 지역 특화 공고 매칭에 쓰여요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField>
@@ -315,7 +782,7 @@ function CompanyPage() {
               사업현황
             </StyledSectionTitle>
             <StyledSectionDesc>
-              기업 규모·업종은 가장 강한 매칭 신호입니다. 최대한 정확히 선택해주세요.
+              기업 규모·업종은 매칭 정확도에 가장 큰 영향을 줘요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField $full>
@@ -381,13 +848,16 @@ function CompanyPage() {
               R&D 현황
             </StyledSectionTitle>
             <StyledSectionDesc>
-              기술 성숙도와 키워드는 매칭 정확도를 크게 높입니다.
+              기술 성숙도와 키워드로 추천 정확도가 올라가요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField $full>
                 <StyledLabel>
-                  기술 성숙도(TRL)<StyledRequired>*</StyledRequired>
+                  기술 준비 단계(TRL)<StyledRequired>*</StyledRequired>
                 </StyledLabel>
+                <StyledFieldHint>
+                  단계에 따라 추천 공고가 달라져요.
+                </StyledFieldHint>
                 <StyledChipGroup>
                   {TRL_OPTIONS.map((opt) => (
                     <StyledChip
@@ -459,6 +929,115 @@ function CompanyPage() {
             </StyledFieldGrid>
           </StyledSection>
 
+          {/* ── 4. 신청자격 빠른 진단 ── */}
+          <StyledSection>
+            <StyledSectionTitle>
+              <StyledSectionBadge>4</StyledSectionBadge>
+              신청자격 빠른 진단
+            </StyledSectionTitle>
+            <StyledSectionDesc>
+              기본정보와 기업 규모는 이미 반영했어요. 여기서는 참여제한, 체납,
+              중복신청 같은 예외 이슈만 확인해 주세요.
+            </StyledSectionDesc>
+
+            <StyledEligibilitySummaryBar $status={eligibilitySummary.status}>
+              <div>
+                <StyledEligibilitySummaryText>
+                  {eligibilitySummary.status === 'safe'
+                    ? '공통 신청자격 이상 없음'
+                    : eligibilitySummary.status === 'needs_check'
+                      ? `확인 필요 ${eligibilitySummary.unknownCount}건 — 공고 전 다시 확인해 주세요`
+                    : eligibilitySummary.blockerNoCount > 0
+                      ? `지원 불가 ${eligibilitySummary.blockerNoCount}건 — 신청이 어려워요`
+                      : eligibilitySummary.warningNoCount > 0
+                        ? `해소 필요 ${eligibilitySummary.warningNoCount}건 — 예외 조항 확인하세요`
+                        : eligibilitySummary.status === 'in_progress'
+                          ? `${eligibilitySummary.answeredCount}/${eligibilitySummary.totalCount} 답변 완료`
+                          : '4개 항목을 확인해 주세요'}
+                </StyledEligibilitySummaryText>
+                <StyledEligibilitySummaryMeta>
+                  {eligibilitySummary.status === 'needs_check'
+                    ? '모름으로 둔 항목은 초안 작성 전에 다시 확인하는 게 좋아요'
+                    : eligibilitySummary.autoCount > 0
+                    ? `입력한 기업정보 기준으로 ${eligibilitySummary.autoCount}건 먼저 반영했어요. 실제와 다르면 수정해 주세요`
+                    : '답변은 공고별 확인에서 재사용돼요'}
+                </StyledEligibilitySummaryMeta>
+              </div>
+            </StyledEligibilitySummaryBar>
+
+            <StyledEligibilityList>
+              {TIPA_ELIGIBILITY_CHECKS.map((check, index) => {
+                const userAnswer = draft.eligibility?.[check.id];
+                const derived = derivedEligibility[check.id];
+                const isAutoApplied = !userAnswer && !!derived;
+                const answer = userAnswer ?? derived?.answer;
+                const showDrill = answer === 'no' && !!check.drillDown;
+                const showNoMeaning = answer === 'no';
+                return (
+                  <StyledEligibilityCard
+                    key={check.id}
+                    $answer={answer}
+                    $severity={check.severity}
+                  >
+                    <StyledEligibilityCardTop>
+                      <StyledEligibilityIndex>{index + 1}</StyledEligibilityIndex>
+                      <StyledEligibilityBody>
+                        <StyledEligibilityQuestion>
+                          {check.question}
+                        </StyledEligibilityQuestion>
+                        <StyledEligibilityHint>{check.hint}</StyledEligibilityHint>
+
+                        {isAutoApplied && derived && (
+                          <StyledEligibilityAutoReason>
+                            {derived.reason}
+                          </StyledEligibilityAutoReason>
+                        )}
+
+                        <StyledEligibilityOptions>
+                          {ELIGIBILITY_ANSWER_OPTIONS.map((option) => (
+                            <StyledEligibilityOption
+                              key={option.value}
+                              type="button"
+                              $active={answer === option.value}
+                              $value={option.value}
+                              onClick={() =>
+                                setEligibilityAnswer(check.id, option.value)
+                              }
+                            >
+                              {option.label}
+                            </StyledEligibilityOption>
+                          ))}
+                        </StyledEligibilityOptions>
+                        {showNoMeaning && (
+                          <StyledEligibilityNoMeaning $severity={check.severity}>
+                            {check.severity === 'blocker' ? '🚫 ' : '⚠️ '}
+                            {check.noMeaning}
+                          </StyledEligibilityNoMeaning>
+                        )}
+
+                        {showDrill && check.drillDown && (
+                          <StyledEligibilityDrillDown>
+                            <StyledEligibilityDrillDownTitle>
+                              <AlertTriangle size={12} strokeWidth={2.5} />
+                              {check.drillDown.title}
+                            </StyledEligibilityDrillDownTitle>
+                            <StyledEligibilityDrillDownList>
+                              {check.drillDown.items.map((item) => (
+                                <StyledEligibilityDrillDownItem key={item}>
+                                  {item}
+                                </StyledEligibilityDrillDownItem>
+                              ))}
+                            </StyledEligibilityDrillDownList>
+                          </StyledEligibilityDrillDown>
+                        )}
+                      </StyledEligibilityBody>
+                    </StyledEligibilityCardTop>
+                  </StyledEligibilityCard>
+                );
+              })}
+            </StyledEligibilityList>
+          </StyledSection>
+
           {/* ── 매칭 결과 ── */}
           {showMatches && (
             <StyledMatchesSection id="matches-section">
@@ -470,7 +1049,7 @@ function CompanyPage() {
                       : '매칭 공고를 찾는 중입니다'}
                   </StyledMatchesTitle>
                   <StyledMatchesSub>
-                    프로필 완성도 {completeness}% · 입력이 많아질수록 정확도가 올라갑니다.
+                    프로필 완성도 {completeness}% · 정보가 많을수록 정확해져요
                   </StyledMatchesSub>
                 </div>
                 <Flex alignItems="center" gap={6}>
@@ -489,12 +1068,12 @@ function CompanyPage() {
 
               <StyledNoticeBanner>
                 <StyledNoticeIcon>i</StyledNoticeIcon>
-                본 매칭 결과는 입력하신 기업정보를 기반으로 한 AI 참고 추천입니다. 실제 신청 자격·마감일·세부 요건은 주관기관 공고를 통해 반드시 다시 확인해 주세요.
+                AI 참고 추천이에요. 실제 자격·마감일·요건은 주관기관 공고에서 꼭 확인해 주세요.
               </StyledNoticeBanner>
 
               {matches.length === 0 ? (
                 <StyledEmptyMatches>
-                  아직 매칭 조건이 부족합니다. 업종, 기술 성숙도, 기업 규모를 채우면 바로 추천이 나와요.
+                  매칭 조건이 부족해요. 업종·기술 성숙도·기업 규모를 채워주세요
                 </StyledEmptyMatches>
               ) : (
                 <StyledMatchGrid>
@@ -544,11 +1123,6 @@ function CompanyPage() {
                           <StyledReasonList>
                             {reasons.map((r) => (
                               <StyledReasonChip key={r.label} $type={r.type}>
-                                {r.type === 'negative' ? (
-                                  <Minus size={11} strokeWidth={3} />
-                                ) : (
-                                  <Check size={11} strokeWidth={3} />
-                                )}
                                 {r.label}
                               </StyledReasonChip>
                             ))}
@@ -566,23 +1140,23 @@ function CompanyPage() {
                             <Button
                               variant="outlined"
                               size="small"
-                              onClick={() => {
-                                window.open(
-                                  'https://www.smtech.go.kr/region/rms',
-                                  '_blank',
-                                  'noopener,noreferrer',
-                                );
-                              }}
+                              onClick={() => setPreviewProgram(program)}
                             >
-                              공고 확인하기
+                              공고 보기
                             </Button>
                             <Button
                               variant="filled"
                               size="small"
-                              onClick={() => handleStartRnd(program.title)}
+                              onClick={() =>
+                                handleStartRnd({
+                                  id: program.id,
+                                  title: program.title,
+                                  specialClauseIds: program.specialClauses ?? [],
+                                })
+                              }
                             >
                               <Target size={13} style={{ marginRight: 4 }} />
-                              초안 작성하기
+                              초안 작성
                             </Button>
                           </Flex>
                         </StyledMatchCardFoot>
@@ -605,12 +1179,219 @@ function CompanyPage() {
                 hour: '2-digit',
                 minute: '2-digit',
               })}`
-            : '입력 완료 후 아래 버튼을 눌러 공고를 추천받아보세요'}
+            : '입력 완료 후 공고를 추천받아보세요'}
         </StyledFooterHint>
         <Button variant="filled" size="medium" onClick={handleSave}>
-          저장하고 공고 매칭
+          매칭하기
         </Button>
       </StyledFooter>
+
+      {pendingProgramCheck && activeSpecialClauses.length > 0 && (
+        <StyledModalOverlay onClick={closeProgramCheckModal}>
+          <StyledModalBox $width={640} onClick={(e) => e.stopPropagation()}>
+            <StyledModalHeader>
+              <StyledModalTitle>이 공고는 추가 확인이 필요해요</StyledModalTitle>
+              <StyledModalClose type="button" onClick={closeProgramCheckModal}>
+                <X size={18} />
+              </StyledModalClose>
+            </StyledModalHeader>
+
+            <StyledCheckProgramTitle>{pendingProgramCheck.title}</StyledCheckProgramTitle>
+
+            <StyledModalDesc>
+              기본 신청 자격은 먼저 확인했어요. 이 공고에만 적용되는 조건을 확인해
+              주세요.
+            </StyledModalDesc>
+
+            <StyledCheckQuestionList>
+              {activeSpecialClauses.map((clause) => {
+                const answer = specialClauseAnswers[clause.id];
+                return (
+                  <StyledCheckQuestionCard key={clause.id}>
+                    <StyledCheckQuestion>{clause.question}</StyledCheckQuestion>
+                    <StyledCheckHint>{clause.hint}</StyledCheckHint>
+
+                    <StyledCheckOptions>
+                      {SPECIAL_CLAUSE_ANSWER_OPTIONS.map((option) => {
+                        const mappedValue =
+                          option.value === 'ready'
+                            ? 'confirmed'
+                            : option.value === 'not_ready'
+                              ? 'needs_review'
+                              : 'not_applicable';
+                        return (
+                        <StyledCheckOption
+                          key={option.value}
+                          type="button"
+                          $active={answer === option.value}
+                          $value={mappedValue}
+                          onClick={() =>
+                            handleSpecialClauseAnswer(clause.id, option.value)
+                          }
+                        >
+                          {option.label}
+                        </StyledCheckOption>
+                        );
+                      })}
+                    </StyledCheckOptions>
+
+                    {answer === 'not_ready' && (
+                      <StyledEligibilityNoMeaning $severity={clause.severity}>
+                        {clause.severity === 'blocker' ? '🚫 ' : '⚠️ '}
+                        {clause.notReadyMeaning}
+                      </StyledEligibilityNoMeaning>
+                    )}
+                  </StyledCheckQuestionCard>
+                );
+              })}
+            </StyledCheckQuestionList>
+
+            {specialClauseSummary.notReadyBlocker > 0 && (
+              <StyledCheckFooterNote $tone="warning">
+                🚫 필수 {specialClauseSummary.notReadyBlocker}건 미준비 — 신청 전 해결 필요
+              </StyledCheckFooterNote>
+            )}
+
+            {specialClauseSummary.notApplicableCount > 0 && (
+              <StyledCheckFooterNote $tone="neutral">
+                확인이 안 된 항목 {specialClauseSummary.notApplicableCount}건 — 초안 작성은
+                진행되지만, 제출 전 공고문 기준으로 다시 확인해 주세요
+              </StyledCheckFooterNote>
+            )}
+
+            <StyledModalFooter>
+              <StyledBtnOutlined type="button" onClick={closeProgramCheckModal}>
+                닫기
+              </StyledBtnOutlined>
+              <StyledBtnFilled
+                type="button"
+                disabled={!isSpecialClauseComplete}
+                onClick={handleConfirmProgramCheck}
+              >
+                초안 작성
+              </StyledBtnFilled>
+            </StyledModalFooter>
+          </StyledModalBox>
+        </StyledModalOverlay>
+      )}
+
+      {previewProgram && (
+        <StyledModalOverlay onClick={closePreviewModal}>
+          <StyledModalBox $width={720} onClick={(e) => e.stopPropagation()}>
+            <StyledModalHeader>
+              <StyledModalTitle>공고 미리 보기</StyledModalTitle>
+              <StyledModalClose type="button" onClick={closePreviewModal}>
+                <X size={18} />
+              </StyledModalClose>
+            </StyledModalHeader>
+
+            <StyledCheckProgramTitle>{previewProgram.title}</StyledCheckProgramTitle>
+            <StyledModalDesc>{previewProgram.description}</StyledModalDesc>
+
+            <StyledPreviewMetaGrid>
+              <StyledPreviewMetaCard>
+                <StyledPreviewMetaLabel>주관 부처·기관</StyledPreviewMetaLabel>
+                <StyledPreviewMetaValue>
+                  {MINISTRY_OPTIONS.find((item) => item.value === previewProgram.ministry)
+                    ?.label}{' '}
+                  · {previewProgram.agency}
+                </StyledPreviewMetaValue>
+              </StyledPreviewMetaCard>
+              <StyledPreviewMetaCard>
+                <StyledPreviewMetaLabel>마감 일정</StyledPreviewMetaLabel>
+                <StyledPreviewMetaValue>
+                  {formatDate(previewProgram.applyDeadline)} 마감 · D-
+                  {daysUntil(previewProgram.applyDeadline)}
+                </StyledPreviewMetaValue>
+              </StyledPreviewMetaCard>
+              <StyledPreviewMetaCard>
+                <StyledPreviewMetaLabel>정부출연금 규모</StyledPreviewMetaLabel>
+                <StyledPreviewMetaValue>
+                  {BUDGET_OPTIONS.find((item) => item.value === previewProgram.budgetRange)
+                    ?.label}
+                </StyledPreviewMetaValue>
+              </StyledPreviewMetaCard>
+              <StyledPreviewMetaCard>
+                <StyledPreviewMetaLabel>추천 대상</StyledPreviewMetaLabel>
+                <StyledPreviewMetaValue>
+                  {previewProgram.targetCompanySize
+                    .map((size) => COMPANY_SIZE_LABELS[size])
+                    .join(' · ')}
+                </StyledPreviewMetaValue>
+              </StyledPreviewMetaCard>
+            </StyledPreviewMetaGrid>
+
+            <StyledPreviewSection>
+              <StyledPreviewSectionTitle>기술 단계·지역 조건</StyledPreviewSectionTitle>
+              <StyledPreviewSectionBody>
+                이 공고는 아래 조건과 잘 맞을 때 추천 정확도가 올라가요.
+              </StyledPreviewSectionBody>
+              <StyledPreviewPillRow>
+                {previewProgram.targetTrls.map((trl) => (
+                  <StyledPreviewPill key={trl}>
+                    {TRL_OPTIONS.find((item) => item.value === trl)?.label}
+                  </StyledPreviewPill>
+                ))}
+                {(previewProgram.targetRegions ?? ['ALL']).map((region) => (
+                  <StyledPreviewPill key={region}>
+                    {region === 'ALL'
+                      ? '전국'
+                      : REGION_OPTIONS.find((item) => item.value === region)?.label}
+                  </StyledPreviewPill>
+                ))}
+              </StyledPreviewPillRow>
+            </StyledPreviewSection>
+
+            <StyledPreviewSection>
+              <StyledPreviewSectionTitle>주요 키워드</StyledPreviewSectionTitle>
+              <StyledPreviewPillRow>
+                {previewProgram.keywords.map((keyword) => (
+                  <StyledPreviewPill key={keyword}>{keyword}</StyledPreviewPill>
+                ))}
+              </StyledPreviewPillRow>
+            </StyledPreviewSection>
+
+            <StyledPreviewSection>
+              <StyledPreviewSectionTitle>추가 확인 포인트</StyledPreviewSectionTitle>
+              <StyledPreviewList>
+                {previewSpecialClauses.length > 0 ? (
+                  previewSpecialClauses.map((clause) => (
+                    <StyledPreviewListItem key={clause.id}>
+                      <strong style={{ color: '#25262c' }}>{clause.category}</strong>
+                      <div style={{ marginTop: 4 }}>{clause.hint}</div>
+                    </StyledPreviewListItem>
+                  ))
+                ) : (
+                  <StyledPreviewListItem>
+                    현재 입력한 기업정보 기준으로 별도 예외 확인 항목은 없어요.
+                  </StyledPreviewListItem>
+                )}
+              </StyledPreviewList>
+            </StyledPreviewSection>
+
+            <StyledModalFooter>
+              <StyledBtnOutlined type="button" onClick={closePreviewModal}>
+                닫기
+              </StyledBtnOutlined>
+              <StyledBtnFilled
+                type="button"
+                onClick={() => {
+                  const current = previewProgram;
+                  closePreviewModal();
+                  if (!current) return;
+                  handleStartRnd({
+                    id: current.id,
+                    title: current.title,
+                    specialClauseIds: current.specialClauses ?? [],
+                  });
+                }}
+              >
+                초안 작성
+              </StyledBtnFilled>
+            </StyledModalFooter>
+          </StyledModalBox>
+        </StyledModalOverlay>
+      )}
     </StyledContainer>
   );
 }

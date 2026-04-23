@@ -30,7 +30,7 @@ import {
   StyledModalFooter,
   StyledBtnOutlined,
   StyledBtnFilled,
-} from '../start/-route.style';
+} from '@/routes/_authenticated/start/-route.style';
 import styled from '@emotion/styled';
 import {
   StyledContainer,
@@ -88,20 +88,23 @@ import { Step2InputUpload } from '../start/-components/steps/Step2InputUpload';
 import { RecommendIntroModal } from './-components/RecommendIntroModal';
 
 interface Start2Search {
-  announcementName?: string;
+  programTitle?: string;
 }
 
 export const Route = createFileRoute('/_authenticated/start2')({
   component: Start2RouteComponent,
   validateSearch: (search: Record<string, unknown>): Start2Search => ({
-    announcementName: typeof search.announcementName === 'string' ? search.announcementName : undefined,
+    programTitle:
+      typeof search.programTitle === 'string' && search.programTitle.trim().length > 0
+        ? search.programTitle
+        : undefined,
   }),
 });
 
 function Start2RouteComponent() {
-  const { announcementName } = Route.useSearch();
+  const { programTitle } = Route.useSearch();
 
-  return <Start2Page announcementName={announcementName} />;
+  return <Start2Page selectedProgramTitle={programTitle} />;
 }
 
 
@@ -250,6 +253,18 @@ const TOOL_LIST = [
 ] as const;
 
 type ToolId = typeof TOOL_LIST[number]['id'];
+
+type LeaveTarget =
+  | '/start'
+  | '/start2'
+  | '/company'
+  | '/d'
+  | '/chatbot-flow'
+  | '/homepage-flow'
+  | '/admin-demo';
+
+type UnsavedWorkWindow = Window & { __unsavedWork?: boolean };
+type NavRequestEvent = CustomEvent<LeaveTarget>;
 
 /* ───── Saved Draft interface ───── */
 interface SavedDraft2 {
@@ -1191,9 +1206,9 @@ const SIMILAR_PROJECTS: SimilarProjectTab[] = [
    ──────────────────────────────────────────── */
 
 export function Start2Page({
-  announcementName,
+  selectedProgramTitle,
 }: {
-  announcementName?: string;
+  selectedProgramTitle?: string;
 }) {
   const toast = useToast();
   const navigate = useNavigate();
@@ -1291,7 +1306,10 @@ export function Start2Page({
   const saveDraft = useCallback(() => {
     const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
     const existing: SavedDraft2[] = raw ? JSON.parse(raw) : [];
-    const title = prompt.trim().slice(0, 30) || 'R&D 계획서 초안';
+    const title =
+      prompt.trim().slice(0, 30) ||
+      selectedProgramTitle?.slice(0, 50) ||
+      'R&D 계획서 초안';
 
     if (activeDraftId) {
       const updated = existing.map((d) =>
@@ -1317,7 +1335,7 @@ export function Start2Page({
     }
     setIsDirty(false);
     toast.open({ content: '임시 저장되었습니다.', duration: 2000 });
-  }, [currentStep, prompt, toast, activeDraftId]);
+  }, [currentStep, prompt, toast, activeDraftId, selectedProgramTitle]);
 
   /* ───── Load draft (from Step1SelectTemplate) ───── */
   const loadStep1Draft = useCallback(
@@ -1333,7 +1351,7 @@ export function Start2Page({
 
   /* ───── Leave warning modal (변경사항 있을 때 사이드네비 이동 경고) ───── */
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
-  const [pendingLeaveUrl, setPendingLeaveUrl] = useState<string | null>(null);
+  const [pendingLeaveUrl, setPendingLeaveUrl] = useState<LeaveTarget | null>(null);
   const hasUnsavedWork =
     isDirty && (currentStep === 2 || currentStep === 3);
 
@@ -1348,17 +1366,18 @@ export function Start2Page({
   }, [hasUnsavedWork]);
 
   useEffect(() => {
-    (window as any).__unsavedWork = hasUnsavedWork;
+    const appWindow = window as UnsavedWorkWindow;
+    appWindow.__unsavedWork = hasUnsavedWork;
     return () => {
-      (window as any).__unsavedWork = false;
+      appWindow.__unsavedWork = false;
     };
   }, [hasUnsavedWork]);
 
   useEffect(() => {
     const handler = (e: Event) => {
-      const to = (e as CustomEvent).detail;
+      const to = (e as NavRequestEvent).detail;
       if (!hasUnsavedWork) {
-        if (to) navigate({ to: to as any });
+        if (to) navigate({ to });
         return;
       }
       setPendingLeaveUrl(to);
@@ -1371,13 +1390,13 @@ export function Start2Page({
   const handleLeaveSave = () => {
     saveDraft();
     setShowLeaveWarning(false);
-    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl as any });
+    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl });
     setPendingLeaveUrl(null);
   };
 
   const handleLeaveDiscard = () => {
     setShowLeaveWarning(false);
-    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl as any });
+    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl });
     setPendingLeaveUrl(null);
   };
 
@@ -1439,7 +1458,7 @@ export function Start2Page({
       copy[index] = value;
       return copy;
     });
-  }, []);
+  }, [setReviewTexts]);
 
   /* ───── Step 3: Guide toggle ───── */
   const toggleGuide = useCallback((index: number) => {
@@ -2018,7 +2037,7 @@ export function Start2Page({
                 <StyledDiffOld>데이터는 안전하게 관리한다.</StyledDiffOld>
                 <StyledDiffNew>
                   연구 데이터는{' '}
-                  <strong>"비밀" 등급으로 분류하여 AES-256 암호화로 저장</strong>하며,{' '}
+                  <strong>&quot;비밀&quot; 등급으로 분류하여 AES-256 암호화로 저장</strong>하며,{' '}
                   <strong>2-Factor 인증 기반 접근 통제</strong>를 적용한다.
                 </StyledDiffNew>
               </StyledDiffBlock>
@@ -2087,6 +2106,7 @@ export function Start2Page({
           {currentStep === 1 && (
             <Step1SelectTemplate
               selectedTemplateFileId={selectedTemplateFileId}
+              selectedProgramTitle={selectedProgramTitle?.trim() || undefined}
               onSelectTemplate={(id) => {
                 if (id === null) {
                   setSelectedTemplateFileId(null);
@@ -2102,7 +2122,6 @@ export function Start2Page({
               }}
               onLoadDraft={loadStep1Draft}
               draftStorageKey={DRAFT_STORAGE_KEY}
-              draftCardName={announcementName}
             />
           )}
           {currentStep === 2 && (

@@ -15,13 +15,18 @@ import {
   StyledWidgetInput,
   StyledFakeInput,
   StyledSendBtn,
-} from './styles';
-import { INTRO_SCRIPT, SCENARIOS, type Scenario, type ScriptStep } from './script';
-import { MessageBubble } from './MessageBubble';
-import { TypingIndicator } from './TypingIndicator';
-import { CtaCard } from './CtaCard';
-import { ScenarioChips } from './ScenarioChips';
-import { TipaLogo } from './TipaLogo';
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
+import {
+  INTRO_SCRIPT,
+  SCENARIOS,
+  type Scenario,
+  type ScriptStep,
+} from '@/routes/_authenticated/chatbot-flow/-components/script';
+import { MessageBubble } from '@/routes/_authenticated/chatbot-flow/-components/MessageBubble';
+import { TypingIndicator } from '@/routes/_authenticated/chatbot-flow/-components/TypingIndicator';
+import { CtaCard } from '@/routes/_authenticated/chatbot-flow/-components/CtaCard';
+import { ScenarioChips } from '@/routes/_authenticated/chatbot-flow/-components/ScenarioChips';
+import { TipaLogo } from '@/routes/_authenticated/chatbot-flow/-components/TipaLogo';
 
 export type ChatMode = 'first' | 'returning';
 
@@ -44,14 +49,6 @@ type RenderedItem =
   | { kind: 'cta'; key: string; target?: 'rnd' | 'company' };
 
 const INITIAL_SCENARIO_ID = 'recommend';
-
-function withoutTrailingChips(steps: ScriptStep[]) {
-  let end = steps.length;
-  while (end > 0 && steps[end - 1].kind === 'chips') {
-    end -= 1;
-  }
-  return steps.slice(0, end);
-}
 
 function getInitialSteps(mode: ChatMode = 'first') {
   if (mode === 'returning') {

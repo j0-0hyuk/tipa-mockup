@@ -1,5 +1,8 @@
-import { SCENARIOS, type Scenario } from './script';
 import { Check } from 'lucide-react';
+import {
+  SCENARIOS,
+  type Scenario,
+} from '@/routes/_authenticated/chatbot-flow/-components/script';
 import {
   StyledChipsCard,
   StyledChipsTitle,
@@ -13,7 +16,7 @@ import {
   StyledCtaChipLabel,
   StyledCtaChipArrow,
   colors,
-} from './styles';
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
 
 interface ScenarioChipsProps {
   onSelect: (scenario: Scenario) => void;

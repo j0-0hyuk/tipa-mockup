@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Flex, useToast } from '@docs-front/ui';
 import {
   StyledPageTitle,
-} from '../../-route.style';
+} from '@/routes/_authenticated/start/-route.style';
 import { FlaskConical, Clock, Trash2 } from 'lucide-react';
 import styled from '@emotion/styled';
 
@@ -16,13 +16,13 @@ export interface SavedDraft {
 
 interface Step1Props {
   selectedTemplateFileId: number | null;
+  selectedProgramTitle?: string;
   onSelectTemplate: (fileId: number | null) => void;
   onDraftSelect?: (label: string) => void;
   onUploadComplete?: () => void;
   onLoadDraft?: (draft: SavedDraft) => void;
   /** localStorage key for "이어서 작성하기" drafts. 예시 1 = 'rnd_saved_drafts', 예시 2 = 'rnd2_saved_drafts' */
   draftStorageKey?: string;
-  draftCardName?: string;
 }
 
 const DEFAULT_DRAFT_CARD_NAME = 'R&D 계획서';
@@ -36,6 +36,28 @@ const DraftCardGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 24px;
   margin-top: 24px;
+`;
+
+const SelectedProgramEyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #EEF4FF;
+  color: #1E5BB8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+`;
+
+const SelectedProgramLabel = styled.div`
+  ${({ theme }) => theme.typo.Rg_14}
+  color: ${({ theme }) => theme.color.textGray};
+  margin-top: -10px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
 `;
 
 const DraftCard = styled('div', {
@@ -91,6 +113,11 @@ const DraftCardName = styled.div`
   ${({ theme }) => theme.typo.Sb_20}
   color: ${({ theme }) => theme.color.black};
   margin-bottom: 12px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+  text-align: center;
+  max-width: 100%;
 `;
 
 const DraftCardDesc = styled.div`
@@ -162,11 +189,20 @@ const buildExampleDraft = (): SavedDraft => ({
     '사용자가 연구 주제를 자유롭게 입력하면 AI가 구조화된 계획서 초안을 생성하고, 검토 및 수정 후 원하는 지원사업 양식에 맞춰 내보낼 수 있습니다.',
 });
 
-export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadComplete, onLoadDraft, draftStorageKey = 'rnd_saved_drafts', draftCardName }: Step1Props) {
+export function Step1SelectTemplate({
+  selectedProgramTitle,
+  onSelectTemplate,
+  onDraftSelect,
+  onUploadComplete,
+  onLoadDraft,
+  draftStorageKey = 'rnd_saved_drafts',
+}: Step1Props) {
   const toast = useToast();
   const [selectedDraftId, setSelectedDraftId] = useState<string | null>(null);
   const [savedDrafts, setSavedDrafts] = useState<SavedDraft[]>([]);
-  const resolvedDraftCardName = draftCardName?.trim();
+  const pageTitle = selectedProgramTitle
+    ? '선택 공고 기반 초안 작성'
+    : '연구개발계획서 작성 지원 서비스';
 
   useEffect(() => {
     try {
@@ -192,15 +228,22 @@ export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadC
 
   return (
     <>
-      <StyledPageTitle style={{ marginBottom: 24 }}>연구개발계획서 작성 지원 서비스</StyledPageTitle>
+      {selectedProgramTitle && <SelectedProgramEyebrow>선택한 공고</SelectedProgramEyebrow>}
+      <StyledPageTitle style={{ marginBottom: selectedProgramTitle ? 8 : 24 }}>
+        {pageTitle}
+      </StyledPageTitle>
+      {selectedProgramTitle && (
+        <SelectedProgramLabel>{selectedProgramTitle}</SelectedProgramLabel>
+      )}
 
       <Flex direction="column" width="100%" gap="10px">
         <DraftCardGrid>
           {DRAFT_ITEMS.map((item) => {
             const selected = selectedDraftId === item.id;
-            const displayName = item.id === 'rnd' && resolvedDraftCardName
-              ? resolvedDraftCardName
-              : item.name;
+            const cardTitle = selectedProgramTitle || item.name;
+            const cardDesc = selectedProgramTitle
+              ? '선택한 공고문을 기준으로\nAI와 함께 초안을 작성합니다'
+              : item.desc;
             return (
               <DraftCard
                 key={item.id}
@@ -208,15 +251,15 @@ export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadC
                 onClick={() => {
                   setSelectedDraftId(item.id);
                   onSelectTemplate(-1);
-                  onDraftSelect?.(displayName);
+                  onDraftSelect?.(cardTitle);
                   onUploadComplete?.();
                 }}
               >
                 <DraftCardIcon $selected={selected} $hue={item.accentHue}>
                   <item.icon size={28} strokeWidth={1.5} />
                 </DraftCardIcon>
-                <DraftCardName>{displayName}</DraftCardName>
-                <DraftCardDesc>{item.desc}</DraftCardDesc>
+                <DraftCardName>{cardTitle}</DraftCardName>
+                <DraftCardDesc>{cardDesc}</DraftCardDesc>
               </DraftCard>
             );
           })}
