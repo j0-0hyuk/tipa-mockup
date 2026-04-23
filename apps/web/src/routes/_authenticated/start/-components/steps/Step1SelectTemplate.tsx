@@ -25,8 +25,10 @@ interface Step1Props {
   draftStorageKey?: string;
 }
 
+const DEFAULT_DRAFT_CARD_NAME = 'R&D 계획서';
+
 const DRAFT_ITEMS = [
-  { id: 'rnd', name: 'R&D 계획서', desc: '연구개발계획서 구조에 맞춰\nAI와 함께 초안을 작성합니다', icon: FlaskConical, badge: '전문가용', accentHue: 'green' },
+  { id: 'rnd', name: DEFAULT_DRAFT_CARD_NAME, desc: '연구개발계획서 구조에 맞춰\nAI와 함께 초안을 작성합니다', icon: FlaskConical, badge: '전문가용', accentHue: 'green' },
 ] as const;
 
 const DraftCardGrid = styled.div`

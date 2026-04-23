@@ -77,15 +77,15 @@ function SideNavigationContent() {
             alignItems="center"
             justify={open ? 'space-between' : 'center'}
             width="100%"
-            padding={'8px'}
+            padding={open ? '8px' : '8px 0'}
           >
             <Flex
               alignItems="center"
               gap="10px"
               style={{ cursor: 'pointer' }}
-              onClick={() => handleNavigate('/start')}
+              onClick={open ? () => handleNavigate('/start') : toggle}
             >
-              <StyledNavLogoBadge>
+              <StyledNavLogoBadge style={open ? undefined : { width: 36, height: 36 }}>
                 <StyledNavLogoImage
                   src={`${import.meta.env.BASE_URL}images/chatbot/tipa-logo.png`}
                   alt="TIPA logo"
@@ -98,14 +98,13 @@ function SideNavigationContent() {
                 </span>
               )}
             </Flex>
-            <Tooltip
-              content={open ? t('main:tooltip.fold') : t('main:tooltip.unfold')}
-              side="bottom"
-            >
-              <StyledResizeButton onClick={toggle}>
-                {open ? <PanelLeft size={20} /> : <DLogo />}
-              </StyledResizeButton>
-            </Tooltip>
+            {open && (
+              <Tooltip content={t('main:tooltip.fold')} side="bottom">
+                <StyledResizeButton onClick={toggle}>
+                  <PanelLeft size={20} />
+                </StyledResizeButton>
+              </Tooltip>
+            )}
           </Flex>
           <Flex direction="column" width="100%">
             <NavIcon
