@@ -13,6 +13,7 @@ import {
 import styled from '@emotion/styled';
 import { useBreakPoints } from '@/hooks/useBreakPoints';
 import { HomeNavbar } from '@/routes/_authenticated/c/-components/Toolbar/Toolbar';
+import { isMockupRoutePath } from '@/routes/_authenticated/-utils/mockupRoutes';
 
 const StyledWrapper = styled.div<{ $isMobile?: boolean }>`
   display: flex;
@@ -27,12 +28,7 @@ export const Route = createFileRoute('/_authenticated')({
   component: RouteComponent,
   beforeLoad: async ({ context, location }) => {
     const { isLogined } = context.auth;
-    const isPrototypeBuild = import.meta.env.VITE_IS_PROTOTYPE === 'true';
-    const prototypeRoutes = ['/start', '/start2', '/chatbot-flow'];
-    if (
-      isPrototypeBuild &&
-      prototypeRoutes.some((r) => location.pathname.startsWith(r))
-    ) {
+    if (isMockupRoutePath(location.pathname)) {
       return;
     }
     if (!isLogined) {

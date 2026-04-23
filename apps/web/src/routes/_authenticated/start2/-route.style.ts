@@ -486,3 +486,94 @@ export const StyledFileRemove = styled.button`
 
   &:hover { color: #F04452; }
 `;
+
+/* ===== Section Page Navigation ===== */
+export const StyledPageIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+`;
+
+export const StyledPageButton = styled.button<{ $disabled?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid ${({ $disabled }) => ($disabled ? '#EEF1F5' : '#D8DCE4')};
+  background: ${({ $disabled }) => ($disabled ? '#F9FAFB' : '#FFFFFF')};
+  color: ${({ $disabled }) => ($disabled ? '#D0D5DD' : '#596070')};
+  cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
+  transition: all 0.15s;
+
+  &:hover {
+    ${({ $disabled }) => !$disabled && `
+      border-color: #2C81FC;
+      color: #2C81FC;
+      background: #EEF4FF;
+    `}
+  }
+`;
+
+export const StyledPageInfo = styled.span`
+  display: inline-flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #25262C;
+  letter-spacing: -0.02em;
+`;
+
+/* ===== View Tabs ===== */
+export const StyledViewTabs = styled.div`
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border: 1px solid #E3E4E8;
+  border-radius: 10px;
+  overflow: hidden;
+  width: fit-content;
+`;
+
+export const StyledViewTab = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  color: ${({ $active }) => ($active ? '#FFFFFF' : '#596070')};
+  background: ${({ $active }) => ($active ? '#2C81FC' : '#FFFFFF')};
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+
+  &:hover {
+    ${({ $active }) => !$active && `
+      background: #F4F6F8;
+    `}
+  }
+`;
+
+/* ===== Slide Placeholder (16:9 PPT ratio) ===== */
+export const StyledSlidePlaceholder = styled.div`
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  background: #FFFFFF;
+  border: 1px solid #D8DCE4;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B5B9C4;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 6px 24px rgba(15, 23, 42, 0.04);
+`;

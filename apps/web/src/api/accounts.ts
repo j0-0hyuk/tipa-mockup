@@ -1,4 +1,5 @@
 import { authenticatedApi } from '@/api/instance';
+import { isMockupRuntimePath } from '@/routes/_authenticated/-utils/mockupRoutes';
 import {
   getMyAccountResponseSchema,
   type GetMyAccountResponse,
@@ -25,7 +26,10 @@ const PROTOTYPE_ACCOUNT_STUB: GetMyAccountResponse = {
 };
 
 export const getMyAccount = async (): Promise<GetMyAccountResponse> => {
-  if (import.meta.env.VITE_IS_PROTOTYPE === 'true') {
+  if (
+    import.meta.env.VITE_IS_PROTOTYPE === 'true' ||
+    isMockupRuntimePath()
+  ) {
     return PROTOTYPE_ACCOUNT_STUB;
   }
   const response = await authenticatedApi.get('me').json();

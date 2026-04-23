@@ -4,6 +4,7 @@ import { useAnalytics, type UserType } from '@/hooks/useAnalytics';
 import { useAuth } from '@/service/auth/hook';
 import { useQuery } from '@tanstack/react-query';
 import { getAccountMeQueryOptions } from '@/query/options/account';
+import { isMockupRoutePath } from '@/routes/_authenticated/-utils/mockupRoutes';
 
 interface AnalyticsProviderProps {
   children: ReactNode;
@@ -18,9 +19,10 @@ export const AnalyticsProvider = ({ children }: AnalyticsProviderProps) => {
   const location = useLocation();
 
   const isPrototype = import.meta.env.VITE_IS_PROTOTYPE === 'true';
+  const isMockupRoute = isMockupRoutePath(location.pathname);
   const { data: accountData } = useQuery({
     ...getAccountMeQueryOptions(),
-    enabled: auth.isLogined && !isPrototype
+    enabled: auth.isLogined && !isPrototype && !isMockupRoute
   });
 
   const getUserTypeAndId = useCallback((): {

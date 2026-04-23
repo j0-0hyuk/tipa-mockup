@@ -17,13 +17,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter, useLocation } from '@tanstack/react-router';
 import { useI18n } from '@/hooks/useI18n.ts';
-import { Flex, Button, Avatar, Select, Tooltip } from '@docs-front/ui';
+import { Flex, Avatar, Select, Tooltip } from '@docs-front/ui';
 import { Internet } from '@docs-front/ui';
 import { getAccountMeQueryOptions } from '@/query/options/account';
 import { useBreakPoints } from '@/hooks/useBreakPoints';
 import { useSideNavigationModalStore } from '@/store/useSideNavigationModalStore';
-import { PricingPlanModal } from '@/routes/_authenticated/credit-plan/-components/PricingPlanModal/PricingPlanModal';
 import { docsCacheClear } from '@/query/cache';
+import { isMockupRoutePath } from '@/routes/_authenticated/-utils/mockupRoutes';
 
 import { useAuth } from '@/service/auth/hook';
 import { useTheme } from '@emotion/react';
@@ -117,14 +117,7 @@ export const ProfileItem = ({ open }: { open: boolean }) => {
   // 데모/프로토타입 라우트 및 프로토타입 빌드에서는 백엔드 호출을 끈다
   const { pathname } = useLocation();
   const isPrototypeBuild = import.meta.env.VITE_IS_PROTOTYPE === 'true';
-  const isDemoRoute =
-    isPrototypeBuild ||
-    pathname === '/chatbot-flow' ||
-    pathname.startsWith('/chatbot-flow/') ||
-    pathname === '/homepage-flow' ||
-    pathname.startsWith('/homepage-flow/') ||
-    pathname === '/admin-demo' ||
-    pathname.startsWith('/admin-demo/');
+  const isDemoRoute = isPrototypeBuild || isMockupRoutePath(pathname);
 
   const { data: accountData } = useQuery({
     ...getAccountMeQueryOptions(),

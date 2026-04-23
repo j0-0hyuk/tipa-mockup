@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="google" content="notranslate" />
-    <link rel="icon" type="image/svg+xml" href="/docshunt-icon.svg" />
+    <link rel="icon" type="image/png" href="/images/chatbot/tipa-symbol.png" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -16,16 +17,44 @@
       name="naver-site-verification"
       content="8b95bd75264aba5160dbc5493c948c6059c20628"
     />
-    <script
-      type="application/javascript"
-      src="https://cdn.atmsads.io/sdk/atomossdk.js"
-    ></script>
+    <script>
+      window.__DOCS_FRONT_IS_MOCKUP_ROUTE__ = (function () {
+        var pathname = window.location.pathname;
+        var prefixes = [
+          '/start',
+          '/start2',
+          '/company',
+          '/chatbot-flow',
+          '/homepage-flow',
+          '/admin-demo'
+        ];
+
+        return prefixes.some(function (prefix) {
+          return (
+            pathname === prefix ||
+            pathname.endsWith(prefix) ||
+            pathname.indexOf(prefix + '/') !== -1
+          );
+        });
+      })();
+
+      if (!window.__DOCS_FRONT_IS_MOCKUP_ROUTE__) {
+        var atomosScript = document.createElement('script');
+        atomosScript.type = 'application/javascript';
+        atomosScript.src = 'https://cdn.atmsads.io/sdk/atomossdk.js';
+        document.head.appendChild(atomosScript);
+      }
+    </script>
     <title>Docshunt</title>
   </head>
   <body>
     <% if (!isPrototype) { %>
     <script defer>
       (function () {
+        if (window.__DOCS_FRONT_IS_MOCKUP_ROUTE__) {
+          return;
+        }
+
         var w = window;
         if (w.ChannelIO) {
           return w.console.error('ChannelIO script included twice.');
@@ -61,15 +90,17 @@
       })();
     </script>
     <script defer>
-      ChannelIO('showChannelButton');
-      ChannelIO('boot', {
-        pluginKey: '784f6938-6039-4991-92f3-1a54b44e269e',
-        appearance: {
-          position: 'right',
-          xMargin: 20,
-          yMargin: 20
-        }
-      });
+      if (!window.__DOCS_FRONT_IS_MOCKUP_ROUTE__ && window.ChannelIO) {
+        ChannelIO('showChannelButton');
+        ChannelIO('boot', {
+          pluginKey: '784f6938-6039-4991-92f3-1a54b44e269e',
+          appearance: {
+            position: 'right',
+            xMargin: 20,
+            yMargin: 20
+          }
+        });
+      }
     </script>
     <% } %>
     <div id="root"></div>
