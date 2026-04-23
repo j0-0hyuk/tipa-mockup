@@ -182,8 +182,10 @@ const cardEnter = keyframes`
 `;
 
 export const StyledWidget = styled.div<{ $exiting: boolean }>`
-  width: 540px;
-  height: 774px;
+  width: 480px;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  min-height: 640px;
   background: ${colors.white};
   border-radius: 24px;
   box-shadow: 0 32px 80px -24px rgba(15, 23, 42, 0.25), 0 12px 32px -8px rgba(15, 23, 42, 0.1);

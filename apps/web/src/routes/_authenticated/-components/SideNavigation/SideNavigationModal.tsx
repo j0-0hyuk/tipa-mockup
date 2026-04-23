@@ -8,7 +8,7 @@ import {
   StyledSideNavigationHeader,
   StyledSideNavigationModal
 } from '@/routes/_authenticated/-components/SideNavigation/SideNavigation.style';
-import { FlaskConical, Inbox, MessageCircle, Home, Shield, PanelLeft } from 'lucide-react';
+import { FlaskConical, Inbox, MessageCircle, Home, Shield, PanelLeft, Building2 } from 'lucide-react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useSideNavigationModalStore } from '@/store/useSideNavigationModalStore';
 import { useBreakPoints } from '@/hooks/useBreakPoints';
@@ -70,6 +70,16 @@ export default function SideNavigationModal() {
               isActive={
                 location.pathname === '/start2' ||
                 location.pathname.startsWith('/start2/')
+              }
+            />
+            <NavIcon
+              label="기업정보 및 공고추천"
+              icon={<Building2 size={20} strokeWidth={1.6} />}
+              open={true}
+              onClick={() => handleNavigate('/company')}
+              isActive={
+                location.pathname === '/company' ||
+                location.pathname.startsWith('/company/')
               }
             />
             <NavIcon

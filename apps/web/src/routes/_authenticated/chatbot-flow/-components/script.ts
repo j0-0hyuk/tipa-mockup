@@ -1,7 +1,7 @@
 export type ScriptStep =
   | { kind: 'ai'; text: string; typingMs: number; delayBeforeMs: number; instant?: boolean }
   | { kind: 'user'; text: string; typingMs: number; delayBeforeMs: number }
-  | { kind: 'cta'; delayBeforeMs: number }
+  | { kind: 'cta'; delayBeforeMs: number; target?: 'rnd' | 'company' }
   | { kind: 'chips'; delayBeforeMs: number; disabled?: boolean; selectedId?: string; continueAfterMs?: number };
 
 export const BOT_NAME = 'TIPANI';
@@ -39,91 +39,22 @@ export const SCENARIOS: Scenario[] = [
     label: '지원사업 추천',
     chipText: '우리 회사에 맞는 지원사업을 찾아볼까요?',
     steps: [
-      // 유저: 주제만 먼저 말함
       {
         kind: 'user',
-        text: 'AI SW를 만드는데 지원 가능한 사업이 있을까?',
-        typingMs: 600,
+        text: '우리 회사에 맞는 지원사업 찾아줘',
+        typingMs: 500,
         delayBeforeMs: 300,
       },
-      // AI: 추가 정보 요청
       {
         kind: 'ai',
-        text: '맞춤 추천을 위해 몇 가지 여쭤볼게요.\n회사의 **업력**과 **연매출** 규모를 알려주세요.',
-        typingMs: 800,
-        delayBeforeMs: 600,
+        text: '기업정보를 알려주시면 일치율 높은 공고를 추천해드릴게요.',
+        typingMs: 500,
+        delayBeforeMs: 500,
       },
-      // 유저: 추가 정보 제공
       {
-        kind: 'user',
-        text: '3년, 10억이야',
-        typingMs: 400,
+        kind: 'cta',
+        target: 'company',
         delayBeforeMs: 400,
-      },
-      // AI: 맥락 확인 후 분석 시작
-      {
-        kind: 'ai',
-        text:
-          '🧠 **분석 중입니다**\n' +
-          '3년 업력·10억 연매출 규모의 AI SW 사업체 기준으로 지원 가능한 사업을 찾아드릴게요.',
-        typingMs: 800,
-        delayBeforeMs: 600,
-      },
-      // AI: Top 3 추천
-      {
-        kind: 'ai',
-        instant: true,
-        text:
-          '3년차·매출 10억 기준 **SMTECH 공고 중 지원가능 Top 3** 입니다.\n\n' +
-          '✅ **추천 사업**\n' +
-          '  ① **창업성장기술개발사업** — 최대 1.2억 / 출연금 80%\n' +
-          '     https://www.smtech.go.kr/region/rms\n' +
-          '  ② **중소기업기술혁신개발사업** — 최대 4억 / 출연금 70%\n' +
-          '     https://www.smtech.go.kr/region/rms\n' +
-          '  ③ **소부장 강소기업 기술개발** — 최대 2억 / 출연금 75%\n' +
-          '     https://www.smtech.go.kr/region/rms\n\n' +
-          '⚠️ **제외** — TIPS(https://www.jointips.or.kr), 청년기업 R&D(창업 3년 초과)\n\n' +
-          '📎 **출처**\n' +
-          '  • SMTECH 공고: https://www.smtech.go.kr/region/rms\n' +
-          '  • 중기부 통합공고: https://www.mss.go.kr',
-        typingMs: 200,
-        delayBeforeMs: 700,
-      },
-      // 유저: 후속 질문 (Top 3 ①번 참조)
-      {
-        kind: 'user',
-        text: '첫 번째 사업 신청 마감이 언제야?',
-        typingMs: 400,
-        delayBeforeMs: 400,
-      },
-      // AI: 분석 중
-      {
-        kind: 'ai',
-        text:
-          '🧠 **분석 중입니다**\n' +
-          '창업성장기술개발사업 공고 일정을 확인해드릴게요.',
-        typingMs: 800,
-        delayBeforeMs: 600,
-      },
-      // AI: 마감일 상세 답변
-      {
-        kind: 'ai',
-        instant: true,
-        text:
-          '**창업성장기술개발사업** 2026년 상반기 일정입니다.\n\n' +
-          '📅 **주요 일정**\n' +
-          '  • 공고일: 2026.03.04\n' +
-          '  • 접수 기간: 2026.03.18 ~ 2026.04.15 18:00\n' +
-          '  • 평가 기간: 2026.05 (서면) → 2026.06 (대면)\n' +
-          '  • 협약 체결: 2026.07 (예정)\n\n' +
-          '⏰ **마감까지 남은 기간**: 마감 완료\n\n' +
-          '💡 **Tip**\n' +
-          '  • 하반기 추가 공고가 8~9월에 예상돼요\n' +
-          '  • SMTECH 알림 설정 시 공고 즉시 안내 가능\n\n' +
-          '📎 **출처**\n' +
-          '  • SMTECH 공고: https://www.smtech.go.kr/region/rms',
-        typingMs: 200,
-        delayBeforeMs: 700,
       },
       {
         kind: 'chips',

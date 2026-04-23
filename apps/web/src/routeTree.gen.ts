@@ -23,6 +23,7 @@ import { Route as AuthenticatedHomepageFlowRouteRouteImport } from './routes/_au
 import { Route as AuthenticatedFRouteRouteImport } from './routes/_authenticated/f/route'
 import { Route as AuthenticatedCreditPolicyRouteRouteImport } from './routes/_authenticated/credit-policy/route'
 import { Route as AuthenticatedCreditPlanRouteRouteImport } from './routes/_authenticated/credit-plan/route'
+import { Route as AuthenticatedCompanyRouteRouteImport } from './routes/_authenticated/company/route'
 import { Route as AuthenticatedChatbotFlowRouteRouteImport } from './routes/_authenticated/chatbot-flow/route'
 import { Route as AuthenticatedAdminDemoRouteRouteImport } from './routes/_authenticated/admin-demo/route'
 import { Route as AuthenticatedFIndexRouteImport } from './routes/_authenticated/f/index'
@@ -119,6 +120,12 @@ const AuthenticatedCreditPlanRouteRoute =
   AuthenticatedCreditPlanRouteRouteImport.update({
     id: '/credit-plan',
     path: '/credit-plan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCompanyRouteRoute =
+  AuthenticatedCompanyRouteRouteImport.update({
+    id: '/company',
+    path: '/company',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedChatbotFlowRouteRoute =
@@ -266,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-demo': typeof AuthenticatedAdminDemoRouteRouteWithChildren
   '/chatbot-flow': typeof AuthenticatedChatbotFlowRouteRoute
+  '/company': typeof AuthenticatedCompanyRouteRoute
   '/credit-plan': typeof AuthenticatedCreditPlanRouteRoute
   '/credit-policy': typeof AuthenticatedCreditPolicyRouteRoute
   '/f': typeof AuthenticatedFRouteRouteWithChildren
@@ -302,6 +310,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chatbot-flow': typeof AuthenticatedChatbotFlowRouteRoute
+  '/company': typeof AuthenticatedCompanyRouteRoute
   '/credit-plan': typeof AuthenticatedCreditPlanRouteRoute
   '/credit-policy': typeof AuthenticatedCreditPolicyRouteRoute
   '/homepage-flow': typeof AuthenticatedHomepageFlowRouteRoute
@@ -341,6 +350,7 @@ export interface FileRoutesById {
   '/_intro': typeof IntroRouteWithChildren
   '/_authenticated/admin-demo': typeof AuthenticatedAdminDemoRouteRouteWithChildren
   '/_authenticated/chatbot-flow': typeof AuthenticatedChatbotFlowRouteRoute
+  '/_authenticated/company': typeof AuthenticatedCompanyRouteRoute
   '/_authenticated/credit-plan': typeof AuthenticatedCreditPlanRouteRoute
   '/_authenticated/credit-policy': typeof AuthenticatedCreditPolicyRouteRoute
   '/_authenticated/f': typeof AuthenticatedFRouteRouteWithChildren
@@ -381,6 +391,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-demo'
     | '/chatbot-flow'
+    | '/company'
     | '/credit-plan'
     | '/credit-policy'
     | '/f'
@@ -417,6 +428,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/chatbot-flow'
+    | '/company'
     | '/credit-plan'
     | '/credit-policy'
     | '/homepage-flow'
@@ -455,6 +467,7 @@ export interface FileRouteTypes {
     | '/_intro'
     | '/_authenticated/admin-demo'
     | '/_authenticated/chatbot-flow'
+    | '/_authenticated/company'
     | '/_authenticated/credit-plan'
     | '/_authenticated/credit-policy'
     | '/_authenticated/f'
@@ -594,6 +607,13 @@ declare module '@tanstack/react-router' {
       path: '/credit-plan'
       fullPath: '/credit-plan'
       preLoaderRoute: typeof AuthenticatedCreditPlanRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/company': {
+      id: '/_authenticated/company'
+      path: '/company'
+      fullPath: '/company'
+      preLoaderRoute: typeof AuthenticatedCompanyRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chatbot-flow': {
@@ -827,6 +847,7 @@ const AuthenticatedFRouteRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminDemoRouteRoute: typeof AuthenticatedAdminDemoRouteRouteWithChildren
   AuthenticatedChatbotFlowRouteRoute: typeof AuthenticatedChatbotFlowRouteRoute
+  AuthenticatedCompanyRouteRoute: typeof AuthenticatedCompanyRouteRoute
   AuthenticatedCreditPlanRouteRoute: typeof AuthenticatedCreditPlanRouteRoute
   AuthenticatedCreditPolicyRouteRoute: typeof AuthenticatedCreditPolicyRouteRoute
   AuthenticatedFRouteRoute: typeof AuthenticatedFRouteRouteWithChildren
@@ -849,6 +870,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminDemoRouteRoute:
     AuthenticatedAdminDemoRouteRouteWithChildren,
   AuthenticatedChatbotFlowRouteRoute: AuthenticatedChatbotFlowRouteRoute,
+  AuthenticatedCompanyRouteRoute: AuthenticatedCompanyRouteRoute,
   AuthenticatedCreditPlanRouteRoute: AuthenticatedCreditPlanRouteRoute,
   AuthenticatedCreditPolicyRouteRoute: AuthenticatedCreditPolicyRouteRoute,
   AuthenticatedFRouteRoute: AuthenticatedFRouteRouteWithChildren,
