@@ -18,6 +18,7 @@ import {
   HelpCircle,
   X,
   BarChart3,
+  PanelRight,
 } from 'lucide-react';
 import {
   StyledModalOverlay,
@@ -302,7 +303,7 @@ const SECTION_ITEMS = [
   {
     id: 0,
     title: '기술개발 목표',
-    markdown: `# 1. 기술개발 목표 (정량 목표)
+    markdown: `# 1. 기술개발 목표
 
 ## (1) 기술개발 목표 설정 배경
 
@@ -355,7 +356,7 @@ const SECTION_ITEMS = [
   {
     id: 1,
     title: '연구개발 방법',
-    markdown: `# 2. 연구개발 방법 (검증/평가 방법)
+    markdown: `# 2. 연구개발 방법
 
 ## (1) 전체 개발 접근 방식
 
@@ -426,7 +427,7 @@ NTIS 공개 데이터, 공공 R&D 계획서 샘플, 정부지원사업 공고문
   },
   {
     id: 2,
-    title: '선행연구개발 분석',
+    title: '선행연구개발',
     markdown: `# 3. 선행연구개발
 
 ## (1) 선행연구개발 이력
@@ -661,8 +662,8 @@ NTIS 공개 데이터, 공공 R&D 계획서 샘플, 정부지원사업 공고문
   },
   {
     id: 6,
-    title: '기대효과 및 활용방안',
-    markdown: `# 7. 연구개발성과의 활용방안 및 기대효과
+    title: '활용방안 및 기대효과',
+    markdown: `# 7. 활용방안 및 기대효과
 
 ## (1) 기술적 기대효과
 
@@ -1631,11 +1632,11 @@ export function Start2Page({
 
     return (
       <>
-        <StyledStepTitle>연구개발계획서 초안입니다</StyledStepTitle>
+        <StyledStepTitle>연구개발계획서 초안</StyledStepTitle>
 
         <StyledDisclaimerBanner>
           <Info size={16} style={{ flexShrink: 0, color: '#2C81FC' }} />
-          본 초안은 외부 데이터 없이 사용자 입력만으로 생성되었습니다. 세부 기능을 활용하여 외부 데이터 기반 검증 및 보완을 진행하세요.
+          AI가 생성한 초안입니다. 좌측 목차에서 항목을 선택하고, 세부 기능으로 외부 데이터 기반 검증을 진행하세요.
         </StyledDisclaimerBanner>
 
         <StyledDraftLayout>
@@ -1648,7 +1649,13 @@ export function Start2Page({
                 $active={currentSection === i}
                 onClick={() => { setCurrentSection(i); setSectionViewMode('text'); scrollToTop(); }}
               >
-                {i + 1}. {item.title}
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 20, height: 20, borderRadius: 6, fontSize: 12, fontWeight: 700, flexShrink: 0,
+                  background: currentSection === i ? '#2C81FC' : 'transparent',
+                  color: currentSection === i ? '#FFFFFF' : '#98A2B3',
+                }}>{i + 1}</span>
+                {item.title}
               </StyledSidebarItem>
             ))}
 
@@ -1676,7 +1683,7 @@ export function Start2Page({
 
           {/* 오른쪽 콘텐츠 */}
           <StyledDraftContent>
-            {currentSection === 6 && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12, minHeight: 36, visibility: currentSection === 6 ? 'visible' : 'hidden' }}>
               <StyledViewTabs>
                 <StyledViewTab $active={sectionViewMode === 'text'} onClick={() => setSectionViewMode('text')}>
                   <BookOpen size={15} />
@@ -1687,7 +1694,7 @@ export function Start2Page({
                   슬라이드
                 </StyledViewTab>
               </StyledViewTabs>
-            )}
+            </div>
 
             {currentSection === 6 && sectionViewMode === 'slide' ? (
               <StyledSlidePlaceholder>
@@ -1714,9 +1721,9 @@ export function Start2Page({
             <StyledToolResultPanel>
               <StyledToolResultHeader>
                 <StyledToolResultTitle>{TOOL_RESULTS[selectedTool].title}</StyledToolResultTitle>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <StyledToolResultClose onClick={() => setDrawerCollapsed(true)} title="접기">
-                    <ChevronRight size={18} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <StyledToolResultClose onClick={() => setDrawerCollapsed(true)} title="패널 접기">
+                    <PanelRight size={18} />
                   </StyledToolResultClose>
                   <StyledToolResultClose onClick={() => handleToolClick(null)} title="닫기">
                     <X size={18} />

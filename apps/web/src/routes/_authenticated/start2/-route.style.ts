@@ -440,7 +440,7 @@ export const StyledSidebarToolSection = styled.div`
   background: #F8F9FB;
   border: 1px solid #EEF1F5;
   border-radius: 12px;
-  padding: 14px 10px 6px;
+  padding: 14px 10px 8px;
 `;
 
 export const StyledSidebarToolButton = styled.button`
@@ -666,19 +666,19 @@ export const StyledPageInfo = styled.span`
 export const StyledViewTabs = styled.div`
   display: flex;
   gap: 0;
-  margin-bottom: 16px;
   border: 1px solid #E3E4E8;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
   width: fit-content;
+  flex-shrink: 0;
 `;
 
 export const StyledViewTab = styled.button<{ $active?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 24px;
-  font-size: 14px;
+  gap: 5px;
+  padding: 7px 16px;
+  font-size: 13px;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
   color: ${({ $active }) => ($active ? '#FFFFFF' : '#596070')};
   background: ${({ $active }) => ($active ? '#2C81FC' : '#FFFFFF')};
