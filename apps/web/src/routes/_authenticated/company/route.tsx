@@ -28,8 +28,6 @@ import {
   ELIGIBILITY_ANSWER_OPTIONS,
   TIPA_ELIGIBILITY_CHECKS,
   computeEligibilitySummary,
-  deriveAutoEligibility,
-  mergeEligibilityAnswers,
   type EligibilityAnswer,
 } from '@/constants/tipaEligibilityChecks.constant';
 import {
@@ -52,7 +50,6 @@ import {
   StyledCompletenessTitle,
   StyledContainer,
   StyledContent,
-  StyledEligibilityAutoReason,
   StyledEligibilityBadge,
   StyledEligibilityCard,
   StyledEligibilityCardTop,
@@ -67,9 +64,6 @@ import {
   StyledEligibilityOption,
   StyledEligibilityOptions,
   StyledEligibilityQuestion,
-  StyledEligibilitySummaryBar,
-  StyledEligibilitySummaryMeta,
-  StyledEligibilitySummaryText,
   StyledEmptyMatches,
   StyledField,
   StyledFieldGrid,
@@ -455,19 +449,9 @@ function CompanyPage() {
   }, [savedProfile.updatedAt]);
 
   const completeness = useMemo(() => computeCompleteness(draft), [draft]);
-  const derivedEligibility = useMemo(
-    () =>
-      deriveAutoEligibility({
-        employeeSize: draft.employeeSize,
-        revenue: draft.revenue,
-        hasPriorAward: draft.hasPriorAward,
-        foundedYear: draft.foundedYear,
-      }),
-    [draft.employeeSize, draft.revenue, draft.hasPriorAward, draft.foundedYear],
-  );
   const effectiveEligibility = useMemo(
-    () => mergeEligibilityAnswers(draft.eligibility, derivedEligibility),
-    [draft.eligibility, derivedEligibility],
+    () => draft.eligibility ?? {},
+    [draft.eligibility],
   );
   const specialClauseContext = useMemo(
     () => ({
@@ -479,17 +463,9 @@ function CompanyPage() {
     }),
     [draft.foundedYear, draft.hasPriorAward, effectiveEligibility],
   );
-  const effectiveDerivedKeys = useMemo(() => {
-    // 사용자가 답변하지 않았고 derived에만 있는 키 = 실제 자동 적용된 키
-    return new Set(
-      Object.keys(derivedEligibility).filter(
-        (id) => !draft.eligibility?.[id],
-      ),
-    );
-  }, [derivedEligibility, draft.eligibility]);
   const eligibilitySummary = useMemo(
-    () => computeEligibilitySummary(effectiveEligibility, effectiveDerivedKeys),
-    [effectiveEligibility, effectiveDerivedKeys],
+    () => computeEligibilitySummary(effectiveEligibility),
+    [effectiveEligibility],
   );
   const matches = useMemo(
     () => (showMatches ? findMatchingPrograms(draft, { minScore: 35, limit: 6 }) : []),
@@ -648,7 +624,7 @@ function CompanyPage() {
         <StyledHeaderLeft>
           <StyledPageTitle>기업정보 및 공고추천</StyledPageTitle>
           <StyledPageDesc>
-            회사 정보를 입력하면 맞는 R&D 공고를 추천해드려요. 정보가 많을수록 정확해져요.
+            회사 정보를 입력하면 우리 회사에 맞는 R&D 공고를 먼저 추려드려요.
           </StyledPageDesc>
         </StyledHeaderLeft>
 
@@ -660,10 +636,10 @@ function CompanyPage() {
             <StyledCompletenessTitle>프로필 완성도</StyledCompletenessTitle>
             <StyledCompletenessHint>
               {completeness >= 80
-                ? '추천 정확도 최상'
+                ? '추천 기준이 충분해요'
                 : completeness >= 60
-                  ? '추천 가능'
-                  : '정보를 더 채워주세요'}
+                  ? '추천에 필요한 정보가 모였어요'
+                  : '핵심 정보만 더 입력해 주세요'}
             </StyledCompletenessHint>
             <StyledEligibilityBadge
               $status={eligibilitySummary.status}
@@ -712,7 +688,7 @@ function CompanyPage() {
               기본정보
             </StyledSectionTitle>
             <StyledSectionDesc>
-              창업 연차와 지역 특화 공고 매칭에 쓰여요.
+              업력과 소재지에 따라 신청 가능한 공고가 달라져요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField>
@@ -782,7 +758,7 @@ function CompanyPage() {
               사업현황
             </StyledSectionTitle>
             <StyledSectionDesc>
-              기업 규모·업종은 매칭 정확도에 가장 큰 영향을 줘요.
+              업종과 기업 규모는 가장 기본적인 자격 조건이에요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField $full>
@@ -848,7 +824,7 @@ function CompanyPage() {
               R&D 현황
             </StyledSectionTitle>
             <StyledSectionDesc>
-              기술 성숙도와 키워드로 추천 정확도가 올라가요.
+              기술 단계와 키워드가 맞을수록 추천 공고가 더 또렷해져요.
             </StyledSectionDesc>
             <StyledFieldGrid>
               <StyledField $full>
@@ -856,7 +832,7 @@ function CompanyPage() {
                   기술 준비 단계(TRL)<StyledRequired>*</StyledRequired>
                 </StyledLabel>
                 <StyledFieldHint>
-                  단계에 따라 추천 공고가 달라져요.
+                  아이디어 단계인지, 시제품 단계인지에 따라 추천 공고가 달라져요.
                 </StyledFieldHint>
                 <StyledChipGroup>
                   {TRL_OPTIONS.map((opt) => (
@@ -936,41 +912,12 @@ function CompanyPage() {
               신청자격 빠른 진단
             </StyledSectionTitle>
             <StyledSectionDesc>
-              기본정보와 기업 규모는 이미 반영했어요. 여기서는 참여제한, 체납,
-              중복신청 같은 예외 이슈만 확인해 주세요.
+              공고문 전반에서 공통으로 보는 유의사항을 먼저 확인할게요.
             </StyledSectionDesc>
-
-            <StyledEligibilitySummaryBar $status={eligibilitySummary.status}>
-              <div>
-                <StyledEligibilitySummaryText>
-                  {eligibilitySummary.status === 'safe'
-                    ? '공통 신청자격 이상 없음'
-                    : eligibilitySummary.status === 'needs_check'
-                      ? `확인 필요 ${eligibilitySummary.unknownCount}건 — 공고 전 다시 확인해 주세요`
-                    : eligibilitySummary.blockerNoCount > 0
-                      ? `지원 불가 ${eligibilitySummary.blockerNoCount}건 — 신청이 어려워요`
-                      : eligibilitySummary.warningNoCount > 0
-                        ? `해소 필요 ${eligibilitySummary.warningNoCount}건 — 예외 조항 확인하세요`
-                        : eligibilitySummary.status === 'in_progress'
-                          ? `${eligibilitySummary.answeredCount}/${eligibilitySummary.totalCount} 답변 완료`
-                          : '4개 항목을 확인해 주세요'}
-                </StyledEligibilitySummaryText>
-                <StyledEligibilitySummaryMeta>
-                  {eligibilitySummary.status === 'needs_check'
-                    ? '모름으로 둔 항목은 초안 작성 전에 다시 확인하는 게 좋아요'
-                    : eligibilitySummary.autoCount > 0
-                    ? `입력한 기업정보 기준으로 ${eligibilitySummary.autoCount}건 먼저 반영했어요. 실제와 다르면 수정해 주세요`
-                    : '답변은 공고별 확인에서 재사용돼요'}
-                </StyledEligibilitySummaryMeta>
-              </div>
-            </StyledEligibilitySummaryBar>
 
             <StyledEligibilityList>
               {TIPA_ELIGIBILITY_CHECKS.map((check, index) => {
-                const userAnswer = draft.eligibility?.[check.id];
-                const derived = derivedEligibility[check.id];
-                const isAutoApplied = !userAnswer && !!derived;
-                const answer = userAnswer ?? derived?.answer;
+                const answer = draft.eligibility?.[check.id];
                 const showDrill = answer === 'no' && !!check.drillDown;
                 const showNoMeaning = answer === 'no';
                 return (
@@ -986,12 +933,6 @@ function CompanyPage() {
                           {check.question}
                         </StyledEligibilityQuestion>
                         <StyledEligibilityHint>{check.hint}</StyledEligibilityHint>
-
-                        {isAutoApplied && derived && (
-                          <StyledEligibilityAutoReason>
-                            {derived.reason}
-                          </StyledEligibilityAutoReason>
-                        )}
 
                         <StyledEligibilityOptions>
                           {ELIGIBILITY_ANSWER_OPTIONS.map((option) => (
@@ -1046,10 +987,10 @@ function CompanyPage() {
                   <StyledMatchesTitle>
                     {matches.length > 0
                       ? `매칭 공고 ${matches.length}건`
-                      : '매칭 공고를 찾는 중입니다'}
+                      : '추천 공고를 찾고 있어요'}
                   </StyledMatchesTitle>
                   <StyledMatchesSub>
-                    프로필 완성도 {completeness}% · 정보가 많을수록 정확해져요
+                    입력한 정보를 바탕으로 맞는 공고만 먼저 추렸어요
                   </StyledMatchesSub>
                 </div>
                 <Flex alignItems="center" gap={6}>
@@ -1068,12 +1009,12 @@ function CompanyPage() {
 
               <StyledNoticeBanner>
                 <StyledNoticeIcon>i</StyledNoticeIcon>
-                AI 참고 추천이에요. 실제 자격·마감일·요건은 주관기관 공고에서 꼭 확인해 주세요.
+                추천 결과예요. 실제 신청 자격과 마감일은 제출 전에 다시 확인해 주세요.
               </StyledNoticeBanner>
 
               {matches.length === 0 ? (
                 <StyledEmptyMatches>
-                  매칭 조건이 부족해요. 업종·기술 성숙도·기업 규모를 채워주세요
+                  아직 추천할 공고가 없어요. 업종·기술 단계·기업 규모를 먼저 채워주세요
                 </StyledEmptyMatches>
               ) : (
                 <StyledMatchGrid>
@@ -1199,8 +1140,7 @@ function CompanyPage() {
             <StyledCheckProgramTitle>{pendingProgramCheck.title}</StyledCheckProgramTitle>
 
             <StyledModalDesc>
-              기본 신청 자격은 먼저 확인했어요. 이 공고에만 적용되는 조건을 확인해
-              주세요.
+              이 공고에서만 추가로 보는 조건이에요. 답하면 바로 초안으로 이어갈게요.
             </StyledModalDesc>
 
             <StyledCheckQuestionList>
@@ -1248,14 +1188,14 @@ function CompanyPage() {
 
             {specialClauseSummary.notReadyBlocker > 0 && (
               <StyledCheckFooterNote $tone="warning">
-                🚫 필수 {specialClauseSummary.notReadyBlocker}건 미준비 — 신청 전 해결 필요
+                🚫 바로 신청하기 전에 먼저 정리해야 할 항목 {specialClauseSummary.notReadyBlocker}건
               </StyledCheckFooterNote>
             )}
 
             {specialClauseSummary.notApplicableCount > 0 && (
               <StyledCheckFooterNote $tone="neutral">
-                확인이 안 된 항목 {specialClauseSummary.notApplicableCount}건 — 초안 작성은
-                진행되지만, 제출 전 공고문 기준으로 다시 확인해 주세요
+                모르는 항목 {specialClauseSummary.notApplicableCount}건 — 초안은 진행되지만
+                제출 전에 다시 확인해 주세요
               </StyledCheckFooterNote>
             )}
 
@@ -1324,7 +1264,7 @@ function CompanyPage() {
             <StyledPreviewSection>
               <StyledPreviewSectionTitle>기술 단계·지역 조건</StyledPreviewSectionTitle>
               <StyledPreviewSectionBody>
-                이 공고는 아래 조건과 잘 맞을 때 추천 정확도가 올라가요.
+                우리 회사와 맞는지 볼 때 주로 보는 조건들이에요.
               </StyledPreviewSectionBody>
               <StyledPreviewPillRow>
                 {previewProgram.targetTrls.map((trl) => (
