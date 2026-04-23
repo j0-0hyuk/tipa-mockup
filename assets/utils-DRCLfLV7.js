@@ -1,0 +1,6 @@
+import{aN as r,aO as i,aP as l}from"./index-DFhKk_SS.js";try{(function(){var t=typeof window<"u"?window:typeof global<"u"?global:typeof globalThis<"u"?globalThis:typeof self<"u"?self:{},e=new t.Error().stack;e&&(t._sentryDebugIds=t._sentryDebugIds||{},t._sentryDebugIds[e]="c7d9f912-1585-45f5-8a3d-a0af4c689093",t._sentryDebugIdIdentifier="sentry-dbid-c7d9f912-1585-45f5-8a3d-a0af4c689093")})()}catch{}const y=t=>t.map(e=>e.type==="text"?e.text:"").join(""),b=t=>{if("contents"in t&&typeof t.contents=="object"){const s=t.contents,n=[];for(const[o,a]of Object.entries(s))if(a&&a.trim()&&o!=="themeColor"){const f=`main:chat.form.${o}`,u=r.exists(f)?r.t(f):o;n.push(`- ${u}: ${a}`)}return[{id:i(),role:"user",parts:[{type:"text",text:n.join(`
+
+`).trim()}]},{id:i(),role:"assistant",parts:[{type:"data-document",data:{value:"",status:"generating"}}]}]}const d=l(t).contents,c=[];for(const[s,n]of Object.entries(d))if(n&&n.trim()&&s!=="themeColor"){const o=`main:chat.form.${s}`,a=r.exists(o)?r.t(o):s;c.push(`# ${a}:
+${n}`)}return[{id:i(),role:"user",parts:[{type:"text",text:c.join(`
+
+`).trim()}]},{id:i(),role:"assistant",parts:[{type:"data-document",data:{value:"",status:"generating"}}]}]};export{b as o,y as p};
