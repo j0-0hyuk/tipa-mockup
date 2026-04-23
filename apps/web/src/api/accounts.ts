@@ -28,6 +28,7 @@ const PROTOTYPE_ACCOUNT_STUB: GetMyAccountResponse = {
 export const getMyAccount = async (): Promise<GetMyAccountResponse> => {
   if (
     import.meta.env.VITE_IS_PROTOTYPE === 'true' ||
+    !import.meta.env.VITE_API_URL ||
     isMockupRuntimePath()
   ) {
     return PROTOTYPE_ACCOUNT_STUB;

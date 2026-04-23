@@ -2,6 +2,8 @@ const MOCKUP_ROUTE_PREFIXES = [
   '/start',
   '/start2',
   '/company',
+  '/d',
+  '/review',
   '/chatbot-flow',
   '/homepage-flow',
   '/admin-demo',

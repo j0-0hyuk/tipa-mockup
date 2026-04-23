@@ -65,9 +65,22 @@ import { Step1SelectTemplate, type SavedDraft } from '../start/-components/steps
 import { Step2InputUpload } from '../start/-components/steps/Step2InputUpload';
 import { RecommendIntroModal } from './-components/RecommendIntroModal';
 
+interface Start2Search {
+  announcementName?: string;
+}
+
 export const Route = createFileRoute('/_authenticated/start2')({
-  component: Start2Page,
+  component: Start2RouteComponent,
+  validateSearch: (search: Record<string, unknown>): Start2Search => ({
+    announcementName: typeof search.announcementName === 'string' ? search.announcementName : undefined,
+  }),
 });
+
+function Start2RouteComponent() {
+  const { announcementName } = Route.useSearch();
+
+  return <Start2Page announcementName={announcementName} />;
+}
 
 
 
@@ -524,7 +537,11 @@ const TOOL_RESULTS: Record<ToolId, { title: string; type: 'table' | 'list' | 'ca
    Component
    ──────────────────────────────────────────── */
 
-export function Start2Page() {
+export function Start2Page({
+  announcementName,
+}: {
+  announcementName?: string;
+}) {
   const toast = useToast();
   const navigate = useNavigate();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -1341,6 +1358,7 @@ export function Start2Page() {
               }}
               onLoadDraft={loadStep1Draft}
               draftStorageKey={DRAFT_STORAGE_KEY}
+              draftCardName={announcementName}
             />
           )}
           {currentStep === 2 && (

@@ -34,7 +34,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 export const Route = createFileRoute('/')({
   beforeLoad: async ({ context }) => {
     // 프로토타입 빌드: 백엔드 없이 바로 /start 로 진입
-    if (import.meta.env.VITE_IS_PROTOTYPE === 'true') {
+    if (
+      import.meta.env.VITE_IS_PROTOTYPE === 'true' ||
+      !import.meta.env.VITE_API_URL
+    ) {
       throw redirect({ to: '/start' });
     }
     if (context.auth.isLogined) {

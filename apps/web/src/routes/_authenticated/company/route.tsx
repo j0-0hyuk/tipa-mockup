@@ -201,7 +201,10 @@ function CompanyPage() {
           duration: 2000,
         });
       }
-      navigate({ to: '/start2' });
+      navigate({
+        to: '/start2',
+        search: programTitle ? { announcementName: programTitle } : undefined,
+      });
     },
     [navigate, toast],
   );

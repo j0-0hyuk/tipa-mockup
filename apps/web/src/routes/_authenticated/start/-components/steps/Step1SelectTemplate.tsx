@@ -22,10 +22,13 @@ interface Step1Props {
   onLoadDraft?: (draft: SavedDraft) => void;
   /** localStorage key for "이어서 작성하기" drafts. 예시 1 = 'rnd_saved_drafts', 예시 2 = 'rnd2_saved_drafts' */
   draftStorageKey?: string;
+  draftCardName?: string;
 }
 
+const DEFAULT_DRAFT_CARD_NAME = 'R&D 계획서';
+
 const DRAFT_ITEMS = [
-  { id: 'rnd', name: 'R&D 계획서', desc: '연구개발계획서 구조에 맞춰\nAI와 함께 초안을 작성합니다', icon: FlaskConical, badge: '전문가용', accentHue: 'green' },
+  { id: 'rnd', name: DEFAULT_DRAFT_CARD_NAME, desc: '연구개발계획서 구조에 맞춰\nAI와 함께 초안을 작성합니다', icon: FlaskConical, badge: '전문가용', accentHue: 'green' },
 ] as const;
 
 const DraftCardGrid = styled.div`
@@ -159,10 +162,11 @@ const buildExampleDraft = (): SavedDraft => ({
     '사용자가 연구 주제를 자유롭게 입력하면 AI가 구조화된 계획서 초안을 생성하고, 검토 및 수정 후 원하는 지원사업 양식에 맞춰 내보낼 수 있습니다.',
 });
 
-export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadComplete, onLoadDraft, draftStorageKey = 'rnd_saved_drafts' }: Step1Props) {
+export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadComplete, onLoadDraft, draftStorageKey = 'rnd_saved_drafts', draftCardName }: Step1Props) {
   const toast = useToast();
   const [selectedDraftId, setSelectedDraftId] = useState<string | null>(null);
   const [savedDrafts, setSavedDrafts] = useState<SavedDraft[]>([]);
+  const resolvedDraftCardName = draftCardName?.trim();
 
   useEffect(() => {
     try {
@@ -194,6 +198,9 @@ export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadC
         <DraftCardGrid>
           {DRAFT_ITEMS.map((item) => {
             const selected = selectedDraftId === item.id;
+            const displayName = item.id === 'rnd' && resolvedDraftCardName
+              ? resolvedDraftCardName
+              : item.name;
             return (
               <DraftCard
                 key={item.id}
@@ -201,14 +208,14 @@ export function Step1SelectTemplate({ onSelectTemplate, onDraftSelect, onUploadC
                 onClick={() => {
                   setSelectedDraftId(item.id);
                   onSelectTemplate(-1);
-                  onDraftSelect?.(item.name);
+                  onDraftSelect?.(displayName);
                   onUploadComplete?.();
                 }}
               >
                 <DraftCardIcon $selected={selected} $hue={item.accentHue}>
                   <item.icon size={28} strokeWidth={1.5} />
                 </DraftCardIcon>
-                <DraftCardName>{item.name}</DraftCardName>
+                <DraftCardName>{displayName}</DraftCardName>
                 <DraftCardDesc>{item.desc}</DraftCardDesc>
               </DraftCard>
             );
