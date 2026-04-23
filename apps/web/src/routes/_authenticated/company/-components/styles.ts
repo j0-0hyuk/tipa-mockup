@@ -691,9 +691,8 @@ export const StyledEligibilityNoMeaning = styled.div<{
 
 export const StyledEligibilityCardTop = styled.div`
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  align-items: flex-start;
+  gap: 10px;
 `;
 
 export const StyledEligibilityIndex = styled.span`
@@ -702,6 +701,8 @@ export const StyledEligibilityIndex = styled.span`
   justify-content: center;
   width: 22px;
   height: 22px;
+  flex-shrink: 0;
+  margin-top: 1px;
   border-radius: 50%;
   background: #1e5bb8;
   color: #ffffff;
@@ -722,6 +723,7 @@ export const StyledEligibilityCategory = styled.span`
 `;
 
 export const StyledEligibilityQuestion = styled.div`
+  min-width: 0;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.5;

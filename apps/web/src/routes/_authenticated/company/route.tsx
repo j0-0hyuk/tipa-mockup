@@ -5,10 +5,8 @@ import {
   AlertTriangle,
   Building2,
   Calendar,
-  Check,
   HelpCircle,
   Landmark,
-  Minus,
   ShieldCheck,
   Sparkles,
   Target,
@@ -54,12 +52,10 @@ import {
   StyledCompletenessTitle,
   StyledContainer,
   StyledContent,
-  StyledEligibilityAutoBadge,
   StyledEligibilityAutoReason,
   StyledEligibilityBadge,
   StyledEligibilityCard,
   StyledEligibilityCardTop,
-  StyledEligibilityCategory,
   StyledEligibilityDrillDown,
   StyledEligibilityDrillDownItem,
   StyledEligibilityDrillDownList,
@@ -71,7 +67,6 @@ import {
   StyledEligibilityOption,
   StyledEligibilityOptions,
   StyledEligibilityQuestion,
-  StyledEligibilitySeverityBadge,
   StyledEligibilitySummaryBar,
   StyledEligibilitySummaryMeta,
   StyledEligibilitySummaryText,
@@ -143,6 +138,11 @@ const StyledFieldHint = styled.div`
   letter-spacing: -0.02em;
 `;
 
+const StyledEligibilityBody = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
 const StyledCheckProgramTitle = styled.div`
   font-size: 22px;
   font-weight: 700;
@@ -163,25 +163,6 @@ const StyledCheckQuestionCard = styled.div`
   border-radius: 14px;
   padding: 16px 18px;
   background: #ffffff;
-`;
-
-const StyledCheckQuestionTop = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-`;
-
-const StyledCheckCategory = styled.span`
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #f1f4f8;
-  color: #596070;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
 `;
 
 const StyledCheckQuestion = styled.div`
@@ -1000,80 +981,57 @@ function CompanyPage() {
                   >
                     <StyledEligibilityCardTop>
                       <StyledEligibilityIndex>{index + 1}</StyledEligibilityIndex>
-                      <StyledEligibilityCategory>
-                        {check.category}
-                      </StyledEligibilityCategory>
-                      <StyledEligibilitySeverityBadge $severity={check.severity}>
-                        {check.severity === 'blocker' ? '지원 불가' : '해소 가능'}
-                      </StyledEligibilitySeverityBadge>
-                      {isAutoApplied && (
-                        <StyledEligibilityAutoBadge>
-                          <ShieldCheck size={11} strokeWidth={2.5} />
-                          기본 반영
-                        </StyledEligibilityAutoBadge>
-                      )}
-                    </StyledEligibilityCardTop>
-                    <StyledEligibilityQuestion>
-                      {check.question}
-                    </StyledEligibilityQuestion>
-                    <StyledEligibilityHint>{check.hint}</StyledEligibilityHint>
+                      <StyledEligibilityBody>
+                        <StyledEligibilityQuestion>
+                          {check.question}
+                        </StyledEligibilityQuestion>
+                        <StyledEligibilityHint>{check.hint}</StyledEligibilityHint>
 
-                    {isAutoApplied && derived && (
-                      <StyledEligibilityAutoReason>
-                        {derived.reason}
-                      </StyledEligibilityAutoReason>
-                    )}
+                        {isAutoApplied && derived && (
+                          <StyledEligibilityAutoReason>
+                            {derived.reason}
+                          </StyledEligibilityAutoReason>
+                        )}
 
-                    <StyledEligibilityOptions>
-                      {ELIGIBILITY_ANSWER_OPTIONS.map((option) => (
-                        <StyledEligibilityOption
-                          key={option.value}
-                          type="button"
-                          $active={answer === option.value}
-                          $value={option.value}
-                          onClick={() =>
-                            setEligibilityAnswer(check.id, option.value)
-                          }
-                        >
-                          {answer === option.value && (
-                            <Check
-                              size={14}
-                              strokeWidth={2.8}
-                              color={
-                                option.value === 'yes'
-                                  ? '#1f8a4c'
-                                  : option.value === 'no'
-                                    ? '#d93a4a'
-                                    : '#475467'
+                        <StyledEligibilityOptions>
+                          {ELIGIBILITY_ANSWER_OPTIONS.map((option) => (
+                            <StyledEligibilityOption
+                              key={option.value}
+                              type="button"
+                              $active={answer === option.value}
+                              $value={option.value}
+                              onClick={() =>
+                                setEligibilityAnswer(check.id, option.value)
                               }
-                            />
-                          )}
-                          {option.label}
-                        </StyledEligibilityOption>
-                      ))}
-                    </StyledEligibilityOptions>
-                    {showNoMeaning && (
-                      <StyledEligibilityNoMeaning $severity={check.severity}>
-                        {check.severity === 'blocker' ? '🚫 ' : '⚠️ '}
-                        {check.noMeaning}
-                      </StyledEligibilityNoMeaning>
-                    )}
-
-                    {showDrill && check.drillDown && (
-                      <StyledEligibilityDrillDown>
-                        <StyledEligibilityDrillDownTitle>
-                          <AlertTriangle size={12} strokeWidth={2.5} />
-                          {check.drillDown.title}
-                        </StyledEligibilityDrillDownTitle>
-                        <StyledEligibilityDrillDownList>
-                          {check.drillDown.items.map((item) => (
-                            <StyledEligibilityDrillDownItem key={item}>
-                              {item}
-                            </StyledEligibilityDrillDownItem>
+                            >
+                              {option.label}
+                            </StyledEligibilityOption>
                           ))}
-                        </StyledEligibilityDrillDownList>
-                      </StyledEligibilityDrillDown>
-                    )}
+                        </StyledEligibilityOptions>
+                        {showNoMeaning && (
+                          <StyledEligibilityNoMeaning $severity={check.severity}>
+                            {check.severity === 'blocker' ? '🚫 ' : '⚠️ '}
+                            {check.noMeaning}
+                          </StyledEligibilityNoMeaning>
+                        )}
+
+                        {showDrill && check.drillDown && (
+                          <StyledEligibilityDrillDown>
+                            <StyledEligibilityDrillDownTitle>
+                              <AlertTriangle size={12} strokeWidth={2.5} />
+                              {check.drillDown.title}
+                            </StyledEligibilityDrillDownTitle>
+                            <StyledEligibilityDrillDownList>
+                              {check.drillDown.items.map((item) => (
+                                <StyledEligibilityDrillDownItem key={item}>
+                                  {item}
+                                </StyledEligibilityDrillDownItem>
+                              ))}
+                            </StyledEligibilityDrillDownList>
+                          </StyledEligibilityDrillDown>
+                        )}
+                      </StyledEligibilityBody>
+                    </StyledEligibilityCardTop>
                   </StyledEligibilityCard>
                 );
               })}
@@ -1165,11 +1123,6 @@ function CompanyPage() {
                           <StyledReasonList>
                             {reasons.map((r) => (
                               <StyledReasonChip key={r.label} $type={r.type}>
-                                {r.type === 'negative' ? (
-                                  <Minus size={11} strokeWidth={3} />
-                                ) : (
-                                  <Check size={11} strokeWidth={3} />
-                                )}
                                 {r.label}
                               </StyledReasonChip>
                             ))}
@@ -1255,12 +1208,6 @@ function CompanyPage() {
                 const answer = specialClauseAnswers[clause.id];
                 return (
                   <StyledCheckQuestionCard key={clause.id}>
-                    <StyledCheckQuestionTop>
-                      <StyledCheckCategory>{clause.category}</StyledCheckCategory>
-                      <StyledEligibilitySeverityBadge $severity={clause.severity}>
-                        {clause.severity === 'blocker' ? '필수 확인' : '주의'}
-                      </StyledEligibilitySeverityBadge>
-                    </StyledCheckQuestionTop>
                     <StyledCheckQuestion>{clause.question}</StyledCheckQuestion>
                     <StyledCheckHint>{clause.hint}</StyledCheckHint>
 
@@ -1282,19 +1229,6 @@ function CompanyPage() {
                             handleSpecialClauseAnswer(clause.id, option.value)
                           }
                         >
-                          {answer === option.value && (
-                            <Check
-                              size={14}
-                              strokeWidth={2.8}
-                              color={
-                                mappedValue === 'confirmed'
-                                  ? '#1e5bb8'
-                                  : mappedValue === 'needs_review'
-                                    ? '#a16207'
-                                    : '#344054'
-                              }
-                            />
-                          )}
                           {option.label}
                         </StyledCheckOption>
                         );
