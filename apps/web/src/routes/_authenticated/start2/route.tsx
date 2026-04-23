@@ -55,6 +55,7 @@ import {
 import { InstantStepper } from '../start/-components/InstantStepper/InstantStepper';
 import { Step1SelectTemplate, type SavedDraft } from '../start/-components/steps/Step1SelectTemplate';
 import { Step2InputUpload } from '../start/-components/steps/Step2InputUpload';
+import { RecommendIntroModal } from './-components/RecommendIntroModal';
 
 export const Route = createFileRoute('/_authenticated/start2')({
   component: Start2Page,
@@ -359,6 +360,10 @@ export function Start2Page() {
       window.ChannelIO?.('showChannelButton');
     };
   }, []);
+
+  // R&D 계획서 카드 클릭 시점에만 모달 노출 (사이드네비 탐색 시에는 뜨지 않음)
+  const [showIntakeModal, setShowIntakeModal] = useState(false);
+  const [pendingTemplateId, setPendingTemplateId] = useState<number | null>(null);
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -1100,7 +1105,14 @@ export function Start2Page() {
           {currentStep === 1 && (
             <Step1SelectTemplate
               selectedTemplateFileId={selectedTemplateFileId}
-              onSelectTemplate={setSelectedTemplateFileId}
+              onSelectTemplate={(id) => {
+                if (id === null) {
+                  setSelectedTemplateFileId(null);
+                  return;
+                }
+                setPendingTemplateId(id);
+                setShowIntakeModal(true);
+              }}
               onDraftSelect={() => {}}
               onUploadComplete={() => {
                 setCurrentStep(2);
@@ -1189,6 +1201,23 @@ export function Start2Page() {
           )}
         </StyledFooterInner>
       </StyledFooter>
+
+      {/* ─── 모달: 기업정보 유도 (R&D 계획서 카드 선택 시) ─── */}
+      <RecommendIntroModal
+        open={showIntakeModal}
+        onRecommend={() => {
+          setShowIntakeModal(false);
+          setPendingTemplateId(null);
+          navigate({ to: '/company' });
+        }}
+        onIgnore={() => {
+          setShowIntakeModal(false);
+          if (pendingTemplateId !== null) {
+            setSelectedTemplateFileId(pendingTemplateId);
+            setPendingTemplateId(null);
+          }
+        }}
+      />
 
       {/* ─── 모달: 페이지 이탈 경고 ───────────────────────── */}
       {showLeaveWarning && (

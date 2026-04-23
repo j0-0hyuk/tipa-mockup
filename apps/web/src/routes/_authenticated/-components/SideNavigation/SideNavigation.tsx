@@ -9,7 +9,7 @@ import {
   StyledSideNavigationHeader
 } from '@/routes/_authenticated/-components/SideNavigation/SideNavigation.style';
 import { useNavigate, useLocation } from '@tanstack/react-router';
-import { FlaskConical, Inbox, PanelLeft, MessageCircle, Home, Shield } from 'lucide-react';
+import { FlaskConical, Inbox, PanelLeft, MessageCircle, Home, Shield, Building2 } from 'lucide-react';
 import { DLogo } from '@docs-front/ui';
 import { useSideNavigation } from '@/routes/_authenticated/-components/SideNavigation/useSideNavigation';
 import { useCallback, useState, useMemo, type PropsWithChildren } from 'react';
@@ -116,6 +116,16 @@ function SideNavigationContent() {
               isActive={
                 location.pathname === '/start2' ||
                 location.pathname.startsWith('/start2/')
+              }
+            />
+            <NavIcon
+              label="기업정보 및 공고추천"
+              icon={<Building2 size={20} strokeWidth={1.6} />}
+              open={open}
+              onClick={() => handleNavigate('/company')}
+              isActive={
+                location.pathname === '/company' ||
+                location.pathname.startsWith('/company/')
               }
             />
             <NavIcon

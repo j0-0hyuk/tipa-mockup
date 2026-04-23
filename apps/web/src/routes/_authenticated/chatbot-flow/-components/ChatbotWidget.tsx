@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { X, RotateCcw, Send } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
 import {
   StyledWidget,
   StyledWidgetHeader,
@@ -40,7 +41,7 @@ type RenderedItem =
       key: string;
     }
   | { kind: 'chips'; hideIds: string[]; disabled?: boolean; selectedId?: string; key: string }
-  | { kind: 'cta'; key: string };
+  | { kind: 'cta'; key: string; target?: 'rnd' | 'company' };
 
 const INITIAL_SCENARIO_ID = 'recommend';
 
@@ -62,17 +63,18 @@ function getInitialSteps(mode: ChatMode = 'first') {
 
   const initialScenario = SCENARIOS.find((scenario) => scenario.id === INITIAL_SCENARIO_ID);
   const introSteps = INTRO_SCRIPT.map((step) =>
-    step.kind === 'chips' ? { ...step, disabled: true, selectedId: INITIAL_SCENARIO_ID, continueAfterMs: 600 } : step,
+    step.kind === 'chips' ? { ...step, disabled: false, selectedId: INITIAL_SCENARIO_ID, continueAfterMs: 600 } : step,
   );
 
   if (!initialScenario) {
     return introSteps;
   }
 
-  return [...introSteps, ...withoutTrailingChips(initialScenario.steps)];
+  return [...introSteps, ...initialScenario.steps];
 }
 
 export function ChatbotWidget({ exiting, mode = 'first', onClose, onCtaClick }: ChatbotWidgetProps) {
+  const navigate = useNavigate();
   const [items, setItems] = useState<RenderedItem[]>([]);
   const [showTyping, setShowTyping] = useState(false);
   const [runId, setRunId] = useState(0);
@@ -187,9 +189,17 @@ export function ChatbotWidget({ exiting, mode = 'first', onClose, onCtaClick }: 
           }
         } else {
           // cta
-          setItems((prev) => [...prev, { kind: 'cta', key: `cta-${runId}-${seqRef.current++}` }]);
+          setItems((prev) => [
+            ...prev,
+            {
+              kind: 'cta',
+              key: `cta-${runId}-${seqRef.current++}`,
+              target: step.target,
+            },
+          ]);
           scrollToBottom();
           cursor += 1;
+          next();
         }
       }, step.delayBeforeMs);
     };
@@ -230,7 +240,7 @@ export function ChatbotWidget({ exiting, mode = 'first', onClose, onCtaClick }: 
     const nextAnswered = [...answeredIds, scenario.id];
     setAnsweredIds(nextAnswered);
 
-    playSteps(withoutTrailingChips(scenario.steps), nextAnswered);
+    playSteps(scenario.steps, nextAnswered);
   };
 
   const handleRestart = () => {
@@ -264,6 +274,15 @@ export function ChatbotWidget({ exiting, mode = 'first', onClose, onCtaClick }: 
       <StyledMessageList ref={listRef}>
         {items.map((item, idx) => {
           if (item.kind === 'cta') {
+            if (item.target === 'company') {
+              return (
+                <CtaCard
+                  key={item.key}
+                  variant="company"
+                  onClick={() => navigate({ to: '/company' })}
+                />
+              );
+            }
             return <CtaCard key={item.key} onClick={onCtaClick} />;
           }
           if (item.kind === 'chips') {
