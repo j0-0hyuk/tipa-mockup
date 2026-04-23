@@ -1,9 +1,12 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { StyledPageRoot } from './-components/styles';
-import { ChatbotLauncher } from './-components/ChatbotLauncher';
-import { ChatbotWidget, type ChatMode } from './-components/ChatbotWidget';
-import { ScenarioSelector } from './-components/ScenarioSelector';
+import { StyledPageRoot } from '@/routes/_authenticated/chatbot-flow/-components/styles';
+import { ChatbotLauncher } from '@/routes/_authenticated/chatbot-flow/-components/ChatbotLauncher';
+import {
+  ChatbotWidget,
+  type ChatMode,
+} from '@/routes/_authenticated/chatbot-flow/-components/ChatbotWidget';
+import { ScenarioSelector } from '@/routes/_authenticated/chatbot-flow/-components/ScenarioSelector';
 
 export const Route = createFileRoute('/_authenticated/chatbot-flow')({
   component: ChatbotFlowPage,

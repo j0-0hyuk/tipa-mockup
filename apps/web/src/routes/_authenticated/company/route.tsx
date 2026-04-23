@@ -76,8 +76,7 @@ import {
   StyledSelect,
   StyledTagBadge,
   StyledToggleRow,
-  StyledTopBadge,
-} from './-components/styles';
+} from '@/routes/_authenticated/company/-components/styles';
 import styled from '@emotion/styled';
 
 const StyledSectionStack = styled.div`

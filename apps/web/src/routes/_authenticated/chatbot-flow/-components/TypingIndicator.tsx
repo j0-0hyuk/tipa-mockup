@@ -1,4 +1,8 @@
-import { StyledTypingWrap, StyledTypingDot, StyledMessageRow } from './styles';
+import {
+  StyledTypingWrap,
+  StyledTypingDot,
+  StyledMessageRow,
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
 
 export function TypingIndicator() {
   return (

@@ -30,7 +30,7 @@ import {
   StyledModalFooter,
   StyledBtnOutlined,
   StyledBtnFilled,
-} from '../start/-route.style';
+} from '@/routes/_authenticated/start/-route.style';
 import styled from '@emotion/styled';
 import {
   StyledContainer,
@@ -59,11 +59,14 @@ import {
   StyledViewTabs,
   StyledViewTab,
   StyledSlidePlaceholder,
-} from './-route.style';
-import { InstantStepper } from '../start/-components/InstantStepper/InstantStepper';
-import { Step1SelectTemplate, type SavedDraft } from '../start/-components/steps/Step1SelectTemplate';
-import { Step2InputUpload } from '../start/-components/steps/Step2InputUpload';
-import { RecommendIntroModal } from './-components/RecommendIntroModal';
+} from '@/routes/_authenticated/start2/-route.style';
+import { InstantStepper } from '@/routes/_authenticated/start/-components/InstantStepper/InstantStepper';
+import {
+  Step1SelectTemplate,
+  type SavedDraft,
+} from '@/routes/_authenticated/start/-components/steps/Step1SelectTemplate';
+import { Step2InputUpload } from '@/routes/_authenticated/start/-components/steps/Step2InputUpload';
+import { RecommendIntroModal } from '@/routes/_authenticated/start2/-components/RecommendIntroModal';
 
 export const Route = createFileRoute('/_authenticated/start2')({
   component: Start2Page,
@@ -215,6 +218,18 @@ const TOOL_LIST = [
 ] as const;
 
 type ToolId = typeof TOOL_LIST[number]['id'];
+
+type LeaveTarget =
+  | '/start'
+  | '/start2'
+  | '/company'
+  | '/d'
+  | '/chatbot-flow'
+  | '/homepage-flow'
+  | '/admin-demo';
+
+type UnsavedWorkWindow = Window & { __unsavedWork?: boolean };
+type NavRequestEvent = CustomEvent<LeaveTarget>;
 
 /* ───── Saved Draft interface ───── */
 interface SavedDraft2 {
@@ -647,7 +662,7 @@ export function Start2Page() {
 
   /* ───── Leave warning modal (변경사항 있을 때 사이드네비 이동 경고) ───── */
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
-  const [pendingLeaveUrl, setPendingLeaveUrl] = useState<string | null>(null);
+  const [pendingLeaveUrl, setPendingLeaveUrl] = useState<LeaveTarget | null>(null);
   const hasUnsavedWork =
     isDirty && (currentStep === 2 || currentStep === 3);
 
@@ -662,17 +677,18 @@ export function Start2Page() {
   }, [hasUnsavedWork]);
 
   useEffect(() => {
-    (window as any).__unsavedWork = hasUnsavedWork;
+    const appWindow = window as UnsavedWorkWindow;
+    appWindow.__unsavedWork = hasUnsavedWork;
     return () => {
-      (window as any).__unsavedWork = false;
+      appWindow.__unsavedWork = false;
     };
   }, [hasUnsavedWork]);
 
   useEffect(() => {
     const handler = (e: Event) => {
-      const to = (e as CustomEvent).detail;
+      const to = (e as NavRequestEvent).detail;
       if (!hasUnsavedWork) {
-        if (to) navigate({ to: to as any });
+        if (to) navigate({ to });
         return;
       }
       setPendingLeaveUrl(to);
@@ -685,13 +701,13 @@ export function Start2Page() {
   const handleLeaveSave = () => {
     saveDraft();
     setShowLeaveWarning(false);
-    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl as any });
+    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl });
     setPendingLeaveUrl(null);
   };
 
   const handleLeaveDiscard = () => {
     setShowLeaveWarning(false);
-    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl as any });
+    if (pendingLeaveUrl) navigate({ to: pendingLeaveUrl });
     setPendingLeaveUrl(null);
   };
 
@@ -753,7 +769,7 @@ export function Start2Page() {
       copy[index] = value;
       return copy;
     });
-  }, []);
+  }, [setReviewTexts]);
 
   /* ───── Step 3: Guide toggle ───── */
   const toggleGuide = useCallback((index: number) => {
@@ -1257,7 +1273,7 @@ export function Start2Page() {
                 <StyledDiffOld>데이터는 안전하게 관리한다.</StyledDiffOld>
                 <StyledDiffNew>
                   연구 데이터는{' '}
-                  <strong>"비밀" 등급으로 분류하여 AES-256 암호화로 저장</strong>하며,{' '}
+                  <strong>&quot;비밀&quot; 등급으로 분류하여 AES-256 암호화로 저장</strong>하며,{' '}
                   <strong>2-Factor 인증 기반 접근 통제</strong>를 적용한다.
                 </StyledDiffNew>
               </StyledDiffBlock>

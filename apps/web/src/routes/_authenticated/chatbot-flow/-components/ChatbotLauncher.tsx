@@ -9,9 +9,9 @@ import {
   StyledLauncherNameSub,
   StyledLauncherTagline,
   StyledLauncherHint,
-} from './styles';
-import { BOT_TAGLINE } from './script';
-import { TipaLogo } from './TipaLogo';
+} from '@/routes/_authenticated/chatbot-flow/-components/styles';
+import { BOT_TAGLINE } from '@/routes/_authenticated/chatbot-flow/-components/script';
+import { TipaLogo } from '@/routes/_authenticated/chatbot-flow/-components/TipaLogo';
 
 interface ChatbotLauncherProps {
   exiting: boolean;

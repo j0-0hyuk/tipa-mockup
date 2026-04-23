@@ -4,7 +4,7 @@ import type {
   MinistryValue,
   RegionValue,
   TrlValue,
-} from './companyProfile.constant';
+} from '@/constants/companyProfile.constant';
 
 export interface TipaProgram {
   id: string;
