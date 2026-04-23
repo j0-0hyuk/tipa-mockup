@@ -5,6 +5,7 @@ import type {
   RegionValue,
   TrlValue,
 } from '@/constants/companyProfile.constant';
+import type { SpecialClauseId } from '@/constants/tipaSpecialClauses.constant';
 
 export interface TipaProgram {
   id: string;
@@ -20,6 +21,8 @@ export interface TipaProgram {
   keywords: string[];
   description: string;
   specialTag?: 'NEW' | 'HOT' | 'DEADLINE_SOON';
+  /** 이 공고 고유의 추가 유의사항 조항 id 배열 (tipaSpecialClauses.constant.ts 참조) */
+  specialClauses?: SpecialClauseId[];
 }
 
 export const TIPA_MOCK_PROGRAMS: TipaProgram[] = [
@@ -34,8 +37,15 @@ export const TIPA_MOCK_PROGRAMS: TipaProgram[] = [
     targetIndustries: ['IT_SW', 'BIO_HEALTH', 'MANUFACTURING', 'MATERIALS', 'CONTENTS'],
     targetCompanySize: ['STARTUP', 'SMALL'],
     keywords: ['창업', 'AI', '플랫폼', '시제품'],
-    description: '창업 7년 이내 중소기업 대상 R&D. 최대 2년, 정부출연금 2억 한도.',
+    description:
+      '창업 7년 이내 중소기업 중심 R&D. 신산업 창업분야는 업력 10년 이하까지 예외 검토 가능.',
     specialTag: 'HOT',
+    specialClauses: [
+      'new-industry-fit-7to10',
+      'graduation-limit',
+      'finance-exception',
+      'single-call-limit',
+    ],
   },
   {
     id: 'p2',
@@ -49,6 +59,11 @@ export const TIPA_MOCK_PROGRAMS: TipaProgram[] = [
     targetCompanySize: ['SMALL', 'MID'],
     keywords: ['구매연계', '상용화', '양산', '공급망'],
     description: '수요기업 구매 의향서 기반 R&D. 최대 3년, 정부출연금 4억 한도.',
+    specialClauses: [
+      'graduation-limit',
+      'finance-exception',
+      'single-call-limit',
+    ],
   },
   {
     id: 'p3',

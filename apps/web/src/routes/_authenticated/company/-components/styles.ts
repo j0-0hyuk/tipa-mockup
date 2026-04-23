@@ -579,6 +579,367 @@ export const StyledNoticeIcon = styled.span`
   flex-shrink: 0;
 `;
 
+/* ── 신청자격 빠른 진단 ── */
+
+export const StyledEligibilityBadge = styled.span<{
+  $status: 'not_started' | 'in_progress' | 'needs_check' | 'safe' | 'risk';
+}>`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: ${(p) =>
+    p.$status === 'safe'
+      ? '#E6F7EA'
+      : p.$status === 'risk'
+        ? '#FFE7EB'
+        : p.$status === 'needs_check'
+          ? '#FFF4DC'
+        : p.$status === 'in_progress'
+          ? '#FFF4DC'
+          : '#F1F2F5'};
+  color: ${(p) =>
+    p.$status === 'safe'
+      ? '#1F8A4C'
+      : p.$status === 'risk'
+        ? '#D93A4A'
+        : p.$status === 'needs_check'
+          ? '#8E5A00'
+        : p.$status === 'in_progress'
+          ? '#8E5A00'
+          : '#6E7687'};
+`;
+
+export const StyledEligibilityHeaderHint = styled.div`
+  font-size: 12px;
+  color: #6e7687;
+  margin-top: 2px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledEligibilityList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const StyledEligibilityCard = styled.div<{
+  $answer?: 'yes' | 'no' | 'unknown';
+  $severity?: 'blocker' | 'warning';
+}>`
+  border: 1px solid
+    ${(p) =>
+      p.$answer === 'no'
+        ? p.$severity === 'blocker'
+          ? '#d93a4a'
+          : '#f59e0b'
+        : p.$answer === 'yes'
+          ? '#c7dbff'
+          : p.$answer === 'unknown'
+            ? '#e3e4e8'
+            : '#e6ecf5'};
+  background: ${(p) =>
+    p.$answer === 'no'
+      ? p.$severity === 'blocker'
+        ? '#fff4f5'
+        : '#fff7e8'
+      : p.$answer === 'yes'
+        ? '#f6f9ff'
+        : '#ffffff'};
+  border-radius: 14px;
+  padding: 16px 18px;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+`;
+
+export const StyledEligibilitySeverityBadge = styled.span<{
+  $severity: 'blocker' | 'warning';
+}>`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: ${(p) => (p.$severity === 'blocker' ? '#fee3e6' : '#fff4dc')};
+  color: ${(p) => (p.$severity === 'blocker' ? '#c2323d' : '#8e5a00')};
+`;
+
+export const StyledEligibilityNoMeaning = styled.div<{
+  $severity: 'blocker' | 'warning';
+}>`
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: ${(p) => (p.$severity === 'blocker' ? '#fff4f5' : '#fff7e8')};
+  border: 1px solid
+    ${(p) => (p.$severity === 'blocker' ? '#fbc5cb' : '#fde3a7')};
+  color: ${(p) => (p.$severity === 'blocker' ? '#c2323d' : '#9a6700')};
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+`;
+
+export const StyledEligibilityCardTop = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+`;
+
+export const StyledEligibilityIndex = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1e5bb8;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+`;
+
+export const StyledEligibilityCategory = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f1f4f8;
+  color: #596070;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+`;
+
+export const StyledEligibilityQuestion = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: #25262c;
+`;
+
+export const StyledEligibilityHint = styled.div`
+  margin-top: 6px;
+  font-size: 13px;
+  color: #6e7687;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledEligibilityOptions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+`;
+
+export const StyledEligibilityOption = styled.button<{
+  $active: boolean;
+  $value: 'yes' | 'no' | 'unknown';
+}>`
+  min-width: 120px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: ${(p) => (p.$active ? '2px' : '1px')} solid
+    ${(p) =>
+      p.$active
+        ? p.$value === 'yes'
+          ? '#1f8a4c'
+          : p.$value === 'no'
+            ? '#d93a4a'
+            : '#bcc7d6'
+        : '#e3e4e8'};
+  background: ${(p) =>
+    p.$active
+      ? p.$value === 'yes'
+        ? '#e6f7ea'
+        : p.$value === 'no'
+          ? '#ffe7eb'
+          : '#f4f7fb'
+      : '#ffffff'};
+  color: ${(p) =>
+    p.$active
+      ? p.$value === 'yes'
+        ? '#1f8a4c'
+        : p.$value === 'no'
+          ? '#d93a4a'
+          : '#344054'
+      : '#6e7687'};
+  font-size: 13px;
+  font-weight: ${(p) => (p.$active ? 700 : 600)};
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  box-shadow: ${(p) =>
+    p.$active
+      ? p.$value === 'yes'
+        ? '0 0 0 3px rgba(31,138,76,0.14)'
+        : p.$value === 'no'
+          ? '0 0 0 3px rgba(217,58,74,0.14)'
+          : '0 0 0 3px rgba(148,163,184,0.14)'
+      : 'none'};
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: ${(p) =>
+      p.$value === 'yes'
+        ? '#1f8a4c'
+        : p.$value === 'no'
+          ? '#d93a4a'
+          : '#a8b6c8'};
+  }
+`;
+
+export const StyledEligibilityAutoBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #1e5bb8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+`;
+
+export const StyledEligibilityAutoReason = styled.div`
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f6f9ff;
+  border: 1px solid #dce8ff;
+  color: #1e5bb8;
+  font-size: 12px;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledEligibilityOverrideLink = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #596070;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+
+  &:hover {
+    color: #1e5bb8;
+  }
+`;
+
+export const StyledEligibilityDrillDown = styled.div`
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fffaf0;
+  border: 1px dashed #fde3a7;
+`;
+
+export const StyledEligibilityDrillDownTitle = styled.div`
+  font-size: 12px;
+  font-weight: 700;
+  color: #9a6700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+export const StyledEligibilityDrillDownList = styled.ul`
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const StyledEligibilityDrillDownItem = styled.li`
+  font-size: 13px;
+  color: #596070;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledEligibilitySummaryBar = styled.div<{
+  $status: 'not_started' | 'in_progress' | 'needs_check' | 'safe' | 'risk';
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: ${(p) =>
+    p.$status === 'safe'
+      ? '#f2fbf5'
+      : p.$status === 'risk'
+        ? '#fff4f5'
+        : p.$status === 'needs_check'
+          ? '#fffaf0'
+        : p.$status === 'in_progress'
+          ? '#fffaf0'
+          : '#f8faff'};
+  border: 1px solid
+    ${(p) =>
+      p.$status === 'safe'
+        ? '#b9ecc9'
+        : p.$status === 'risk'
+          ? '#fbc5cb'
+          : p.$status === 'needs_check'
+            ? '#fde3a7'
+          : p.$status === 'in_progress'
+            ? '#fde3a7'
+            : '#dce8ff'};
+  color: ${(p) =>
+    p.$status === 'safe'
+      ? '#1f8a4c'
+      : p.$status === 'risk'
+        ? '#c2323d'
+        : p.$status === 'needs_check'
+          ? '#8e5a00'
+        : p.$status === 'in_progress'
+          ? '#8e5a00'
+          : '#1e5bb8'};
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+`;
+
+export const StyledEligibilitySummaryText = styled.div`
+  font-weight: 600;
+`;
+
+export const StyledEligibilitySummaryMeta = styled.div`
+  font-size: 12px;
+  opacity: 0.85;
+`;
+
 export const StyledTagBadge = styled.span<{ $kind: 'NEW' | 'HOT' | 'DEADLINE_SOON' }>`
   display: inline-flex;
   align-items: center;

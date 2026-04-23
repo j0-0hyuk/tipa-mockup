@@ -68,7 +68,17 @@ import {
 import { Step2InputUpload } from '@/routes/_authenticated/start/-components/steps/Step2InputUpload';
 import { RecommendIntroModal } from '@/routes/_authenticated/start2/-components/RecommendIntroModal';
 
+interface Start2Search {
+  programTitle?: string;
+}
+
 export const Route = createFileRoute('/_authenticated/start2')({
+  validateSearch: (search: Record<string, unknown>): Start2Search => ({
+    programTitle:
+      typeof search.programTitle === 'string' && search.programTitle.trim().length > 0
+        ? search.programTitle
+        : undefined,
+  }),
   component: Start2Page,
 });
 
@@ -542,7 +552,9 @@ const TOOL_RESULTS: Record<ToolId, { title: string; type: 'table' | 'list' | 'ca
 export function Start2Page() {
   const toast = useToast();
   const navigate = useNavigate();
+  const { programTitle } = Route.useSearch();
   const contentRef = useRef<HTMLDivElement>(null);
+  const selectedProgramTitle = programTitle?.trim() || undefined;
 
   // 채널톡 숨김
   useEffect(() => {
@@ -620,7 +632,10 @@ export function Start2Page() {
   const saveDraft = useCallback(() => {
     const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
     const existing: SavedDraft2[] = raw ? JSON.parse(raw) : [];
-    const title = prompt.trim().slice(0, 30) || 'R&D 계획서 초안';
+    const title =
+      prompt.trim().slice(0, 30) ||
+      selectedProgramTitle?.slice(0, 50) ||
+      'R&D 계획서 초안';
 
     if (activeDraftId) {
       const updated = existing.map((d) =>
@@ -646,7 +661,7 @@ export function Start2Page() {
     }
     setIsDirty(false);
     toast.open({ content: '임시 저장되었습니다.', duration: 2000 });
-  }, [currentStep, prompt, toast, activeDraftId]);
+  }, [currentStep, prompt, toast, activeDraftId, selectedProgramTitle]);
 
   /* ───── Load draft (from Step1SelectTemplate) ───── */
   const loadStep1Draft = useCallback(
@@ -1342,6 +1357,7 @@ export function Start2Page() {
           {currentStep === 1 && (
             <Step1SelectTemplate
               selectedTemplateFileId={selectedTemplateFileId}
+              selectedProgramTitle={selectedProgramTitle}
               onSelectTemplate={(id) => {
                 if (id === null) {
                   setSelectedTemplateFileId(null);

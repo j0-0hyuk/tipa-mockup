@@ -27,10 +27,10 @@ export const REVENUE_OPTIONS = [
 ] as const;
 
 export const TRL_OPTIONS = [
-  { value: 'TRL_1_3', label: 'TRL 1~3 (기초 연구)' },
-  { value: 'TRL_4_5', label: 'TRL 4~5 (실험실 검증)' },
-  { value: 'TRL_6_7', label: 'TRL 6~7 (시제품·파일럿)' },
-  { value: 'TRL_8_9', label: 'TRL 8~9 (상용화·양산)' },
+  { value: 'TRL_1_3', label: '초기 연구 단계 (TRL 1~3)' },
+  { value: 'TRL_4_5', label: '실험실 검증 단계 (TRL 4~5)' },
+  { value: 'TRL_6_7', label: '시제품·파일럿 단계 (TRL 6~7)' },
+  { value: 'TRL_8_9', label: '상용화 준비 단계 (TRL 8~9)' },
 ] as const;
 
 export const REGION_OPTIONS = [
@@ -71,6 +71,8 @@ export type RegionValue = typeof REGION_OPTIONS[number]['value'];
 export type BudgetValue = typeof BUDGET_OPTIONS[number]['value'];
 export type MinistryValue = typeof MINISTRY_OPTIONS[number]['value'];
 
+export type EligibilityAnswerValue = 'yes' | 'no' | 'unknown';
+
 export interface CompanyProfile {
   // 기본정보
   companyName?: string;
@@ -91,6 +93,10 @@ export interface CompanyProfile {
   techKeywords?: string[];
   targetMinistries?: MinistryValue[];
 
+  // 신청자격 빠른 진단 (TIPA 11개 공고 공통)
+  eligibility?: Record<string, EligibilityAnswerValue>;
+  eligibilityUpdatedAt?: string;
+
   // 메타
   updatedAt?: string;
 }
@@ -98,4 +104,5 @@ export interface CompanyProfile {
 export const EMPTY_PROFILE: CompanyProfile = {
   techKeywords: [],
   targetMinistries: [],
+  eligibility: {},
 };
