@@ -56,7 +56,6 @@ export function ScenarioChips({ onSelect, onCtaClick, hideIds = [], disabled = f
               <strong>{s.label}</strong>
               <span>{s.chipText}</span>
             </StyledChipLabel>
-            {selectedId === s.id && <Check size={18} color={colors.main} strokeWidth={2.5} />}
           </StyledChip>
         ))}
         {onCtaClick && (
